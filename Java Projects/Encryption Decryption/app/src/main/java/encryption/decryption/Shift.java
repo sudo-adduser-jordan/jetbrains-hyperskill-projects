@@ -1,6 +1,6 @@
 package encryption.decryption;
 
-
+// strategy pattern for shift alg
 public class Shift implements Strategy {
 
     @Override

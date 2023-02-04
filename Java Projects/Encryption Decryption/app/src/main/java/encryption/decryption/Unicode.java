@@ -1,6 +1,6 @@
 package encryption.decryption;
 
-
+// strategy pattern for unicode alg
 public class Unicode implements Strategy {
 
     @Override

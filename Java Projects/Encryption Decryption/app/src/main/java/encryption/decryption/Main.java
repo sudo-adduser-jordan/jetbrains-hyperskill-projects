@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+//entry point
     public class Main {
         private static String mode = "enc";
         private static String in = null;
@@ -29,6 +30,8 @@ import java.nio.file.Path;
             checkAlgorithm();
             checkOperation();
         }
+
+        // init alg
         private static void checkAlgorithm() {
             if ("shift".equals(alg)) {
                 strategy = new Shift();
@@ -37,6 +40,7 @@ import java.nio.file.Path;
             }
         }
 
+        // check data, print result
         private static void checkOperation() {
             if (!data.isEmpty() && out.isEmpty()) {
                 System.out.println(strategy.doOperation(mode, data, key));
@@ -50,6 +54,8 @@ import java.nio.file.Path;
                 outputFile(strategy.doOperation(mode, in, key));
             }
         }
+
+        // get input file
         private static void inputFile() {
             try {
                 in = Files.readString(Path.of(in));
@@ -59,6 +65,7 @@ import java.nio.file.Path;
             }
         }
 
+        // put file
         private static void outputFile(String data) {
             try {
                 File file = new File(out);
