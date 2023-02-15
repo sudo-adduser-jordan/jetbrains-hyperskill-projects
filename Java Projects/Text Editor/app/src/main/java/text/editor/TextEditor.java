@@ -158,9 +158,10 @@ final public class TextEditor extends JFrame {
 
         //text editor
         textArea.setName("TextArea");
-//        textArea.setBackground(Color.black);
-//        textArea.setForeground(Color.green);
+       textArea.setBackground(Color.black);
+       textArea.setForeground(Color.green);
         panel.add(textArea, BorderLayout.CENTER);
+
 
         //scroll bar
         scrollableTextArea = new JScrollPane(textArea);
