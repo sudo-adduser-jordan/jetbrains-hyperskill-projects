@@ -1,0 +1,28 @@
+content:
+- Tuple
+- Reading files
+- Context manager
+- Socket module
+- Avoiding bad comments
+- List comprehension
+- Custom generators
+- Lambda functions
+- Iterators
+- Map and filter
+- Itertools module
+- Escape sequences
+- Split and join
+- Slicing
+- Time module
+- Collections module
+- How to improve code performance
+- Identity testing
+- Objects in Python
+- Default arguments
+- Exceptions
+- Exception handling
+- Args
+- Kwargs
+- Json module
+- Profiling in Python
+- Yield from

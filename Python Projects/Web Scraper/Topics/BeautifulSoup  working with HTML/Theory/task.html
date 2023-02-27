@@ -1,0 +1,75 @@
+<h2>BeautifulSoup: working with HTML</h2>
+<html><body><p>Imagine you are a student who is eager to study regional press news. If you collect every news piece manually, it will take plenty of time. Lucky for us, Python has some tools to offer to automate this process. <code class="language-python">beautifulsoup</code> is a library that helps you analyze the HTML and the XML syntax, create parse trees and extract necessary information. It also provides web scraping, a simple technique of getting data for further analysis. So, by combining basic operations in Python, <code class="language-python">requests</code>, and <code class="language-python">beautifulsoup</code> libraries, you can get all the texts and save precious time. Although it is possible to work with XML using the library, in this topic, we will focus on HTML.</p>
+<h5 id="installation">Installation</h5>
+<p>To install <code class="language-python">beautifulsoup</code>, you need a Python package manager <em>pip</em>. </p>
+<pre><code class="language-no-highlight">pip install beautifulsoup4</code></pre>
+<p>Also, you need the <code class="language-python">requests</code><strong> </strong>library to send HTTP requests. It can also be installed using pip.</p>
+<pre><code class="language-no-highlight">pip install requests</code></pre>
+<p>Do not forget to import these libraries before starting your work.</p>
+<pre><code class="language-python">import requests
+
+from bs4 import BeautifulSoup</code></pre>
+<h5 id="getting-started-with-web-scraping" style="text-align: center;">Getting started with web scraping</h5>
+<p>First, we need to create a variable that will store the content of the page. To do so, use <code class="language-python">requests.get()</code> with a link as an attribute.</p>
+<pre><code class="language-python">r = requests.get('https://www.newsinlevels.com/products/albino-tortoise-level-1/')</code></pre>
+<p>To check whether the page was downloaded successfully, you can use <code class="language-python">status_code</code>. If the returned code is <em>200</em>, there are no errors. If your code is <em>400 </em>or <em>500</em>, there are some difficulties with getting the page.</p>
+<pre><code class="language-python">print(r.status_code)  # 200</code></pre>
+<p>Then we use <code class="language-python">BeautifulSoup()</code> class to create a parse tree of our page.</p>
+<pre><code class="language-python">soup = BeautifulSoup(r.content, 'html.parser')</code></pre>
+<p>There are two parameters: <code class="language-python">r.content</code> is the data of the page, and <code class="language-python">html.parser</code> is a parser included in the standard Python library. You can install additional parsers like lxml<strong> </strong>via pip and use them instead of the <code class="language-python">html.parser</code>. The lxml<strong> </strong>parser is used for swift processing.</p>
+<p>The result of the procedure is a tree. You can use the <code class="language-python">prettify()</code> method to turn your tree into a nicely formatted string.</p>
+<pre><code class="language-python">print(soup.prettify())
+
+# &lt;!DOCTYPE html&gt;
+# &lt;html lang="en-US"&gt;
+#  &lt;head&gt;
+#   &lt;script data-cfasync="false" data-ezscrex="false" data-pagespeed-no-defer=""&gt;
+# ...</code></pre>
+<h5 id="searching-for-tags" style="text-align: center;">Searching for tags</h5>
+<p>As far as you can see, the content stored in the variable <code class="language-python">soup</code> is hard to follow, plus it contains a lot of unnecessary information that we do not need. Important data like texts or titles are often stored with particular tags. So, once you have decided which tags you need, there are two useful methods for finding these tags in your tree.</p>
+<ul>
+<li>
+<p><code class="language-python">find()</code> method returns <em>the first occurrence</em><strong> </strong>of the tag in the tree. This method is suitable if you are sure that your document has only one specific tag you need.</p>
+<pre><code class="language-python">p1 = soup.find('title')  
+print(p1)  # &lt;title&gt;Albino tortoise – level 1 - News in Levels&lt;/title&gt;</code></pre>
+</li>
+</ul>
+<ul>
+<li>
+<p><code class="language-python">find_all()</code> method returns the list of <em>all the results</em> with the tag you are searching for.</p>
+<pre><code class="language-python">p2 = soup.find_all('p')
+print(p2)
+
+# [&lt;p&gt;09-06-2022 07:00&lt;/p&gt;, &lt;p&gt;Albinism means that a person or animal has no pigment. Pigment is a thing which makes the color in our hair and skin. &lt;strong&gt;Albino&lt;/strong&gt; people usually have white hair and skin.&lt;/p&gt;, ...]</code></pre>
+</li>
+</ul>
+<p>If the specified tags have not been found, the <code class="language-python">find()</code> method returns <code class="language-python">None</code> and <code class="language-python">find_all()</code> returns an empty list.</p>
+<p>We can also specify our tag using supplementary attributes: <code class="language-python">class</code>, <code class="language-python">style</code>, and so on... The typical structure of such specification is shown below.</p>
+<pre><code class="language-python">p3 = soup.find_all('p', {'style': 'text-align: center;'})
+print(p3)
+
+# [&lt;p style="text-align: center;"&gt;&lt;strong&gt;&lt;span style="color:#006699;"&gt;&lt;span style="font-size: 18px;"&gt;&lt;span style="line-height: 21px;"&gt;Get the App&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;, &lt;p style="text-align: center;"&gt;© 2022, All rights reserved.&lt;/p&gt;, ...] </code></pre>
+<p>We have changed our variable a little bit by adding the second parameter, a dictionary specifying the text style of elements. The keys of this dictionary are attributes of tags.</p>
+<p>Another method connected with tag searching is <code class="language-python">soup.&lt;tag&gt;</code> where <code class="language-python">&lt;tag&gt;</code> is any tag you may need to find. This structure returns all the content between an opening tag and a closing tag. In the next example, the result is the content between <code class="language-python">&lt;head&gt;</code> and <code class="language-python">&lt;/head&gt;</code>:</p>
+<pre><code class="language-python">print(soup.head)
+# &lt;head&gt;&lt;script data-cfasync="false" ...</code></pre>
+<p>If there are several tags with the same name, the method will return only <em>the first occurrence</em>.</p>
+<h5 id="text-and-link-extraction" style="text-align: center;">Text and link extraction</h5>
+<p>Now we know some basics of HTML and <code class="language-python">beautifulsoup</code>, it is time to extract all the necessary data. Earlier, we have learned to create a variable with lists of <code class="language-python">&lt;p&gt;</code> tags.</p>
+<pre><code class="language-python">paragraphs = soup.find_all('p', {'style': 'text-align: center;'})</code></pre>
+<p>Now, to process all tags in this list, you can use a for loop for iteration and the <code class="language-python">text</code> method helps to get text data.</p>
+<pre><code class="language-python">for p in paragraphs:
+    print(p.text + '\n')</code></pre>
+<p>Each <code class="language-python">p.text</code> returns <em>a text paragraph</em> from the page.</p>
+<p>There is another helpful method that can be used to get tag attributes. Let's get <em>hyperlinks</em> while working with link tags. After collecting hyperlinks, we can use them for further requests and collecting related data. The developers of <code class="language-python">beautifulsoup</code> also allow users to extract links using the <code class="language-python">get()</code> method. Just write down a quoted attribute of the tag you need to extract in round brackets.</p>
+<pre><code class="language-python">a = soup.find_all('a')
+for i in a:
+    print(i.get('href'))  # https://www.newsinlevels.com ...</code></pre>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>In this topic, we have learned the main operations with <code class="language-python">beautifulsoup</code>:</p>
+<ul>
+<li>How to create a parse tree,</li>
+<li>How to search for tags,</li>
+<li>How to extract texts and links.</li>
+</ul>
+<p>We have also got acquainted with the basics of HTML. <code class="language-python">beautifulsoup</code> seems to be elaborate at first, but after some practicing, you will get used to this library and soon you will be able to collect rich varieties of data. Find more on<code class="language-python">beautifulsoup</code> in the official <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" rel="noopener noreferrer nofollow" target="_blank">Beautiful Soup Documentation</a>.</p></body></html>

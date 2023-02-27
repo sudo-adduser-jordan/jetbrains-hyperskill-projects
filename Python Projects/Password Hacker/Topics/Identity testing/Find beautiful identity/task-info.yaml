@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def object_with_beautiful_identity():
+        for i in range(10_000):
+            # Change the next line
+            if ...:
+                return i
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8084#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 25 Feb 2023 09:11:37 UTC"
+record: -1

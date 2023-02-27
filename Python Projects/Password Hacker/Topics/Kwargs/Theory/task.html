@@ -1,0 +1,57 @@
+<h2>Kwargs</h2>
+<html><body><p>With <code class="language-python">*args</code> you can create more flexible functions that accept a varying number of <em>positional</em> arguments. You may now wonder how to do the same with <em>named</em> arguments. Fortunately, in Python, you can work with <em>keyword</em> arguments in a similar way.</p>
+<h5 id="multiple-keyword-arguments" style="text-align: center;">Multiple keyword arguments</h5>
+<p>Let's get acquainted with the <code class="language-python">**</code> operator used to pass a varying number of keyword arguments into a function. <code class="language-python">**kwargs</code> collects all possible extra values in a dictionary with keywords as keys.</p>
+<p>By convention, people use special names for this kind of arguments: <code class="language-python">*args</code> for positional arguments and <code class="language-python">**kwargs</code> for keyword arguments, but you can call them whatever you want. The main thing is that a single asterisk <code class="language-python">*</code> matches a value by position and a double asterisk <code class="language-python">**</code> associates a value with a name, or keyword. So, <code class="language-python">**kwargs</code> differs from <code class="language-python">*args</code> in that you will need to assign keywords.</p>
+<p>Here is an example:</p>
+<pre><code class="language-python">def capital(**kwargs):
+    for key, value in kwargs.items():
+        print(value, "is the capital city of", key)
+
+
+capital(Canada="Ottawa", Estonia="Tallinn", Venezuela="Caracas", Finland="Helsinki")</code></pre>
+<p>Once the function has been invoked, these 4 lines will be printed:</p>
+<pre><code class="language-no-highlight">Ottawa is the capital city of Canada
+Tallinn is the capital city of Estonia
+Caracas is the capital city of Venezuela
+Helsinki is the capital city of Finland</code></pre>
+<p>So, everything works just fine! And again, the number of arguments we pass may differ in the next call.</p>
+<p></p><div class="alert alert-primary">Note that the names in a call are without quotes. That is not a mistake. Moreover, the names should be valid, for example, you cannot start a keyword with a number. Follow the same naming rules as for variables.</div><p></p>
+<p>It is also possible to combine <code class="language-python">*args</code> and <code class="language-python">**kwargs</code> in one function definition:</p>
+<pre><code class="language-python">def func(positional_args, defaults, *args, **kwargs):
+    pass</code></pre>
+<p>The order is crucial here. Just as non-keyword arguments precede keyword arguments, <code class="language-python">*args</code> must come before <code class="language-python">**kwargs</code> in this case. Otherwise, both when creating and calling a function with <code class="language-python">*args</code> and <code class="language-python">**kwargs</code> in the wrong order, a <code class="language-python">SyntaxError</code> will appear:</p>
+<pre><code class="language-python">def func(positional_args, defaults, **kwargs, *args):
+# SyntaxError: invalid syntax
+
+func(positional_args, defaults, **kwargs, *args)
+# SyntaxError: iterable argument unpacking follows keyword argument unpacking</code></pre>
+<h5 id="unpacking-in-function-calls" style="text-align: center;">Unpacking in function calls</h5>
+<p>There are two unpacking operators in Python: a single asterisk <code class="language-python">*</code> unpacks elements of an iterable object and a double asterisk <code class="language-python">**</code> works with dictionaries. Let's try to get key-value pairs from a dictionary and pass them as keyword arguments using a double asterisk <code class="language-python">**</code>:</p>
+<pre><code class="language-python">def say_bye(**names):
+    for name in names:
+        print("Au revoir,", name)
+        print("See you on", names[name]["next appointment"])
+        print()
+
+
+humans = {"Laura": {"next appointment": "Tuesday"},
+          "Robin": {"next appointment": "Friday"}}
+
+say_bye(**humans)
+
+# Au revoir, Laura
+# See you on Tuesday
+# 
+# Au revoir, Robin
+# See you on Friday</code></pre>
+<p>By default, you iterate over keys in a dictionary, so be careful with this. You might need this type of unpacking when setting specific parameters of a function. Saving values in a dictionary and then unpacking them in this way might be much easier than listing them in each call manually. Also, it will save time when you choose to fine-tune these parameters.</p>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>Let's go over the main points discussed in the topic:</p>
+<ul>
+<li>If you want to work with a varying number of <strong>keyword </strong>arguments, make use of <code class="language-python">**kwargs</code>.</li>
+<li>The variable name <code class="language-python">kwargs</code> is conventional, you can always choose another one.</li>
+<li>Notice the difference: <code class="language-python">*args</code> provides access to a <strong>tuple </strong>of remaining values, while <code class="language-python">**kwargs</code> collects remaining key-value pairs in a <strong>dictionary</strong>.</li>
+<li>The order of parameters in the function definition is important, as well as the order of passed arguments.</li>
+<li>In function calls, now you can use both <strong>unpacking operators:</strong> a single asterisk <code class="language-python">*</code> for iterable objects and a double asterisk <code class="language-python">**</code> for dictionaries.</li>
+</ul></body></html>

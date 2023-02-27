@@ -1,0 +1,24 @@
+<h2>Commenting out</h2>
+<p>In addition to using comments to document your code, sometimes a hash mark can be used to <strong>comment out</strong> code that you won't execute right now. This can be useful for debugging or testing. Commented out code looks like this:</p>
+
+<pre><code class="language-python">name = 'John'
+age = 10
+# name = 'asdfghjkl'
+# age = -999
+print(name + ' ' + str(age))</code></pre>
+
+<p>Here, lines 3 and 4 are <strong>commented out</strong> and won't be executed when we run the code.</p>
+
+<p>The code snippet below does the following: it asks the user to guess a random number from 1 to 5, then prints "Yes!" if the user has guessed correctly and "No!" otherwise. The problem is that it does so only 5 times. Which line of code must be commented out if we want our code to ask the user endlessly? Type the line number.</p>
+
+<pre><code class="language-python">import random                      # 1
+                                   # 2
+n_guesses = 0                      # 3
+while n_guesses &lt; 5:               # 4
+    number = random.randint(1, 5)  # 5
+    guess = int(input())           # 6
+    if guess == number:            # 7
+        print('Yes!')              # 8
+    else:                          # 9
+        print('No!')               # 10
+    n_guesses += 1                 # 11</code></pre>

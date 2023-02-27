@@ -1,0 +1,13 @@
+<h2>Food market</h2>
+<html><body><p><p>You have the data about goods in the food market. The store sells different types of products from different countries, and the owner keeps track of the products using Python dictionaries: one for how many products of a certain type are on sale, another for the number of products from each supplier country, and the third one for what kind of the discount the store provides to customers with a gold card, and what — to buyers with a regular card.</p>
+<pre><code class="language-python">food_types = {'Vegetables': 15, 'Dairy': 20, 'Meat': 3, 'Cereals': 9, 'Fruits': 11, 'Fish': 7}
+countries = {'USA': 25, 'Australia': 15, 'Canada': 15, 'France': 6, 'India': 4}
+discount = {'gold': 20, 'regular': 10}</code></pre>
+<p>Now, the owner has altered the dictionaries a bit. We have the beginning of the code:</p>
+<pre><code class="language-python">chain = ChainMap(food_types, countries)
+food_types['Sweets'] = 10</code></pre>
+<p>Then, some lines are missing. The <code class="language-python">chain</code> after them looks as follows:</p>
+<pre><code class="language-python">ChainMap({'gold': 20, 'regular': 10},
+         {'Vegetables': 15, 'Dairy': 20, 'Meat': 3, 'Cereals': 9, 'Fruits': 11, 'Fish': 7, 'Sweets': 10},
+         {'USA': 35, 'Australia': 15, 'Canada': 15, 'France': 6, 'India': 4})</code></pre>
+<p>Add the missing lines to the code so that the result be as the given above.</p></body></html><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>

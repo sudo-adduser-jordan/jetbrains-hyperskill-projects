@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import requests
+
+    from bs4 import BeautifulSoup
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10213#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 18 Feb 2023 08:52:15 UTC"
+record: -1

@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    text = input()
+    words = text.split()
+    for word in words:
+        # finish the code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/6978#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 24 Feb 2023 21:54:35 UTC"
+record: -1

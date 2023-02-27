@@ -1,0 +1,81 @@
+<h2>Escape sequences</h2>
+<html><body><p>Let's recall the problems that you may encounter using the <code class="language-python">print()</code> function. </p>
+<p>Nobody likes to write long forms of words, so here comes apostrophe. Be careful, though, when using an apostrophe in strings in Python, you might get an error message. Let's take a look at the example below:</p>
+<pre><code class="language-python"># Bad example
+
+warning = 'That's my car'
+print(warning)</code></pre>
+<p>The sentence seems to look fine, but Python will show you an error message «<code class="language-python">EOL while scanning string literal</code>». Why did that error occur? The abbreviation "EOL" stands for "End-of-line" and it means that Python went through the text and didn't find the end of the string. The sentence was divided into two parts. The first one is <code class="language-python">"That"</code> and the second one is <code class="language-python">"s my car"</code>.</p>
+<h5 id="what-is-an-escape-sequence">What is an escape sequence?</h5>
+<p>To avoid the described problem you should use <strong>escape sequences</strong>. </p>
+<p>All escape sequences start with a backslash <code class="language-python">\</code>, which is interpreted as an <strong>escape character</strong>. A backslash indicates that one or more characters must be handled in a special way or that the next character after it has a different meaning.</p>
+<p>Add an escape character to our example and see that the quote is now interpreted as the literal symbol of a single quote without any errors.</p>
+<pre><code class="language-python"># Better example
+ 
+warning = 'That\'s my car'
+print(warning)  # That's my car</code></pre>
+<p></p><div class="alert alert-warning"> Don't forget that single quotes and an apostrophe in the same sentence are a bad style! According to PEP8, it is better to use double quotes in these cases. </div><p></p>
+<p>A backslash can be used in a combination with another symbol to do some particular things. For example, if you use <code class="language-python">\b</code> in the middle of the string and then try to print it, you won't see the character before <code class="language-python">\b</code>. The combination <code class="language-python">\b</code><strong> </strong>means a backspace character:</p>
+<pre><code class="language-python">print('deleted\b sign')  # delete sign</code></pre>
+<p>Take a look at some other escape sequences:</p>
+<ul>
+<li><code class="language-python">\n</code> – newline</li>
+<li><code class="language-python">\t</code> – horizontal tabulation</li>
+<li><code class="language-python">\r</code> – moves all characters after <code class="language-python">\r</code> to the beginning of the line, overwriting as many characters as moved.</li>
+</ul>
+<p>The use of escape sequences in a string is always the same. Nevertheless, we will give more examples in the next section.</p>
+<p>So, what if you need to print the backslash itself? </p>
+<pre><code class="language-python">print('\')  # SyntaxError: EOL while scanning string literal</code></pre>
+<p>The error happens because Python expects an escape sequence that is not there. In this case, we must use a double backslash <code class="language-python">\\</code></p>
+<pre><code class="language-python">print('\\')  # \</code></pre>
+<p>You add an extra <code class="language-python">\</code> to tell Python that the next <code class="language-python">\</code> should <strong>not</strong> be interpreted as the start of an escape sequence.</p>
+<p>Now if you want to print text that contains <code class="language-python">\</code>, you can double it. For example, this is useful when you need to print literally <code class="language-python">\n</code>, because <code class="language-python">print('\n')</code> will only output a new blank line. Double backslash will help you in such situations!</p>
+<pre><code class="language-python">print('\\n')  # \n</code></pre>
+<p>And you can also write:</p>
+<pre><code class="language-python">metal = '\m/'
+print(metal)  # \m/</code></pre>
+<p>Why is everything correct in such a case? Our string with <code class="language-python">\</code> printed correctly, because <code class="language-python">\m</code> is not an escape expression. Therefore, no formatting has occurred. One more example:</p>
+<pre><code class="language-python">face = '\^_^/'
+print(face)  # \^_^/</code></pre>
+<p>The function <code class="language-python">repr()</code> returns a printable representation of this string, thus, escape sequences are visible.</p>
+<pre><code class="language-python">print(repr(face))  # '\\^_^/'</code></pre>
+<p>When we want to know the length of a string, escape sequences are also taken into account:</p>
+<pre><code class="language-python">print(len(repr(face)))  # 8</code></pre>
+<h5 id="other-examples">Other examples</h5>
+<p>Let's consider an example with the escape sequence <code class="language-python">\n</code>:</p>
+<pre><code class="language-python"># The new line
+
+print('Hello \nWorld!')</code></pre>
+<p>The <code class="language-python">\n </code>combination starts a new line, so you will see the following output:</p>
+<pre><code class="language-no-highlight">Hello
+World!</code></pre>
+<p>The next example shows the escape sequence <code class="language-python">\t</code>. As it was said above, <code class="language-python">\t</code><strong> </strong>is<strong> </strong>used for tabulation. If you put it in the middle of a string, the two parts of the string will be divided by some blank space that is called tabulation. It is quite useful when you work with a text.</p>
+<pre><code class="language-python"># The tabulation
+
+print('Hello\tWorld!')  # Hello   World!</code></pre>
+<p>Another escape sequence that can be useful while you are working with text is <code class="language-python">\r</code>. The common name for this escape sequence is a carriage return. It moves characters after <code class="language-python">\r</code> to the beginning of the line, replacing the exact number of old characters. That is, if the length of the string is longer before this escape sequence, then only the required number of characters is rewritten.</p>
+<pre><code class="language-python"># The characters removal
+ 
+print("Hello, dear \rWorld!")  # World! dear
+</code></pre>
+<p>Please note that the string length remains the same!</p>
+<pre><code class="language-python">print(len("Hello, dear \rWorld!"))  # 19</code></pre>
+<p></p><div class="alert alert-primary">Mind that <code class="language-python">\r</code> might work in a little bit different way if you use a specific Python environment or operating system. Be careful when you use it!</div><p></p>
+<p>Escape sequences are simple to use, aren't they? Let's talk more about the length of strings. For example:</p>
+<pre><code class="language-python"># Comparing the lengths
+
+greeting = 'Hello, John'
+nice_greeting = 'Hello, \nJohn'
+
+print(greeting)
+# Hello, John
+print(nice_greeting)
+# Hello, 
+# John
+
+print(len(greeting))       # 11
+print(len(nice_greeting))  # 12</code></pre>
+<p>After calling the <code class="language-python">len()</code> function, we can see that the length of the string with an escape sequence (in this case <code class="language-python">\n</code>) is greater.</p>
+<p>Be careful while working with strings because the function <code class="language-python">print()</code> doesn't show escape sequences.</p>
+<h5 id="summary">Summary</h5>
+<p>Thus, in this topic, we have introduced basic escape sequences, their features, and considered several examples of how to use them, so now you can work with them in Python strings!</p></body></html>

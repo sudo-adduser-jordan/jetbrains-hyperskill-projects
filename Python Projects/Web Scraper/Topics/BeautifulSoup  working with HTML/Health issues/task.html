@@ -1,0 +1,10 @@
+<h2>Health issues</h2>
+<html><body><p>You are given a link to the <a href="http://web.archive.org/web/20201201053628/https://www.who.int/health-topics" rel="noopener noreferrer nofollow" target="_blank">WHO health topics</a>. Read this link from the input, get all text paragraphs from all the <code class="language-python">a</code> tags and single out the <strong>topic titles</strong> starting with the letter <strong>S</strong>. Print the final list. Beware of empty lines.</p>
+<p>For example, for this input and letter <strong>L </strong>(here we provide the link to the archive for consistency's sake):</p>
+<pre><code class="language-no-highlight">http://web.archive.org/web/20201201053628/https://www.who.int/health-topics</code></pre>
+<p>the output should be:</p>
+<pre><code class="language-python">["Landslides", "Lassa fever", "Leishmaniasis", "Leprosy", "Lymphatic filariasis"]</code></pre>
+<p><button class="btn-sm btn-outline-secondary" onclick="getElementById('hint-885').style.display='inline'">
+        Hint
+      </button>
+</p><div id="hint-885" style="display:none;">There is no need to overcomplicate the solution by difficult operations with tags, the problem can be solved by just going through the text paragraphs and picking the ones between <em>Schistosomiasis</em> and <em>Sustainable Development Goals</em> since these are the first and the last topics that should be in your list. Alternatively, you can go through <code class="language-python">a</code> tags and check if the link inside <code class="language-python">href</code> attribute contains the word <em>topics</em> or <em>entity</em>. If yes, save the text into the list.</div></body></html><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>

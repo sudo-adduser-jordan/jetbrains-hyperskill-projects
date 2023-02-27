@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: 1 2 3 4
+- text: 0 1 0 2
+- text: 0 1 2 3
+- text: 1 2 1 3
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8273#comment
+status: Solved
+record: -1
+local_check: false

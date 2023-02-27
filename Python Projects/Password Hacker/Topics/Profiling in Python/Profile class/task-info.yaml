@@ -1,0 +1,33 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import cProfile, pstats, io
+
+    # instantiate and enable the profiler
+    profiler = ...
+    ....enable()
+    def fib_list(n):
+        if n < 2:
+            return n
+        sequence = [0, 1]
+        for i in range(2, n + 1):
+            sequence.append(sequence[i - 1] + sequence[i - 2])
+        return sequence[n]
+    fib_list(40)
+
+    # disable the profiler
+    profiler....
+    # prepare the output statistics
+    stream = io.StringIO()
+    stats = pstats.Stats(profiler, stream=stream).sort_stats('cumulative')
+    stats....
+    output = ...
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/17436#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sun, 26 Feb 2023 03:56:02 UTC"
+record: -1

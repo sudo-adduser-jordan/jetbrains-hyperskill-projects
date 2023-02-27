@@ -1,0 +1,66 @@
+<h2>Slicing</h2>
+<html><body><p>Python provides the ability to access individual elements of lists, strings, and tuples by using indexes. It is possible because these types are considered <strong>ordered sequences</strong>.</p>
+<p>Take a look at a list containing Fibonacci numbers. We can print out any number from the sequence. Don't forget, indexes start from zero, not one:</p>
+<pre><code class="language-python">fib_nums = [0, 1, 1, 2, 3, 5, 8, 13, 21]
+
+print(fib_nums[0])  # 0, the first element
+print(fib_nums[8])  # 21, the last element</code></pre>
+<h5 id="getting-sections-of-sequences">Getting sections of sequences</h5>
+<p>Another thing you may want to do with a sequence is retrieving its <strong>part</strong>. Usually, it means getting elements from a particular section by their indexes. This is called <strong>slicing</strong>, and there is a special notation for it. It looks like accessing an element by its index, but in an improved manner:</p>
+<pre><code class="language-python">print(fib_nums[2:5])  # [1, 2, 3]</code></pre>
+<p>Looks great, doesn't it? Just like with the indexing, we use <strong>square brackets</strong>, but here we add a <strong>colon</strong> to indicate that we're slicing. Actually, slicing is one of the most famous and widely used features of Python. It allows developers to do a lot of cool things.</p>
+<p><strong>Pay attention</strong> to the end index: it is not the index of the last element of the slice, but rather an index of the first element that is NOT in the slice (i.e. excluded index)! So the last element <strong>is not included</strong>.</p>
+<p>A string can also be sliced:</p>
+<pre><code class="language-python">text = 'Python is not only a snake!'
+print(text[10:18])  # 'not only'</code></pre>
+<p>In the same way, slicing can be applied to tuples. We hope you can try it on your own.</p>
+<p>There's another interesting thing to note: if you set the end index higher than the last element of the sequence, no Error would be raised. Instead, all elements up to the end will be taken:</p>
+<pre><code class="language-python">text = 'Python is not only a snake!'
+print(text[10:9999])  # 'not only a snake!'
+
+words = ['Python', 'is', 'not', 'only', 'a', 'snake', '!']
+print(words[2:9999])  # ['not', 'only', 'a', 'snake', '!']</code></pre>
+<p>Now, we will explore slicing in more detail with the help of lists.</p>
+<h5 id="forms-of-slicing">Forms of slicing</h5>
+<p>We've demonstrated the use of slicing with starting and ending indexes. But this is not the only possible form.</p>
+<p>The full syntax for slicing looks like this:</p>
+<pre><code class="language-python">sequence[start:stop:step]  # from start to stop-1, by step</code></pre>
+<p>This statement produces a slice of the sequence where <code class="language-python">start</code> is an index of the first needed element (the element is included in the slice) and <code class="language-python">stop</code> is an index of the last element (the element is <strong>not</strong> included in the slice), <code class="language-python">step</code> is an interval between elements to be chosen.</p>
+<p>Let's slice a list of planets picking every second planet. We start from the third (with the index 2) planet and stop at the seventh (with the index 6) one. The eighth planet (with the index 7) is not included in the slice.</p>
+<pre><code class="language-python">planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']
+print(planets[2:7:2])  # ['Earth', 'Jupiter', 'Uranus']</code></pre>
+<p>Each part of the slice has a default value, so it can be omitted. If we don't specify the <code class="language-python">start</code> index, it is considered to be <strong>0</strong>; if we don't specify the <code class="language-python">stop</code> index, it is equal <strong>to the length of the sequence</strong>. The default <code class="language-python">step</code> is <strong>1</strong>, i.e. every element between the beginning and the end is put in the slice.</p>
+<p>Here's what happens if we slice without specifying some indexes:</p>
+<pre><code class="language-python">sequence[:end]    # elements from start to end-1
+sequence[start:]  # elements from start to the last element
+sequence[:]       # the full copy of the sequence
+sequence[::step]  # every element with a given step</code></pre>
+<p>Let's take a look at some examples to make understanding more practical.</p>
+<pre><code class="language-python">snakes = ['python', 'cobra', 'viper']
+print(snakes[:2])     # ['python', 'cobra']
+print(snakes[0][:2])  # py
+
+powers_of_two = [1, 2, 4, 8, 16, 32, 64, 128]
+print(powers_of_two[4:])  # [16, 32, 64, 128]
+
+colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+print(colors[::3])  # ['red', 'green', 'violet']</code></pre>
+<p>An interesting way to use slicing is to create <strong>a copy</strong> of the sequence using <code class="language-python">[:]</code> notation.</p>
+<pre><code class="language-python">sheep = ['Dolly', 'Polly', 'Molly']
+cloned_sheep = sheep[:]  # ['Dolly', 'Polly', 'Molly']</code></pre>
+<p>Indexes can also be <strong>negative. </strong>We saw this before when we accessed a single element: it means counting from right to left and starting at -1. So, when the <code class="language-python">step</code> value is negative, the elements are returned in reverse order. </p>
+<pre><code class="language-python">pets = ['dog', 'cat', 'parrot', 'gecko']
+
+print(pets[-2:])   # ['parrot', 'gecko']
+print(pets[:-2])   # ['dog', 'cat']
+print(pets[::-1])  # ['gecko', 'parrot', 'cat', 'dog']
+print(pets[::-2])  # ['gecko', 'cat']</code></pre>
+<p>If you're using negative <code class="language-python">step</code> with the positive <code class="language-python">start</code> and <code class="language-python">end</code> indexes, those should be chosen accordingly, that is, the <code class="language-python">start</code> index should be greater than the <code class="language-python">end</code> index!</p>
+<pre><code class="language-python">numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+print(numbers[7:2:-1])  # [8, 7, 6, 5, 4]
+print(numbers[2:7:-1])  # []</code></pre>
+<p>We hope you get the general idea of slicing now.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>Slicing allows you to get sections of sequences such as lists, strings, and tuples specifying <code class="language-python">start</code>, <code class="language-python">end</code> and  <code class="language-python">step</code>. Remember that all the indexes are optional in the slice syntax because there is a default value for all of them.</p>
+<p>In some sense, slicing is just an extension of the standard indexing with similar rules: the first index of a sequence is zero, and negative indexes start from the end. We believe, that after a bit of practice, you will be good at it.</p></body></html>

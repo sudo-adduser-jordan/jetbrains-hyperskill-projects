@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: The difference is in the arguments they accept.
+- text: "When you use <code>writelines()</code>, the original strings don't have to\
+    \ come with any separators."
+- text: "When you use <code>write()</code>, the original strings have to come with\
+    \ the <code>\\n</code> separator."
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15103#comment
+status: Solved
+record: -1
+custom_name: What's the difference?
+local_check: false

@@ -1,0 +1,12 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: '# read sums.txt'
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8145#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Wed, 22 Feb 2023 04:39:37 UTC"
+record: -1

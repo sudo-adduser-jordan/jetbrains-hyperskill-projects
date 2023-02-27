@@ -1,0 +1,22 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # work with a list from this variable
+    numbers = [int(n) for n in input()]
+
+    # change the next two lines
+    less_than_5 = ...
+    greater_than_5 = ...
+
+    # printing your results
+    print(less_than_5)
+    print(greater_than_5)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9505#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 24 Feb 2023 02:45:09 UTC"
+record: -1

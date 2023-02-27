@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: It doesn't exist in the Collections module.
+- text: It is used to process several tuples and lists at once.
+- text: It is used as a container for some independent dictionaries and also allows
+    dealing with them at once.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15379#comment
+status: Solved
+record: -1
+custom_name: Why do we need it?
+local_check: false

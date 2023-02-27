@@ -1,0 +1,49 @@
+<h2>Avoiding bad comments</h2>
+<html><body><p>As you already know, a Python feature (beloved by all Python programmers) is its <strong>well-readable syntax</strong>. However, apart from the syntax itself, there are other important things that contribute to the readability of your program. We assume that you are already familiar with <strong>comments</strong> and how they help in learning a new language.</p>
+<p>In real programs, comments become especially important as the program gets bigger and more complicated. Without them, things may get confusing even for you within a few months after writing the program, not to mention other developers who see your code for the first time. However, there is also a downside of making comments, meaning that more is not necessarily better, and we will discuss it below as well.</p>
+<h5 id="when-not-to-write-comments" style="text-align: center;">When not to write comments?</h5>
+<p>This may sound strange but sometimes it's better not to write comments at all. Carefully written, they can indeed contribute to the readability of your program, but it doesn't mean you should include them wherever you can. On the contrary, many programmers are convinced that a good piece of code doesn't require any comments in the first place because it is so transparent and accurate. That is what we all should aim at. So, if the code <em>can</em> be made self-explanatory, comments are unnecessary, and it's better to change the code rather than make comments. Let's highlight cases when developers need to comment less.</p>
+<ul>
+<li>If a comment <strong>explains a variable/function</strong>, you can usually delete the comment and <strong>explicitly name</strong> the variable/method itself. Compare the following lines of code:</li>
+</ul>
+<pre><code class="language-python">n = 0  # number of participants
+participants_num = 0</code></pre>
+<ul>
+<li>
+<p>Avoid writing <strong>obvious comments</strong>, like the one below. They make your code redundant and even harder to read. You should always seek to follow the D.R.Y. (don't repeat yourself) principle, not W.E.T. ("wrote everything twice" or "wasted everyone's time" for more cynical ones).</p>
+</li>
+</ul>
+<pre><code class="language-python">age = 20  # age is 20
+greeting = 'hello'  # assign 'hello' to greeting</code></pre>
+<ul>
+<li>
+<p>If you see a way to alter your code so that <strong>comments </strong>would become <strong>unnecessary </strong>- you should do that.</p>
+</li>
+</ul>
+<p>That is, if you can avoid commenting — you'd better do. Then your code would be clean, wouldn't be overloaded with unnecessary details and wouldn't become more complicated rather than clearer for readers to understand.</p>
+<h5 id="how-to-write-good-comments" style="text-align: center;">How to write good comments?</h5>
+<p>Now, let's turn to cases when you decide to write a comment. The main thing to remember is that comments should be easily <strong>understandable </strong>by anyone, be that Future You or some other programmer. Here are some tips on how to achieve it:</p>
+<ul>
+<li>
+<p>Generally, comments should answer the question "<strong>why</strong>" as opposed to "<strong>what</strong>". However, it may be <strong>useful for beginners</strong> to write comments for themselves explaining <em>what </em>the code does, especially when using a newly learned syntax expression, e.g.:</p>
+</li>
+</ul>
+<pre><code class="language-python">result = 15 % 4  # % is used for division with remainder</code></pre>
+<ul>
+<li>
+<p>Make sure that your comments do not <strong>contradict the code </strong>(that happens more often than you can imagine!). Wrong comments are worse than no comments at all.</p>
+</li>
+</ul>
+<pre><code class="language-python"># decrease the counter
+counter += 1</code></pre>
+<ul>
+<li>
+<p>Do not forget to <strong>update </strong>the comments if you modify the code. It will only confuse the reader instead of helping them. In the example below, the variable "counter" used to be designated as "i"; the programmer changed its name in the code but not in the comment.</p>
+</li>
+</ul>
+<pre><code class="language-python"># i is incremented in case of errors
+counter += 1</code></pre>
+<p>Following these pieces of advice, you can write code that is clean, organized, easy to understand, and pleasant to read.</p>
+<h5 id="conclusion" style="text-align: center;">Conclusion</h5>
+<p>When annotating the code, it's important to know where to draw the line. Both <strong>over-</strong> and <strong>undercommented programs </strong>can be difficult to understand, which results in wasted and unpleasant time spent working with such pieces of code. So, you should always try to write comments carefully and <strong>only when it's necessary</strong>.</p>
+<p>The simplest way to learn to do so is just by doing it. It's a good idea to start practicing when you only start coding because you will get used to it, and by the time some more complex problems should be solved, you will know how to write comments properly. From now on, try to <strong>include simple comments</strong> in your code to explain difficult moments that took you a while to understand. It is also useful to get back to <strong>review </strong>your <strong>older programs</strong> and see how they (including comments) could be enhanced.</p></body></html>

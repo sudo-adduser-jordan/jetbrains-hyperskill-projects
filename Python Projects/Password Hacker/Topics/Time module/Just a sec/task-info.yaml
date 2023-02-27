@@ -1,0 +1,21 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import time
+
+    sent_1 = "I'm the first sentence."
+    print(sent_1)
+
+    # write your code here
+
+    sent_2 = "And I'm the second sentence."
+    print(sent_2)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10969#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 25 Feb 2023 01:35:58 UTC"
+record: -1

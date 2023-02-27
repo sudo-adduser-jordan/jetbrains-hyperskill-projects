@@ -1,0 +1,102 @@
+<h2>Identity testing</h2>
+<html><body><p>By now, you know how to work with values in Python. For example, you know how to perform arithmetic operations with numbers. But <em>what</em> is a value in Python? It can't be an abstract thing, like in math, because a computer should be able to work with it. In this topic, you will get some understanding of values in Python.</p>
+<h5 id="many-copies-of-equal-values">Many copies of equal values</h5>
+<p>Equal values in Python can exist in many copies. Consider the following code:</p>
+<pre><code class="language-python">a = [1, 2, 3]
+b = [1, 2, 3]
+c = a
+
+print(a)  # [1, 2, 3]
+print(b)  # [1, 2, 3]
+print(c)  # [1, 2, 3]</code></pre>
+<p>It looks like all these variables are the same. But they aren't in some sense. To see it let's modify the list <code class="language-python">a</code>.</p>
+<pre><code class="language-python">a = [1, 2, 3]
+b = [1, 2, 3]
+c = a
+
+a[0] = 5
+
+print(a)  # [5, 2, 3] - changed
+print(b)  # [1, 2, 3] - didn't change
+print(c)  # [5, 2, 3] - also changed</code></pre>
+<p>The reason is that we created <strong>two copies</strong> of <code class="language-python">[1, 2, 3]</code>. Variables <code class="language-python">a</code> and <code class="language-python">c</code> refer to the first copy, and <code class="language-python">b</code> refers to the second copy. Changing one of them doesn't affect the other one.</p>
+<p>We call these copies as <strong>objects</strong>. An object is stored in memory and contains information about an abstract value it represents. So there can be several objects that represent the same value. You can treat such objects as twins. At first glance, they look identical, but actually, they are different people.</p>
+<p>Let's see how to distinguish twins in Python.</p>
+<h5 id="id-function">Id function</h5>
+<p>Each object in Python has an associated integer called <strong>identity</strong>. You can get this integer by passing the object to the function <code class="language-python">id</code>. Numbers, strings and other primitive types are also objects and they have an identity too. Identity never changes during the life of the object. Different objects in memory have different identities.</p>
+<p>Using it we can distinguish two objects in Python that contain the same value. It is similar to distinguishing twins by looking at their identity documents.</p>
+<pre><code class="language-python">a = [1, 2, 3]
+b = [1, 2, 3]
+
+print(a == b)  # True, they contain the same value
+
+# But they have different identities
+print(id(a))  # 4558721352
+print(id(b))  # 4560238984</code></pre>
+<p></p><div class="alert alert-primary"> Python generates <code class="language-python">id</code> on the fly, running the pieces of code above will give you other integer values. Moreover, new objects can have smaller ids than the objects created earlier. </div><p></p>
+<p>But if two variables refer to the same object, then the <code class="language-python">id</code> function will return the same value.</p>
+<pre><code class="language-python">a = [1, 2, 3]
+c = a
+
+print(a == c)  # True, they contain the same value
+
+# And they also have the same identity
+print(id(a))  # 4558721352
+print(id(c))  # 4558721352</code></pre>
+<p>As you can see, the variables <code class="language-python">a</code> and <code class="language-python">c</code> share the identity, which means they refer to the same object.</p>
+<h5 id="identity-testing">Identity testing</h5>
+<p>You can check if two variables refer to the same object by comparing the results of the <code class="language-python">id</code> function. But there is a better way to do it. Python has an <strong>identity </strong><strong>operator</strong> <code class="language-python">is</code> that checks if two objects have <strong>the same identity</strong>. The result is a boolean value: <code class="language-python">True</code> or <code class="language-python">False</code>. You should not confuse it with the <strong>equality </strong><strong>operator</strong> <code class="language-python">==</code> which tests whether two objects contain <strong>the same value</strong>.</p>
+<pre><code class="language-python">a = [1, 2, 3]
+b = [1, 2, 3]
+
+identity_test = a is b  # False, because a and b refer to different objects in memory
+equality_test = a == b  # True, because a and b contain the same value
+
+b = a
+
+identity_test = a is b  # True, because now both variables refer to the same object</code></pre>
+<p>The <code class="language-python">is not</code> operator is the <strong>negation</strong> of the <code class="language-python">is</code> operator. It returns <code class="language-python">True</code> if its operands refer to different objects.</p>
+<pre><code class="language-python">a = [1, 2, 3]
+b = [4, 5]
+
+print(a is not b)  # True, as expected</code></pre>
+<h5 id="use-the-identity-operator-carefully">Use the identity operator carefully</h5>
+<p>Using the identity operator instead of the equality operator might lead to lots of mistakes. The example below shows the danger of the <code class="language-python">is</code> operator.</p>
+<pre><code class="language-python">a = int(input())  # 10
+b = int(input())  # 10
+print(a is b)     # True
+print(id(a))      # 4462719392
+print(id(b))      # 4462719392
+
+a = int(input())  # 10000
+b = int(input())  # 10000
+print(a is b)     # False
+print(id(a))      # 4466218032
+print(id(b))      # 4466218160</code></pre>
+<p>The reason for such weird behavior is that Python optimizes the use of small integers between -5 and 256. They are commonly used, so Python doesn't create a new object every time, but gives a reference to an existing number. The same thing happens to short strings.</p>
+<p>However, the case of large numbers depends on the implementation. You may get <code class="language-python">True</code> for the following expression:</p>
+<pre><code class="language-python">a = 10000
+b = 10000
+print(a is b)  # True or False depending on your system</code></pre>
+<h5 id="when-to-use-the-identity-operator">When to use the identity operator</h5>
+<p>The proper case to use the <code class="language-python">is</code> operator is to test if something is <code class="language-python">None</code>. <code class="language-python">None</code> is a special keyword in Python that is used to define <strong><em>no value</em></strong>.</p>
+<p>It is safe to use <code class="language-python">is</code>  in this case, because <code class="language-python">None</code> is a <strong>singleton</strong>. This means that <code class="language-python">None</code> object is created only once and then used whenever you refer to <code class="language-python">None</code> in your code.</p>
+<p>It is common to use <code class="language-python">None</code> as a default value for optional arguments in functions.</p>
+<pre><code class="language-python">def say_hello(name=None):
+    if name is None:
+        print('Hello!')
+    else:
+        print(f'Hello, {name}!')
+
+
+say_hello()        # 'Hello!'
+say_hello('Nick')  # 'Hello, Nick!'</code></pre>
+<p><code class="language-python">True</code> and <code class="language-python">False</code> are also singletons, so you can use <code class="language-python">is</code> with them too.</p>
+<h5 id="summary">Summary</h5>
+<p>In this topic, we've learned a little about objects in Python and how to test objects for identity. In order not to make mistakes in your code pay attention to the following points:</p>
+<ul>
+<li>There can be many objects containing the same value. They are <strong>equal</strong> but not <strong>identical</strong>.</li>
+<li>The identity operator does not compare values, but it checks if its operands refer to the same object.</li>
+<li>Don't use the identity operator with primitive types.</li>
+<li>Use the identity operator to test if something is <code class="language-python">None</code>.</li>
+</ul></body></html>

@@ -1,0 +1,10 @@
+<h2>Get the response</h2>
+<html><body><p>Read through the following code and add a single line below to get the response of the server.</p>
+<pre><code class="language-python">import socket
+
+yet_another_socket = socket.socket()
+yet_another_socket.connect(('localhost', 1025))
+data = b'How deep does the rabbit socket go?'
+yet_another_socket.send(data)
+buffer_size = 1024</code></pre>
+<p>Save the received data in a variable <code class="language-python">response</code>.</p></body></html>

@@ -1,0 +1,29 @@
+<h2>Defining a generator</h2>
+<p>Let <code class="language-python">my_list</code> be a list of some natural numbers.</p>
+
+<p>Consider the pieces of code below. Which of them are the correct ways to define a generator producing the cubes of the numbers in <code class="language-python">my_list</code>?</p>
+
+<p>A.</p>
+
+<pre><code class="language-python">my_generator = (n ** 3 for n in my_list)</code></pre>
+
+<p>B.</p>
+
+<pre><code class="language-python">my_generator = [n ** 3 for n in my_list]</code></pre>
+
+<p>C.</p>
+
+<pre><code class="language-python">def my_generator(my_list):
+    for num in my_list:
+        yield num**3</code></pre>
+
+<p>D.</p>
+
+<pre><code class="language-python">for num in my_list:
+    print(num**3)</code></pre>
+
+<p>E.</p>
+
+<pre><code class="language-python">def my_generator(my_list):
+    for num in my_list:
+        return num**3</code></pre>

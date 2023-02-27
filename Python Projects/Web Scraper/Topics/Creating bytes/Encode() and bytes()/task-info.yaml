@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: "Yes, one of them always demands encoding to be specified"
+- text: "No, they are identical"
+- text: "Yes, one of them can only convert characters with code point values between\
+    \ 0 and 255"
+- text: "Yes, one of them isn't suitable for converting strings to bytes and will\
+    \ cause an error"
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8071#comment
+status: Solved
+record: -1
+local_check: false

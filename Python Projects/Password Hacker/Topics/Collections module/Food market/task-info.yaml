@@ -1,0 +1,25 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    from collections import ChainMap
+
+
+    food_types = {'Vegetables': 15, 'Dairy': 20, 'Meat': 3, 'Cereals': 9, 'Fruits': 11, 'Fish': 7}
+    countries = {'USA': 25, 'Australia': 15, 'Canada': 15, 'France': 6, 'India': 4}
+    discount = {'gold': 20, 'regular': 10}
+
+    chain = ChainMap(food_types, countries)
+    food_types['Sweets'] = 10
+
+    # some missing lines
+
+    print(chain)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10020#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 25 Feb 2023 03:51:06 UTC"
+record: -1

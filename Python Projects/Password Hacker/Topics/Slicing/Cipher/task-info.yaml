@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: string = "no clouds here to spy on pets"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/6968#comment
+status: Solved
+feedback:
+  message: |-
+    <html>That's correct! The encoded message is 'python'
+
+    </html>
+  time: "Sat, 25 Feb 2023 01:29:04 UTC"
+record: -1

@@ -1,0 +1,87 @@
+<h2>Profiling in Python</h2>
+<p>Today, you've decided to finish an elaborate program. The code is almost finished; you've started the initial testing, but the program doesn't perform as fast as you've expected. "Why does it take this long and occupy so many resources?" you wonder. The answer is simple if you start looking in the right direction.</p><p>To improve the performance of your code, you need to analyze and measure the metrics of interest. This analysis is also called <a href="https://en.wikipedia.org/wiki/Profiling_(computer_programming)" rel="noopener noreferrer nofollow" target="_blank"><u>profiling</u></a>. Profiling a Python program means a dynamic analysis that measures the execution time of each function. This may give you some insights into possible optimization.</p><p>At first glance, it may seem obvious where your code is struggling, but if you don’t profile, it could be difficult to pinpoint the bottlenecks. Lucky for us, Python provides many great modules to measure the program statistics.</p><h5 id="the-time-module">The time module</h5><p>To profile your code, you need to know how to clock the time. You can use a timer for this:</p><pre><code class="language-python">from time import time
+
+start = time()
+# your script here
+end = time()
+print('It took', end - start, 'seconds!')</code></pre><p>Timers are easy to implement. However, using a timer on any function shows us the run time of that specific function only. If you want to use this approach for finding the bottlenecks, you need more information. You need to account for the following points to carry out efficient profiling:</p><ul><li><p>We should know the total run time of the program to have a better picture of the relative function run time. For example, if a function takes three minutes to execute, does that represent 5%, 15%, or 60% of the total run time?</p></li><li><p>We should understand what we're trying to achieve to label a piece of code as a bottleneck. Even if a function takes 10 minutes to run, we should worry about its inefficiency only, provided we are confident that other parts are OK.</p></li></ul><p>A profiler package like <code class="language-python">cProfile</code> can help us find the bottlenecks in our code.</p><h5 id="profiling-with-cprofilerun">Profiling with cProfile.run()</h5><p><code class="language-python">cProfile</code> is a deterministic profiler for Python and is recommended for most users, as the <a href="https://docs.python.org/3/library/profile.html" rel="noopener noreferrer nofollow" target="_blank">official documentation</a> states. In general terms, it creates a set of statistics that displays the total time spent in certain parts of the code and how often the portion of the code was called.</p><p><code class="language-python">cProfile</code> is written in C as a Python extension and a built-in module. It doesn’t affect the amount of time much. The <code class="language-python">cProfile</code> module provides a simple <code class="language-python">run()</code> function that is sufficient for most cases. All you need to do is to pass what you want to profile as a string statement to <code class="language-python">run()</code>. Let's take a look at an example of profiling the recursive algorithm for the Fibonacci sequence and gather some information on the algorithm performance: </p><pre><code class="language-python">import cProfile
+
+def fib_recursive(n):
+    if n &lt; 2:
+        return n
+
+    return fib_recursive(n - 1) + fib_recursive(n - 2)
+
+cProfile.run("fib_recursive(30)")</code></pre><pre><code class="language-no-highlight">         2692540 function calls (4 primitive calls) in 1.322 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    1.321    1.321 &lt;string&gt;:1(&lt;module&gt;)
+2692537/1    1.321    0.000    1.321    1.321 test1.py:4(fib_recursive)
+        1    0.000    0.000    1.322    1.322 {built-in method builtins.exec}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}</code></pre><p>As you can see, the profiler has recorded information on our function. Let us see how we can interpret it:</p><table align="center" border="1" cellpadding="1" cellspacing="1"><tbody><tr><th><p>Headers </p></th><th><p> Description</p></th></tr><tr><th><p><code class="language-python">ncalls</code></p></th><td><p>The number of calls. We should try to optimize the functions that have a lot of calls or take too much time per call.</p></td></tr><tr><th><p><code class="language-python">tottime</code></p></th><td><p>The total time spent in the function, excluding the time taken to call sub-functions. This column is crucial for us. We can see that the <code class="language-python">fib_recursive</code> function is called 2692537 times, with a total time of 1.321 sec.</p></td></tr><tr><th><p><code class="language-python">cumtime</code></p></th><td><p>The cumulative time. In other words, it is the total time spent in the function plus the time spent in all sub-functions. As an example, imagine that our <code class="language-python">fib_recursive</code> function is appended to a list; every number there is passed in as an argument. The time spent calling the <code class="language-python">append</code> function would be stated here, not in <code class="language-python">tottime</code>.</p></td></tr><tr><th><p><code class="language-python">percall</code></p></th><td><p>There are two “per call” metrics. The first one is the total time per call, and the second one is the cumulative time per call.</p></td></tr><tr><th><p><code class="language-python">filename: lineno (function)</code></p></th><td><p>Provides data about the filename and the line number of each function.</p></td></tr></tbody></table><p>Now, let us see another approach of the same Fibonacci sequence, but this time we use a list algorithm:</p><pre><code class="language-python">def fib_list(n):
+    if n &lt; 2:
+        return n
+
+    sequence = [0, 1]
+
+    for i in range(2, n + 1):
+        sequence.append(sequence[i - 1] + sequence[i - 2])
+
+    return sequence[n]
+
+cProfile.run("fib_list(30)")</code></pre><pre><code class="language-no-highlight">         33 function calls in 0.000 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 &lt;string&gt;:1(&lt;module&gt;)
+        1    0.000    0.000    0.000    0.000 test1.py:4(fib_list)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.exec}
+       29    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}</code></pre><p>We can see a huge improvement in the number of calls per function, and the algorithm gets executed in no time. The recursive function in Python for Fibonacci numbers seems so easy until you try it for yourself and look at the profiler. </p><p>The algorithms above are simple examples. Imagine a real-world scenario, where you need to create an algorithm that searches through an enormous amount of data. In this case, it is really important to have a good-performing algorithm.</p><h5 id="profile-class-in-cprofile">Profile class in cProfile</h5><p><code class="language-python">cProfile.run()</code> is sufficient in most cases, but if you need more control over profiling, use the <code class="language-python">Profile</code> class in <code class="language-python">cProfile</code>.  Let's take a look at a for loop inside the <code class="language-python">fib_list</code> function:</p><pre><code class="language-python">import cProfile
+
+profiler = cProfile.Profile()
+
+def fib_list(n):
+    if n &lt; 2:
+        return n
+    sequence = [0, 1]
+    profiler.enable()
+    for i in range(2, n + 1):
+        sequence.append(sequence[i - 1] + sequence[i - 2])
+    profiler.disable()
+    return sequence[n]
+
+fib_list(300)
+
+profiler.print_stats()
+</code></pre><p>First, create an instance of the <code class="language-python">Profile</code> class called <code class="language-python">profiler</code> and collect the profiling data by calling the <code class="language-python">enable</code> method. When you want to stop collecting the profiling data, call the <code class="language-python">disable</code> method. After calling the function, we can simply print the results to the standard output by calling the <code class="language-python">print_stats()</code> method. The resulting table will look similar to the one from the first example, but it won't contain unnecessary profiling information from other parts of our code.</p><pre><code class="language-no-highlight">         300 function calls in 0.000 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      299    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}</code></pre><p> </p><p></p><div class="alert alert-primary"><p>Since it’s hard to tell where your program spends the time, you should start by profiling your entire program using the <code class="language-python">cProfile.run()</code> function before narrowing it down to a single section.</p></div><p></p><p> </p><p>We can also format the collected statistics using the <code class="language-python">pstats.Stats</code> class constructor to create an instance of the statistics object called <code class="language-python">stats</code> and use a text stream to save the results. Don't forget to take a look at the <a href="https://docs.python.org/3.8/library/profile.html#pstats.Stats" rel="noopener noreferrer nofollow" target="_blank">official documentation</a>.</p><pre><code class="language-python">import cProfile, pstats, io
+from pstats import SortKey
+
+profiler = cProfile.Profile()
+
+def fib_list(n):
+    if n &lt; 2:
+        return n
+    sequence = [0, 1]
+    profiler.enable()
+    for i in range(2, n + 1):
+        sequence.append(sequence[i - 1] + sequence[i - 2])
+    profiler.disable()
+    return sequence[n]
+
+fib_list(300)
+
+stream = io.StringIO()
+stats = pstats.Stats(profiler, stream=stream)
+stats = stats.sort_stats(SortKey.CUMULATIVE)
+stats.print_stats()
+print(stream.getvalue())</code></pre><p>The <code class="language-python">Stats</code> class creates a statistics object from a profile object and prints the output to the stream that is passed to it, in our case, <code class="language-python">io.StringIO()</code> is a text stream. The <code class="language-python">Stats</code> class also has a <code class="language-python">sort_stats</code> method that sorts the results based on the provided criteria. In this case, the criterion is <code class="language-python">SortKey.CUMULATIVE</code>. As described in the <a href="https://docs.python.org/3.8/library/profile.html#pstats.Stats.sort_stats" rel="noopener noreferrer nofollow" target="_blank">official documentation</a>, the sorting criteria can be in the form of a <code class="language-python">SortKey</code> enum (added in Python 3.7) or a string (using <code class="language-python">cumulative</code> instead of <code class="language-python">SortKey.CUMULATIVE</code> is valid). After creating the results and printing them to the stream using the <code class="language-python">print_stats()</code> method, you can print them to the standard output by calling the <code class="language-python">getvalue()</code> method from our text stream.</p><h5 id="conclusion">Conclusion</h5><p>In this topic, we've discussed the importance of code profiling and explained different approaches to it in Python:</p><ul><li><p>Profiling with the <code class="language-python">time</code> module is an easy way to measure the execution time of any part of a program;</p></li><li><p><code class="language-python">cProfile.run()</code> provides more detailed information like the total number of calls for each function or the total time spent in the function; </p></li><li><p>The <code class="language-python">profile</code> class from <code class="language-python">cProfile</code> is fit for more precise control over profiling.</p></li></ul><p>There are a lot of other things to cover (such as external modules for profiling), but we're going to do it in other topics. For now, let's turn to practice! </p>

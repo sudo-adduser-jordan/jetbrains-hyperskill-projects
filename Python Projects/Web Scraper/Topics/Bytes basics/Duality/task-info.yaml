@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: "In both cases the output is the same: <b>corgi</b>."
+- text: Line 1 prints <b>99111114103105</b> and line 2 outputs <b>corgi</b>.
+- text: Line 1 prints the integer <b>532</b> and line 2 prints <b>b'corgi'</b>.
+- text: Line 1 prints <b>b'corgi'</b> and line 2 prints the integer <b>532</b>.
+- text: "In both cases the output is the same: <b>b'corgi'</b>."
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8288#comment
+status: Solved
+record: -1
+local_check: false

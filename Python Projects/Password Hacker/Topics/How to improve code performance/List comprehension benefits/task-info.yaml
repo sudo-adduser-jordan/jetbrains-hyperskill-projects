@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: "Most of the time, pieces of code created with list comprehension are more\
+    \ understandable"
+- text: We can create lists faster
+- text: Every for loop can be written with a list comprehension
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/17093#comment
+status: Solved
+record: -1
+local_check: false

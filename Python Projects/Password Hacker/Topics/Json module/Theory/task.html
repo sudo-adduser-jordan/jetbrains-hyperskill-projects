@@ -1,0 +1,175 @@
+<h2>Json module</h2>
+<html><body><p>As you know, JSON is a very common format for storing text-based data. Even though it originally derived from JavaScript, nowadays this format is language-independent and is used in all kinds of situations. Naturally, programming languages have their ways of dealing with JSON, and in this topic, we will see how it is done in Python.</p>
+<h5 id="json-module" style="text-align: center;">json module</h5>
+<p>Python has a built-in module for working with the JSON format: <code class="language-json">json</code>. If we want to use it, we just need to import it at the beginning of the program.</p>
+<p>What does it allow us to do? Well, the two main procedures are converting Python data into JSON and the other way around. To better understand the logic behind the conversion, let's take a look at a JSON object:</p>
+<pre><code class="language-json">{
+  "movies": [
+    {
+      "title": "Inception",
+      "director": "Christopher Nolan",
+      "year": 2010
+    },
+    {
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "director": "Peter Jackson",
+      "year": 2001
+    },
+    {
+      "title": "Parasite",
+      "director": "Bong Joon Ho",
+      "year": 2019
+    }
+  ]
+}</code></pre>
+<p>You can see that there are a lot of similarities between JSON notation and Python data types: we have strings and numbers, a JSON object looks similar to a Python dictionary, an array — to list. This makes conversions between JSON and Python quite easy and intuitive. Here's a full conversion table for encoding Python data to JSON:</p>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 500px;">
+<caption>Conversion table</caption>
+<thead>
+<tr>
+<th>Python</th>
+<th>JSON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<p><code class="language-json">dict</code></p>
+</td>
+<td>
+<p>object</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code class="language-json">list</code>, <code class="language-json">tuple</code></p>
+</td>
+<td>
+<p>array</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code class="language-json">str</code></p>
+</td>
+<td>
+<p>string</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code class="language-json">int</code>, <code class="language-json">float</code></p>
+</td>
+<td>
+<p>number</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code class="language-json">True</code></p>
+</td>
+<td>
+<p>true</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code class="language-json">False</code></p>
+</td>
+<td>
+<p>false</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code class="language-json">None</code></p>
+</td>
+<td>
+<p>null</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p></p><div class="alert alert-primary"> Data types not listed in the table, such as custom classes or, for example, <samp>datetime</samp> objects cannot be converted to JSON that easily. </div><p></p>
+<p>Now let's take a look at specific methods available in the <code class="language-json">json</code> module and see how the conversion happens.</p>
+<h5 id="encoding-to-json" style="text-align: center;">Encoding to JSON</h5>
+<p>Generally, encoding to JSON format is called <strong>serialization</strong>. The <code class="language-json">json</code> module has two methods for serializing: <code class="language-json">json.dump()</code> and <code class="language-json">json.dumps()</code>. The key difference between these two methods is the type we're serializing to: <code class="language-json">json.dump()</code> writes to a file-like object, and <code class="language-json">json.dumps()</code> creates a string.</p>
+<p>Suppose, we have a dictionary equivalent to the JSON we've seen earlier.</p>
+<pre><code class="language-python"># Python dictionary 
+movie_dict = {
+  "movies": [
+    {
+      "title": "Inception",
+      "director": "Christopher Nolan",
+      "year": 2010
+    },
+    {
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "director": "Peter Jackson",
+      "year": 2001
+    },
+    {
+      "title": "Parasite",
+      "director": "Bong Joon Ho",
+      "year": 2019
+    }
+  ]
+}</code></pre>
+<p>Here's how we can save it to the JSON file <em>movies.json:</em></p>
+<pre><code class="language-python">import json
+
+
+with open("movies.json", "w") as json_file:
+    json.dump(movie_dict, json_file)</code></pre>
+<p>As you can see, this method has two required arguments: the data and the file-like object that you can write to. If you run this code, you'll create a JSON file with the data about movies.</p>
+<p>Another option is serializing the data into a string using <code class="language-json">json.dumps()</code>. In this case, the only required argument is the data we want to serialize:</p>
+<pre><code class="language-python">json_str = json.dumps(movie_dict)
+
+print(json_str)
+# {"movies": [{"title": "Inception", "director": "Christopher Nolan", "year": 2010}, {"title": "The  Lord of the Rings: The Fellowship of the Ring", "director": "Peter Jackson", "year": 2001}, {"title": "Parasite", "director": "Bong Joon Ho", "year": 2019}]}</code></pre>
+<p></p><div class="alert alert-primary">Careful with data types! JSON only supports strings as keys. Basic Python types like integers will get converted to strings automatically but for other types of keys, like tuple, you'll get a <code class="language-json">TypeError</code> because the <code class="language-json">.dump()</code> and <code class="language-json">.dumps()</code> functions cannot convert it to a string.</div><p></p>
+<p>In addition to the required parameters, both methods have several optional ones. You can check them all out in the <a href="https://docs.python.org/3/library/json.html#json.dump" rel="noopener noreferrer nofollow" target="_blank">official documentation</a>, here we'll only look at the <code class="language-json">indent</code> parameter. You can see that the string we got in the example above is quite hard to read, compared to the original dictionary. Well, if we specify <code class="language-json">indent</code> (an integer or a string), we can pretty-print our resulting JSON:</p>
+<pre><code class="language-python">json_str = json.dumps(movie_dict, indent=4)
+print(json_str)</code></pre>
+<p>And the resulting string:</p>
+<pre><code class="language-no-highlight"># json_str
+'{
+    "movies": [
+        {
+            "title": "Inception",
+            "director": "Christopher Nolan",
+            "year": 2010
+        },
+        {
+            "title": "The Lord of the Rings: The Fellowship of the Ring",
+            "director": "Peter Jackson",
+            "year": 2001
+        },
+        {
+            "title": "Parasite",
+            "director": "Bong Joon Ho",
+            "year": 2019
+        }
+    ]
+}'</code></pre>
+<h5 id="decoding-json" style="text-align: center;">Decoding JSON</h5>
+<p>The opposite procedure is <strong>deserialization. </strong>Similarly to serialization, the  <code class="language-json">json</code> module has two methods: <code class="language-json">json.load()</code> and <code class="language-json">json.loads()</code>. Here the difference is in the input JSONs: file-like objects or strings.</p>
+<p>Let's convert the JSONs we've just created back to Python data types.</p>
+<pre><code class="language-python"># from a file
+with open("movies.json", "r") as json_file:
+    movie_dict_from_json = json.load(json_file)
+
+print(movie_dict_from_json == movie_dict)  # True</code></pre>
+<p>You can see that the dictionary that we got as a result of <code class="language-json">json.load()</code> equals our original dictionary. The same with <code class="language-json">json.loads()</code>:</p>
+<pre><code class="language-python"># from string
+print(movie_dict == json.loads(json_str))  # True
+</code></pre>
+<p></p><div class="alert alert-warning">Remember the issue with non-string keys? Well, if we convert a Python dictionary with non-string keys to JSON and then back to Python object, we will not get the same dictionary.</div><p></p>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>In this topic, we've seen how to work with JSON using the built-in Python module <code class="language-json">json</code>. We can</p>
+<ul>
+<li>convert Python objects to JSON using either <code class="language-json">json.dump()</code> or <code class="language-json">json.dumps()</code>;</li>
+<li>convert JSON to Python objects using either <code class="language-json">json.load()</code> or <code class="language-json">json.loads()</code>.</li>
+</ul>
+<p>The conversions are done according to the conversion table and not every Python object can be converted to JSON.</p>
+<p>Considering that JSON is a very commonly used data format, it's important to be able to work with it!</p></body></html>

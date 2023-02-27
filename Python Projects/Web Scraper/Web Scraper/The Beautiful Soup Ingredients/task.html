@@ -1,0 +1,33 @@
+<h5 id="theory">Theory</h5>
+<p>Some Internet pages might get automatically translated according to your computer's settings. Although this might be useful in everyday life, in this project we ask you to output the data in English. To force <code class="language-python">requests</code> library to return a page in English, you can use <code class="language-python">headers</code> with <code class="language-python">Accept-Language</code> parameter set to the value <code class="language-python">en-US,en;q=0.5</code>:</p>
+<pre><code class="language-python">response = requests.get(url, headers={'Accept-Language': 'en-US,en;q=0.5'})</code></pre>
+<p>Note that the structure of the page might be different in cases when you use this header and when you don't (even if your default language is English). </p>
+<h5 id="description">Description</h5>
+<p>We know how to send HTTP requests and get responses. In the previous stage, the example URL responded with the <code class="language-python">json</code> body, this is how the <code class="language-python">REST</code> resources communicate with a client. We, humans, go to websites to access the Internet. We also have browsers, but sometimes we need to parse the website's content automatically. Parsing<em> </em>is one of the ways to scrape<em> </em>a webpage.</p>
+<p>Parsing website data begins with the<em> </em>inspection<em> </em>of the page source code with browser built-in tools. Usually, the desired information can be distinguished by some unique attributes or a set of attributes, for example, a <code class="language-python">css class</code> name. We need to determine these attributes and then make our parsing tool (in our case, the <code class="language-python">beautifulsoup</code> library) do the magic for us. </p>
+<h5 id="objectives">Objectives</h5>
+<ol>
+<li>Take a link to the <a href="https://www.nature.com/" rel="noopener noreferrer nofollow" target="_blank">nature.com</a> article as input. This is an example of a correct link: <code class="language-python"><a href="https://www.nature.com/articles/d41586-023-00103-3" rel="noopener noreferrer nofollow" target="_blank">https://www.nature.com/articles/d41586-023-00103-3</a></code>. The link to an article always contains the word "articles" in it.</li>
+<li>Download the webpage content, parse it using the <code class="language-python">beautifulsoup</code> library.</li>
+<li>Print out the article's heading and short summary as a dictionary. You can find the heading in the <code class="language-python">&lt;title&gt;</code> tag. The summary can be found in the <code class="language-python">&lt;meta&gt;</code> tag with the <code class="language-python">{'name': 'description'}</code> attribute.</li>
+</ol>
+<p>If the link doesn't have an article or is not a nature.com resource, the program should respond with an error message <code class="language-python">Invalid page!</code>.</p>
+<h5 id="examples">Examples</h5>
+<p>The greater-than symbol followed by a space (<code class="language-python">&gt; </code>) represents the user input. Note that it's not part of the input. Each example corresponds to a separate execution.</p>
+<p><strong>Example 1</strong></p>
+<pre><code class="language-no-highlight">Input the URL:
+&gt; https://www.nature.com/articles/d41586-023-00103-3
+
+{"title": "Green electronics rely on materials that grow on trees", "description": "Compounds derived from eucalyptus and other plants are formulated into an ink for printing electronic components."}
+</code></pre>
+<p><strong>Example 2</strong></p>
+<pre><code class="language-no-highlight">Input the URL:
+&gt; https://www.imdb.com/name/nm0001191/
+
+Invalid page!
+</code></pre>
+<p><strong>Example 3</strong> </p>
+<pre><code class="language-no-highlight">Input the URL:
+&gt; https://www.google.com/
+
+Invalid page!</code></pre>

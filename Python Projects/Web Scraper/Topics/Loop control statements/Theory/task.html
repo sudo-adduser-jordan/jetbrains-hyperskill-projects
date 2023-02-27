@@ -1,0 +1,47 @@
+<h2>Loop control statements</h2>
+<html><body><p>Loop control statements are nested inside loops and designed to change their typical behavior. In this topic, we'll find out how they work and what they are used for.</p>
+<h5 id="break" style="text-align: center;">Break</h5>
+<p>The <strong>break </strong>statement is used to terminate a loop of any type (i. e. <code class="language-python">for</code><strong> </strong>and <code class="language-python">while</code><strong> </strong>loops). It may be said that <strong>break </strong>"jumps out" of the loop where it was placed. Let’s examine a tiny example:</p>
+<pre><code class="language-python">pets = ['dog', 'cat', 'parrot']
+for pet in pets:
+    print(pet)
+    if pet == 'cat':
+        break
+</code></pre>
+<p>We wanted to stop the loop before it iterated for the last time. For that purpose, we introduced a condition when the loop should be stopped. The output is as follows:</p>
+<pre><code class="language-python">dog
+cat
+</code></pre>
+<p>Be careful where you put <code class="language-python">print()</code>. If you put it at the loop’s end, the output will return only the first value – ‘dog’. This happens because <strong>break </strong>exits from the loop immediately.</p>
+<p>Often enough, <strong>break </strong>is used to stop endless <code class="language-python">while</code> loops like this one:</p>
+<pre><code class="language-python">count = 0
+while True:
+    print("I am Infinite Loop")
+    count += 1
+    if count == 13:
+        break</code></pre>
+<h5 id="continue" style="text-align: center;">Continue</h5>
+<p>The <strong>continue</strong> operator is commonly used, too. You can stop the iteration if your condition is true and return to the beginning of the loop (that is, jump to the loop's top and continue execution with the next value). Look at the following example:</p>
+<pre><code class="language-python">pets = ['dog', 'cat', 'parrot']
+for pet in pets:
+    if pet == 'dog':
+        continue
+    print(pet)</code></pre>
+<p>The output will contain all values except the first one (<span style="color: #000000;">'dog'</span>) since it fulfills the condition:</p>
+<pre><code class="language-python">cat
+parrot</code></pre>
+<p>Thus, the loop just skips one value and goes on running.</p>
+<p>One nuance is worth mentioning: the <strong>continue </strong>operator should be used moderately. Sometimes you can shorten the code by simply using an <code class="language-python">if</code> statement with the <strong>reversed </strong>condition:</p>
+<pre><code class="language-python">pets = ['dog', 'cat', 'parrot']
+for pet in pets:
+    if pet != 'dog':
+        print(pet)</code></pre>
+<p>In this case, the output will remain the same:</p>
+<pre><code class="language-python">cat
+parrot</code></pre>
+<h5 id="pass" style="text-align: center;">Pass</h5>
+<p>When no action is required (e.g. some condition is met, you need to take it into account in a loop, but do nothing if that's the case), in Python, you can use <code class="language-python">pass</code> statement which does exactly what you need – nothing. Here the program is just waiting to be manually interrupted:</p>
+<pre><code class="language-python">while True:
+    pass</code></pre>
+<h5 id="summary">Summary</h5>
+<p>To sum up, loop control statements represent a useful tool to alter the way a loop works. You can introduce extra conditions using the <code class="language-python">break</code>, <code class="language-python">continue</code>, and <code class="language-python">pass</code> operators. In addition, they allow you to skip a beforehand selected set of values, terminate an endless loop, or even do nothing. Use them wisely and they'll work wonders.</p></body></html>

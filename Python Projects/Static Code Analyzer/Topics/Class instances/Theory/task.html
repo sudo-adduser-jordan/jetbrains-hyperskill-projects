@@ -1,0 +1,103 @@
+<h2>Class instances</h2>
+<p>By now, you already know what classes are and how they're created and used in Python. Now let's get into the details about <strong>class instances.</strong></p>
+
+<p>A class instance is an object of the class. If, for example, there was a class <strong>River, </strong> we could create such instances as Volga, Seine, and Nile. They would all have the same structure and share all class attributes defined within the class River.</p>
+
+<p>However, initially, all instances of the class would be identical to one another. Most of the time that is not what we want. To customize the initial state of an instance, the <code class="language-python"><strong>__init__</strong></code> method is used.</p>
+
+<h5 id="def-__init" style="text-align: center;">def __init__()</h5>
+
+<p>The <code class="language-python">__init__</code> method is a <strong>constructor</strong>. Constructors are a concept from the object-oriented programming. A class can have one and only one constructor. If <code class="language-python">__init__</code> is defined within a class, it is automatically invoked when we create a new class instance. Take our class River as an example:</p>
+
+<pre><code class="language-python">class River:
+    # list of all rivers
+    all_rivers = []
+    
+    def __init__(self, name, length):
+        self.name = name
+        self.length = length
+        # add current river to the list of all rivers
+        River.all_rivers.append(self)
+
+volga = River("Volga", 3530)
+seine = River("Seine", 776)
+nile = River("Nile", 6852)
+
+# print all river names
+for river in River.all_rivers:
+    print(river.name)
+# Output:
+# Volga
+# Seine
+# Nile
+</code></pre>
+
+<p>We created three instances (or objects) of the class River: <code class="language-python">volga</code>, <code class="language-python">seine</code>, and <code class="language-python">nile</code>.<strong>  </strong>Since we defined <strong>name </strong>and<strong> length</strong> parameters for the <code class="language-python">__init__</code>, they must be explicitly passed when creating new instances. So something like <code class="language-python">volga = River()</code> would cause an error. Look at <a target="_blank" target="_blank" target="_blank" target="_blank" href="https://pythontutor.com/visualize.html#code=class%20River%3A%0A%20%20%20%20%23%20list%20of%20all%20rivers%0A%20%20%20%20all_rivers%20%3D%20%5B%5D%0A%20%20%20%20%0A%20%20%20%20def%20__init__%28self,%20name,%20length%29%3A%0A%20%20%20%20%20%20%20%20self.name%20%3D%20name%0A%20%20%20%20%20%20%20%20self.length%20%3D%20length%0A%20%20%20%20%20%20%20%20%23%20add%20current%20river%20to%20the%20list%20of%20all%20rivers%0A%20%20%20%20%20%20%20%20River.all_rivers.append%28self%29%0A%0Avolga%20%3D%20River%28%22Volga%22,%203530%29%0Aseine%20%3D%20River%28%22Seine%22,%20776%29%0Anile%20%3D%20River%28%22Nile%22,%206852%29%0A%0A%23%20print%20all%20river%20names%0Afor%20river%20in%20River.all_rivers%3A%0A%20%20%20%20print%28river.name%29%0A%23%20Output%3A%0A%23%20Volga%0A%23%20Seine%0A%23%20Nile&amp;cumulative=false&amp;curInstr=0&amp;heapPrimitives=nevernest&amp;mode=display&amp;origin=opt-frontend.js&amp;py=3&amp;rawInputLstJSON=%5B%5D&amp;textReferences=false" rel="noopener noreferrer nofollow">this</a> visualization of the code to see how it works almost in real-time!</p>
+
+<p>The <code class="language-python">__init__</code> method specifies what attributes we want the instances of our class to have from the very beginning. In our example, they are <strong>name </strong>and <strong>length</strong><strong>. </strong></p>
+
+<h5 id="self" style="text-align: center;">self</h5>
+
+<p>You may have noticed that our <code class="language-python">__init__</code> method had another argument besides name and length: <code class="language-python"><strong>self</strong></code>. The <code class="language-python">self</code> argument represents a particular instance of the class and allows us to access its attributes and methods. In the example with <code class="language-python">__init__</code>, we basically create attributes for the particular instance and assign the values of method arguments to them. It is important to use the <code class="language-python">self</code> parameter inside the method if we want to save the values of the instance for later use.</p>
+
+<p>Most of the time we also need to write the self parameter in other methods because when the method is called the first argument that is passed to the method is the object itself. Let's add a method to our River class and see how it works. The syntax of the methods is not of importance at the moment, just pay attention to the use of the <code class="language-python">self</code>:</p>
+
+<pre><code class="language-python">class River:
+    all_rivers = []
+
+    def __init__(self, name, length):
+        self.name = name
+        self.length = length
+        River.all_rivers.append(self)
+
+    def get_info(self):
+        print("The length of the {0} is {1} km".format(self.name, self.length))</code></pre>
+
+<p>Now if we call this method with the objects we've created we will get this:</p>
+
+<pre><code class="language-python">volga.get_info()
+# The length of the Volga is 3530 km
+seine.get_info()
+# The length of the Seine is 776 km
+nile.get_info()
+# The length of the Nile is 6852 km</code></pre>
+
+<p>As you can see, for each object the <code class="language-python">get_info()</code> method printed its particular values and that was possible because we used the <code class="language-python">self</code> keyword in the method.</p>
+
+<p>Note that when we actually call an object's method we don't write the <code class="language-python">self</code> argument in the brackets. The <code class="language-python">self</code> parameter (that represents a particular instance of the class) is passed to the instance method <strong>implicitly</strong> when it is called. So there are actually two ways to call an instance method: <code class="language-python">self.method()</code> or <code class="language-python">class.method(self)</code>. In our example it would look like this:</p>
+
+<pre><code class="language-python"># self.method()
+volga.get_info()
+# The length of the Volga is 3530 km
+
+# class.method(self)
+River.get_info(volga)
+# The length of the Volga is 3530 km</code></pre>
+
+<h5 id="instance-attributes" style="text-align: center;">Instance attributes</h5>
+
+<p>Classes in Python have two types of attributes: class attributes and instance attributes. You should already know what class attributes are, so here we'll focus on the instance attributes instead. <strong>Instance attributes</strong> are defined within methods and they store instance-specific information.</p>
+
+<p>In the class River, the attributes <strong>name </strong>and <strong>length</strong> are instance attributes since they are defined within a method (<code class="language-python">__init__</code>) and have <code class="language-python">self</code> before them. Usually, instance attributes are created within the <code class="language-python">__init__</code> method since it's the constructor, but you can define instance attributes in other methods as well. However, it's not recommended so we advise you to stick to the <code class="language-python">__init__</code>.</p>
+
+<p>Instance attributes are available only from the scope of the object which is why this code will produce a mistake:</p>
+
+<pre><code class="language-python">print(River.name)  # AttributeError</code></pre>
+
+<p>Instance attributes, naturally, are used to distinguish objects: their values are different for different instances.</p>
+
+<pre><code class="language-python">volga.name  # "Volga"
+seine.name  # "Seine"
+nile.name   # "Nile"</code></pre>
+
+<p>So when deciding which attributes to choose in your program, you should first decide whether you want it to store values unique to each object of the class or, on the contrary, the ones shared by all instances. </p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<p>In this topic, you've learned about class instances. </p>
+
+<p>If classes are an abstraction, a template for similar objects, a <strong>class instance</strong> is a sort of example of that class, a particular object that follows the structure outlined in the class. In your program, you can create as many objects of your class as you need.</p>
+
+<p>To create objects with different initial states, classes have a constructor <code class="language-python">__init__</code> that allows us to define necessary parameters. Reference to a particular instance within methods is done through the <code class="language-python">self</code> keyword. Within the <code class="language-python">__init__</code> method, we define instance attributes that are different for all instances.</p>
+
+<p>Most of the time, we'll deal in our programs not with classes as such but rather with their instances, so knowing how to create them and work with them is very important!</p>

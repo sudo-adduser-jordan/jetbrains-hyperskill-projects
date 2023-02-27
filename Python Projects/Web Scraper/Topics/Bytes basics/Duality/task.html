@@ -1,0 +1,18 @@
+<h2>Duality</h2>
+<p>We have converted a string <code class="language-python">'corgi'</code> to bytes. Look at the following lines of code and pick a correct statement to describe the output:</p>
+
+<pre><code class="language-python">never_bites = b'corgi'
+
+# 1
+print(never_bites)
+
+# 2
+print(never_bites[0] + never_bites[1] + never_bites[2] + never_bites[3] + never_bites[4])
+</code></pre>
+
+<p><button
+        class="btn-sm btn-outline-secondary"
+        onclick="getElementById('hint-397').style.display='inline'">
+        Hint
+      </button>
+      <div id="hint-397" style="display:none;">Bytes objects may not be what they seem: though symbols can be represented as a string with <strong>b</strong> prefix, they are converted to corresponding code points. Code points, in turn, are just numbers, so it's possible to add them up.</div></p>

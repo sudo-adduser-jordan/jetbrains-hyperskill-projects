@@ -1,0 +1,41 @@
+<h2>Yield from</h2>
+<p>Previously, you've learned some basics of generators. Let's revise the most important points. You already know that a generator is declared the same way as a regular function, with a single difference: the <code class="language-python">return</code> keyword gets replaced with <code class="language-python">yield</code>. A generator declares a function that behaves like an iterator and gives you a new value when you ask for it. Due to this, generators are memory-efficient: they only require memory for the one value they yield. Also, <code class="language-python">yield</code> actually saves the state of the function, so that each time you ask the generator to produce a new value, execution continues from where it stopped. Now, it's high time we learned one more useful feature of the keyword <code class="language-python">yield</code>. Let's see how <code class="language-python">yield from</code> works and why it is useful.</p><h5 id="yield-from-expression">Yield from expression </h5><p>Suppose you have the following generator:</p><pre><code class="language-python">def generator():
+    for x in range(100):
+        yield x
+    for y in range(100, 200):
+        yield y</code></pre><p>As you can see, this generator yields numbers from 0 to 199. However, what if you need to split it into two generators in order to reuse them later? You can rewrite the code the following way:</p><pre><code class="language-python">def generator2():
+    for x in range(100):
+        yield x
+
+def generator3():
+    for y in range(100, 200):
+        yield y
+
+def generator():
+    for x in generator2():
+        yield x
+    for y in generator3():
+        yield y</code></pre><p>This <code class="language-python">generator()</code> also yields the numbers from 0 to 199. However, it seems unnecessary and repetitive to iterate over both <code class="language-python">generator2</code> and <code class="language-python">generator3</code> once again and yield their values. That's where <code class="language-python">yield from</code> comes in handy. Let's rewrite the code, using this expression:</p><pre><code class="language-python">def generator():
+    yield from generator2()
+    yield from generator3()</code></pre><p>This version gives the same result, but the code looks much cleaner and is easier to write and read. In the code above, <code class="language-python">generator()</code> is the <strong>delegating generator</strong>, while <code class="language-python">generator2</code> and <code class="language-python">generator3</code> are called <strong>sub-generators</strong>. So, by using <code class="language-python">yield from</code> you can delegate a part of generator operations to a sub-generator. This allows you to divide the code of the main generator and put a part of it into another one. The syntax is also very easy:</p><pre><code class="language-python">yield from &lt;expr&gt;</code></pre><p>Note that <code class="language-python">&lt;expr&gt;</code> can be any iterable: list, dictionary, another generator, etc.</p><h5 id="why-is-it-useful">Why is it useful?       </h5><p>Basically, you can use <code class="language-python">yield from</code> to make it easier to correctly iterate through and yield values from another iterable.</p><p>For simple iterators, <code class="language-python">yield from</code> is equivalent to a for-loop, but it also contains the full range of generator features and allows generator code to be fractured in an easy and straightforward way.</p><pre><code class="language-python">def gen(iterable):
+    for i in list(iterable):
+        yield i
+
+# is equivalent to
+
+def gen2(iterable):
+    yield from list(iterable)</code></pre><p>When the code execution comes to <code class="language-python">yield from &lt;exp&gt;</code>, the iteration of <code class="language-python">&lt;exp&gt;</code> starts and yielded values are sent to the outer generator right away. It goes on until <code class="language-python">&lt;exp&gt;</code> is exhausted and returns <code class="language-python">StopIteration</code>. After this, the execution of the outer generator continues.</p><p>Let's have a look at one more example that demonstrates this: </p><pre><code class="language-python">def one_more_generator(word):
+    yield from word
+    print(word)
+</code></pre><p>When you call the code above, firstly, <code class="language-python">word</code> will be iterated until the end, and then execution of the outer generator will go on:</p><pre><code class="language-python">for i in one_more_generator('python'):
+    print(i)
+
+# output
+
+p
+y
+t
+h
+o
+n
+python</code></pre><p>Thus, the main benefit of using <code class="language-python">yield from &lt;expression&gt;</code> is the opportunity to divide generators into several sub-generators. As a result, <code class="language-python">yield from</code> makes coding easier and more efficient. If you are interested in seeing more examples of cases when and how <code class="language-python">yield from</code> turns out useful, check out the <a href="http://www.python.org/dev/peps/pep-0380/" rel="noopener noreferrer nofollow" target="_blank">PEP</a>. </p><h5 id="summary">Summary</h5><p>In this topic, you've learned the syntax of the <code class="language-python">yield from</code> expression and have found out what a delegating generator<strong> </strong>and a sub-generator are. Let's sum it up:</p><ul><li><p>a <strong>delegating generator</strong> is a generator in which the <code class="language-python">yield from &lt;expr&gt;</code> syntax appears;</p></li><li><p>a <strong>sub-generator </strong>is a generator used in the <code class="language-python">&lt;expr&gt;</code> part of the <code class="language-python">yield from &lt;expr&gt;</code> syntax;</p></li><li><p>the <code class="language-python">yield from</code> expression allows dividing the generator into multiple sub-generators without extra rewriting;</p></li><li><p>the <code class="language-python">yield from</code> expression allows yielding values from another iterable inside a generator;</p></li><li><p>for simple iterators, <code class="language-python">yield from</code> is equivalent to a for-loop syntax;</p></li><li><p>the <code class="language-python">yield from</code> expression makes code easier and cleaner.</p></li></ul><p>Let's practice all of this right away!</p>

@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    n = int(input())
+    denominator = int(input())
+
+    print(n // denominator)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7187#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 25 Feb 2023 11:56:21 UTC"
+record: -1

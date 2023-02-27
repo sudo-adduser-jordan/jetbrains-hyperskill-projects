@@ -1,0 +1,116 @@
+<h2>Custom generators</h2>
+<p>In this topic, we're gonna learn about one more useful and pretty unique Python tool called <em><strong>generator</strong></em>. Its implementation looks quite similar to the things you already know (like function and list comprehension), so it won't be hard to master, but definitely worth it since generators have quite a few tricks up their sleeve you might find very useful in practice. Let's not waste time any more and get to know them better!</p>
+
+<h5 id="generator-functions" style="text-align: center;">Generator functions</h5>
+
+<p>Imagine that in order to solve some problem, you need to obtain the first few multiples of some number <code class="language-python">a</code> (for example, the first 4 multiples of 3 are 3, 6, 9, 12, etc.). The most straightforward way to do so is probably to define a function <code class="language-python">multiples(a,n)</code> as follows: </p>
+
+<pre><code class="language-python">def multiples(a, n):
+    i = 1
+    result = []
+    while i &lt;= n:
+        result.append(a * i)
+        i += 1
+    return result
+
+
+print(multiples(3, 5))
+# Outputs [3, 6, 9, 12, 15]
+
+print(multiples(2, 3))
+# Outputs [2, 4, 6]
+</code></pre>
+
+<p>So, <code class="language-python">multiples(a,n)</code> collects the first <code class="language-python">n</code> multiples of <code class="language-python">a</code> together in a list that is then returned. What are the disadvantages of such an approach?</p>
+
+<p>Well, imagine that <code class="language-python">n</code> is very large. If you get all the values at once, you will need to keep a very large list in memory. Is it necessary? It depends, but definitely not if you are going to use each value just once. Or maybe you don't even know exactly how many multiples you will eventually need, you just need to be able to get them one by one till some event happens.</p>
+
+<p>For cases like this, <strong>generator functions</strong> are very helpful. A custom generator can be declared in the same way as a regular function with a single difference: the <code class="language-python">return</code> keyword gets replaced with <code class="language-python">yield</code>.</p>
+
+<pre><code class="language-python">def multiples(a, n):
+    i = 1
+    while i &lt;= n:
+        yield a*i
+        i += 1</code></pre>
+
+<p>When a regular function is called, Python goes back to its definition, runs the corresponding code with the provided argument values and returns the entire result with the <code class="language-python">return</code> keyword to where the function is called from.</p>
+
+<p>Generator functions, in turn, produce values one at a time, only when they are explicitly asked for a new one, rather than giving them all at once. Calling a generator doesn't immediately execute it. Instead, a generator object is returned that can be iterated over:</p>
+
+<pre><code class="language-python">multiples(3, 10)
+# &lt;generator object multiples at 0x0000023501149048&gt;</code></pre>
+
+<p>In order to get the generator function to actually compute its values, we need to explicitly ask for the next value by passing the generator into the <code class="language-python">next()</code> function. Note that <code class="language-python">yield</code> actually saves the state of the function, so that each time we ask the generator to produce a new value, execution continues from where it stopped, with the same variable values it had before yielding.</p>
+
+<pre><code class="language-python"># This is a generator.
+multiples_of_three = multiples(3,5)
+
+# It produces the first 5 multiples of 3 one by one:
+print(next(multiples_of_three))
+# 3
+print(next(multiples_of_three))
+# 6
+print(next(multiples_of_three))
+# 9
+print(next(multiples_of_three))
+# 12
+print(next(multiples_of_three))
+# 15
+print(next(multiples_of_three))
+# Error message: StopIteration </code></pre>
+
+<h5 id="generator-expressions" style="text-align: center;">Generator expressions</h5>
+
+<p>Another way of defining a generator is generator expressions, which are similar to list comprehensions. The only difference in the syntax are the brackets: one should use square brackets <code class="language-python">[]</code> for list comprehension statements and the round ones <code class="language-python">()</code> for defining a generator. Compare:</p>
+
+<pre><code class="language-python">numbers = [1, 2, 3]
+
+my_generator = (n ** 2 for n in numbers)
+  
+print(next(my_generator))
+# Outputs 1
+
+print(next(my_generator))
+# Outputs 4
+
+print(next(my_generator))
+# Outputs 9
+
+# This is a list
+my_list = [n ** 2 for n in numbers]  
+
+print(my_list)
+# Outputs [1, 4, 9]
+</code></pre>
+
+<p>Generator expressions are very convenient to use in a <code class="language-python">for</code> loop. A new value is automatically generated at each iteration:</p>
+
+<pre><code class="language-python">my_generator = (n ** 2 for n in numbers)
+
+for n in my_generator:
+    print(n)
+
+# Outputs
+# 1
+# 4
+# 9</code></pre>
+
+<h5 id="why-are-generators-useful" style="text-align: center;">Why are generators useful?</h5>
+
+<p>So far, we've learned that generators produce a single value from a defined sequence<em> </em>only when they are explicitly asked to do so. This approach is called<strong> lazy evaluation</strong>.</p>
+
+<p>Lazy evaluation makes the code much more memory efficient. Indeed, at each point in time, only values are produced and stored in memory one by one: the previous value is forgotten after we have moved to the next one and, therefore, doesn't take up space.</p>
+
+<p>Keep in mind, however, that exactly because the previous value is forgotten when the new one needs to be generated, we can only go over the values once.</p>
+
+<h5 id="summary" style="text-align: center;">Summary</h5>
+
+<p>Those were the basics of generators in Python. Let's sum it up:</p>
+
+<ul>
+	<li>Generators allow one to declare a function that behaves like an iterator.</li>
+	<li>Generators are lazy because they only give us a new value when we ask for it.</li>
+	<li>There are two ways to create generators: generator functions and generator expressions.</li>
+	<li>Generators are memory-efficient since they only require memory for the one value they yield.</li>
+	<li>Generators can only be used once.</li>
+</ul>

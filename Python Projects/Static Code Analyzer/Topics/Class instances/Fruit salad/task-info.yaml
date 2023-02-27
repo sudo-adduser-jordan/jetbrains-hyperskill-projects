@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: apple = Fruit()
+- text: "kiwi = Fruit(\"kiwi\", \"green\")"
+- text: orange = Fruit("orange")
+- text: "pear = Fruit(self, \"pear\", \"yellow\")"
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/6671#comment
+status: Solved
+record: -1
+local_check: false

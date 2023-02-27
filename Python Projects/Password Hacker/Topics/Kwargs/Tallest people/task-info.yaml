@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def tallest_people():
+        pass
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9546#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 25 Feb 2023 12:31:19 UTC"
+record: -1

@@ -1,0 +1,32 @@
+<h2>Restaurant</h2>
+<p>Imagine you are having dinner in a very fancy restaurant, but unfortunately you don't have a lot of money with you. You want to have a main course, a dessert and a drink, but all that together shouldn't cost more than $30.</p>
+
+<p>The names of the main courses, desserts and drinks are stored in the lists <code class="language-python">main_courses</code>, <code class="language-python">desserts</code> and <code class="language-python">drinks</code>  respectively. The corresponding prices can be found in the lists <code class="language-python">price_main_courses</code>, <code class="language-python">price_desserts</code> and <code class="language-python">price_drinks</code>.</p>
+
+<p>Consider each possible combination of a main course, dessert and a drink from those offered by the restaurant and print out only those meals that satisfy your budget, along with their total costs.</p>
+
+<p>For instance, imagine the dishes and prices are as defined below:</p>
+
+<pre><code class="language-python">main_courses = ['beef stew', 'fried fish']
+price_main_courses = [28, 23]
+
+desserts = ['ice-cream', 'cake']
+price_desserts = [2, 4]
+
+drinks = ['cola', 'wine']
+price_drinks = [3, 10]</code></pre>
+
+<p>Then, your output should be the following:</p>
+
+<p>fried fish ice-cream cola 28<br>
+fried fish cake cola 30</p>
+
+<p><button
+        class="btn-sm btn-outline-secondary"
+        onclick="getElementById('hint-1221').style.display='inline'">
+        Hint
+      </button>
+      <div id="hint-1221" style="display:none;">Use <code class="language-python">zip()</code> to simultaneously iterate over the tuples of the dishes and the tuples of their prices.</div></p><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>
+<b>Caution</b><br><br>
+You may see errors in your code or execution results due to missing context. Don’t worry about it, just write the solution and press Check.
+<br><br>

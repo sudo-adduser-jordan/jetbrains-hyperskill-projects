@@ -1,0 +1,48 @@
+<h2>Test file</h2>
+<p>Suppose we have a file <strong>test.txt </strong>that looks like this:</p>
+
+<pre><code class="language-no-highlight">This
+is
+a
+test
+file</code></pre>
+
+<p>Regard <code class="language-python">\n</code> as the newline escape sequence.</p>
+
+<p>We want to read 10 bytes from this file:</p>
+
+<pre><code class="language-python">file = open("test.txt", 'r')
+print(file.read(10))
+file.close()
+</code></pre>
+
+<p>What will be the output of this code?</p>
+
+<p>The options:</p>
+
+<p>a)</p>
+
+<pre><code class="language-no-highlight">This
+is
+a
+tes</code></pre>
+
+<p>b)</p>
+
+<pre><code class="language-no-highlight">This
+is
+a</code></pre>
+
+<p>c)</p>
+
+<pre><code class="language-no-highlight">This
+is
+a
+test
+file</code></pre>
+
+<p>d)</p>
+
+<pre><code class="language-no-highlight">This
+ 
+</code></pre>

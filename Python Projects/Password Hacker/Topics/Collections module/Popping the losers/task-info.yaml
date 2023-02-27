@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # the following line reads a dict from the input and converts it into an OrderedDict, do not modify it, please
+    firms = OrderedDict(json.loads(input()))
+
+    # your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10021#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 25 Feb 2023 02:00:54 UTC"
+record: -1

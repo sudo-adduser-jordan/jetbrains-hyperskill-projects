@@ -1,0 +1,19 @@
+<h2>Two instances of the same generator</h2>
+<p>Consider the following piece of code:</p>
+
+<pre><code class="language-python">def my_generator():
+    i = 0
+    while True:
+        yield i
+        i = i + 1
+
+gen_1 = my_generator()
+print(next(gen_1))
+print(next(gen_1))
+
+gen_2 = my_generator()
+print(next(gen_2))
+
+print(next(gen_1))</code></pre>
+
+<p>Which output would you see on the screen?</p>

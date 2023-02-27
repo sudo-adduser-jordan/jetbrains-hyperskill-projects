@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: name
+- text: greeting
+- text: surname
+- text: none of the above
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10296#comment
+status: Solved
+record: -1
+custom_name: Which one?
+local_check: false

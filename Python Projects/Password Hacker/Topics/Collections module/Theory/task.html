@@ -1,0 +1,117 @@
+<h2>Collections module</h2>
+<html><body><p><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">The collections module provides data types similar to the built-in Python collections but with advanced features.</span><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;"> You may have encountered some of them before, but in this topic, we will talk about <code class="language-python">collections.OrderedDict</code>, <code class="language-python">collections.namedtuple</code>, and <code class="language-python">collections.ChainMap</code>.</span></p>
+<h5 id="collectionsordereddict" style="text-align: center;">collections.OrderedDict</h5>
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;"><code class="language-python">OrderedDict</code> is a dictionary-like object that remembers the order of the given keys; it never changes them. Starting from version 3.7, a built-in Python dictionary preserves the order too, so <code class="language-python">OrderedDict</code> is now less important. However, there are still some useful features that make a big difference, we will discuss them in brief. <code class="language-python">OrderedDict</code> was intended to be a better version of the dictionary in reordering operations and it lives up to it!</span></p>
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;">Let's say we want to create an <code class="language-python">OrderedDict</code> with names of students as keys and their average </span>grades <span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;">as values.</span> The order in the dictionary is strict, from the most successful student to the least one, and is to be preserved as such.<span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;"> To do so, we can either use the <code class="language-python">OrderedDict</code> constructor<strong> </strong>or get the <code class="language-python">OrderedDict</code> from a regular dictionary:</span></p>
+<pre><code class="language-python">from collections import OrderedDict
+
+# this is the constructor
+marks = OrderedDict()
+marks['Smith'] = 9.5
+marks['Brown'] = 8.1
+marks['Moore'] = 7.4
+print(marks)  # OrderedDict([('Smith', 9.5), ('Brown', 8.1), ('Moore', 7.4)])
+
+# this is the conversion
+my_dict = {'Smith': 9.5, 'Brown': 8.1, 'Moore': 7.4}
+my_ord_dict = OrderedDict(my_dict)
+print(my_ord_dict)  # OrderedDict([('Smith', 9.5), ('Brown', 8.1), ('Moore', 7.4)])</code></pre>
+<p></p><div class="alert alert-primary">The example with conversion is relevant only to Python 3.7 and higher where the information about the order is already remembered in regular dictionaries. In earlier Python versions, this procedure would make no sense, as the order of elements in the dictionary we want to convert is arbitrary.</div><p></p>
+<p>As <code class="language-python">OrderedDict</code> resembles a regular dictionary a lot, we will only point out the methods that set them apart.</p>
+<p><strong>1. </strong>While the <code class="language-python">popitem()</code><strong> </strong>method applied to a regular dictionary takes no argument, the same method for the <code class="language-python">OrderedDict</code> can take an additional boolean parameter <code class="language-python">last</code>.<span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;"> If <code class="language-python">last=True</code>, the last key-value pair is returned and deleted from the <code class="language-python">OrderedDict</code>, and if <code class="language-python">last=False</code>, it is applied to the first pair.</span></p>
+<pre><code class="language-python">print(my_ord_dict)  # OrderedDict([('Smith', 9.5), ('Brown', 8.1), ('Moore', 7.4)])
+
+my_ord_dict.popitem(last=True)   # ('Moore', 7.4)
+print(my_ord_dict)  # OrderedDict([('Smith', 9.5), ('Brown', 8.1)])
+
+my_ord_dict.popitem(last=False)  # ('Smith', 9.5)
+print(my_ord_dict)  # OrderedDict([('Brown', 8.1)])</code></pre>
+<p><strong>2. </strong>The <code class="language-python">move_to_end()</code> method takes arguments as a key and, again, the <code class="language-python">last</code> parameter. If <code class="language-python">last=True</code>, the key-value pair moves to the end of the <code class="language-python">OrderedDict</code>, and if <code class="language-python">last=False</code> — to the beginning.</p>
+<pre><code class="language-python">print(my_ord_dict)  # OrderedDict([('Smith', 9.5), ('Brown', 8.1), ('Moore', 7.4)])
+
+my_ord_dict.move_to_end('Brown', last=False) 
+print(my_ord_dict)  # OrderedDict([('Brown', 8.1), ('Smith', 9.5), ('Moore', 7.4)])
+
+my_ord_dict.move_to_end('Smith', last=True) 
+print(my_ord_dict)  # OrderedDict([('Brown', 8.1), ('Moore', 7.4), ('Smith', 9.5)])</code></pre>
+<p><strong>3.</strong> Finally, there is a difference in how the dictionaries are compared. With <code class="language-python">OrderedDict</code>, two dictionaries are considered equal only if the order of their elements is the same, while with two built-in dictionaries, the order does not matter.</p>
+<pre><code class="language-python">regular_dict_1 = {'Smith': 9.5, 'Brown': 8.1, 'Moore': 7.4}
+regular_dict_2 = {'Brown': 8.1, 'Moore': 7.4, 'Smith': 9.5}
+ordered_dict_1 = OrderedDict(regular_dict_1)
+ordered_dict_2 = OrderedDict(regular_dict_2)
+
+regular_dict_1 == regular_dict_2  # True
+ordered_dict_1 == ordered_dict_2  # False</code></pre>
+<h5 id="collectionsnamedtuple" style="text-align: center;">collections.namedtuple<span style="background-color: transparent; color: #000000; font-size: 10.5pt; font-variant: normal;"> </span></h5>
+<p><code class="language-python">collections.namedtuple</code> is a factory function to make subtypes of tuples with named elements. To create a named tuple, we first invoke the <code class="language-python">namedtuple</code> function and then use the result as a template for our future items.</p>
+<pre><code class="language-python">from collections import namedtuple
+
+person_template = namedtuple('Person', ['name', 'age', 'occupation'])</code></pre>
+<p>In the example above, the subclass 'Person' is created. Its field names <code class="language-python">'name'</code>, <code class="language-python">'age'</code>, and <code class="language-python">'occupation'</code> are in one list, but they can also be defined in one string, separated by spaces or commas: <code class="language-python">person_template = namedtuple('Person', 'name, age, occupation')</code> or <code class="language-python">person_template = namedtuple('Person', 'name age occupation')</code>.</p>
+<p>Once we have the subclass, we can use the same template to create named tuple entities:</p>
+<pre><code class="language-python"># field values can be defined either positionally or using the field names
+mary = person_template('Mary', '25', 'doctor')
+david = person_template(name='David', age='33', occupation='lawyer')
+
+print(mary.name)   # Mary
+print(david)       # Person(name='David', age='33', occupation='lawyer')
+# the elements can also be accessed by their index, as in a regular tuple
+print(david[2])    # lawyer</code></pre>
+<p>Note that the subclass name itself, 'Person' in our case, cannot be used to create instances; if we try to do so, a <code class="language-python">NameError</code> will occur:</p>
+<pre><code class="language-python">anna = Person(name='Anna', age='41', occupation='musician')
+
+# Traceback (most recent call last):
+#   File "&lt;pyshell#5&gt;", line 1, in &lt;module&gt;
+#     anna = Person(name='Anna', age='41', occupation='musician')
+# NameError: name 'Person' is not defined</code></pre>
+<p>Instead, we should always used the defined template, <code class="language-python">person_template</code>.</p>
+<p>A new named tuple can also be created from a list:</p>
+<pre><code class="language-python">susanne = person_template._make(['Susanne', '23', 'journalist'])
+print(susanne)  # Person(name='Susanne', age='23', occupation='journalist')</code></pre>
+<p><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Named tuples allow us to replace field values with new ones, and we can see what fields are present in it. To do this, we should use the <code class="language-python">_replace()</code> and <code class="language-python">_fields()</code> methods:</span></p>
+<pre><code class="language-python">mary = mary._replace(age='26')
+print(mary)          # Person(name='Mary', age='26', occupation='doctor')
+print(mary._fields)  # ('name', 'age', 'occupation')</code></pre>
+<p></p><div class="alert alert-primary">Note that the named tuple is immutable, just as regular tuples. This means that when we <code class="language-python">_replace()</code> a field value, a new object is created instead of changing the existing one.</div><p></p>
+<p><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Finally, we</span><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;"> can get an ordered dictionary out of named tuples with the help of the <code class="language-python">_asdict()</code> function: </span></p>
+<pre><code class="language-python">susanne_info = susanne._asdict()
+print(susanne_info)  # OrderedDict([('name', 'Susanne'), ('age', '23'), ('occupation', 'journalist')])</code></pre>
+<h5 id="collectionschainmap" style="text-align: center;">collections.ChainMap</h5>
+<p><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Now, imagine you have created several dictionaries and want to analyze them and work with their data at once. Updating elements simultaneously in all dictionaries is not as easy as you would prefer, so the best decision is <code class="language-python">ChainMap</code>. It allows you to make a collection of your dictionaries and, a</span><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">s a result, you will perform all operations on a collection instead of each separate dictionary. </span></p>
+<pre><code class="language-python">from collections import ChainMap
+
+
+laptop_labels = {'Lenovo': 600, 'Dell': 2000, 'Asus': 354}
+operating_system = {'Windows': 2500, 'Linux': 400, 'MacOS': 54}
+chain = ChainMap(laptop_labels, operating_system)
+print(chain)  # ChainMap({'Lenovo': 600, 'Dell': 2000, 'Asus': 354}, {'Windows': 2500, 'Linux': 400, 'MacOS': 54})</code></pre>
+<p><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">You can access every item by key, as in the example below. You will get the value of the first key with the given name. If you change a value in one dictionary, this information in the chain will be changed too.</span></p>
+<pre><code class="language-python">operating_system['Linux'] = 450  # changing a value in a dictionary
+print(chain['Linux'])            # 450</code></pre>
+<p>Speaking of methods, we can use usual dictionary methods and some peculiar ones to work with the chained objects. For example, there is the <code class="language-python">new_child()</code><strong> </strong>method that allows you to add another dictionary in your chain, and you will get a new structure with another dictionary added:</p>
+<pre><code class="language-python">processor = {'Celeron': 600, 'Pentium': 2000, 'Ryzen 5': 354}
+new_chain = chain.new_child(processor)
+print(new_chain)  # ChainMap({'Celeron': 600, 'Pentium': 2000, 'Ryzen 5': 354}, {'Lenovo': 600, 'Dell': 2000, 'Asus': 354}, {'Windows': 2500, 'Linux': 400, 'MacOS': 54})</code></pre>
+<p><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">The <code class="language-python">maps</code> method allows you to get access to a certain dictionary by its index:</span></p>
+<pre><code class="language-python">print(new_chain.maps[1])  # ChainMap({'Lenovo': 600, 'Dell': 2000, 'Asus': 354})
+</code></pre>
+<p><span style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">The method <code class="language-python">parents</code> gets rid of the first dictionary and returns the rest:</span></p>
+<pre><code class="language-python">print(new_chain)      # ChainMap({'Celeron': 600, 'Pentium': 2000, 'Ryzen 5': 354}, {'Lenovo': 600, 'Dell': 2000, 'Asus': 354}, {'Windows': 2500, 'Linux': 400, 'MacOS': 54})
+without_first = new_chain.parents
+print(without_first)  # ChainMap({'Lenovo': 600, 'Dell': 2000, 'Asus': 354}, {'Windows': 2500, 'Linux': 400, 'MacOS': 54})</code></pre>
+<p></p><div class="alert alert-primary">Note that the methods <code class="language-python">new_child</code> and <code class="language-python">parents</code> do not change the chain itself, they return a new object, so if we want to work with them further, we need to assign them to a variable.</div><p></p>
+<h5 id="conclusion" style="text-align: center;">Conclusion</h5>
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;">In this topic, we've seen how <code class="language-python">OrderedDict</code> is different from the regular dictionary, how you can work with <code class="language-python">namedtuple</code> to store different data in one place, and how <code class="language-python">ChainMap</code> can be used.</span></p>
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;">To sum up,</span></p>
+<ul>
+<li style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;"><code class="language-python">collections.OrderedDict</code>'s <code class="language-python">popitem</code> method differs from the one in the dictionary by having a parameter <code class="language-python">last</code>, and there is one more method <code class="language-python">move_to_end</code> which changes the position of the item given to it;</span></p>
+</li>
+<li style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;"><code class="language-python">collections.namedtuple</code> keeps diverse information about an object, and any field containing this information can be accessed by name;</span></p>
+</li>
+<li style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;">
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;"><code class="language-python">ChainMap</code> serves as a container for several independent dictionaries and allows you to work with them at once.</span></p>
+</li>
+</ul>
+<p><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;">For additional information about <code class="language-python">OrderedDict</code>, <code class="language-python">namedtuple</code>, and <code class="language-python">ChainMap</code> you can check out the </span><a href="https://docs.python.org/3/library/collections.html" rel="noopener noreferrer nofollow" target="_blank"><u style="background-color: transparent; color: #4a6ee0; font-size: 12pt; font-variant: normal;">official Python documentation</u></a><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;">.</span><span style="background-color: transparent; color: #0e101a; font-size: 12pt; font-variant: normal;"> We hope that you'll use these objects and methods in your projects!</span></p></body></html>

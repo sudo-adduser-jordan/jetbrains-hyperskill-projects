@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    name = input()
+
+    # Save the identity number of `name` here
+    id_card = ...
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8289#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 25 Feb 2023 06:34:30 UTC"
+record: -1

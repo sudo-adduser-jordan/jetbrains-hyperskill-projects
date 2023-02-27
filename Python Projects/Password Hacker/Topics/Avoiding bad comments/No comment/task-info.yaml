@@ -1,0 +1,22 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: When you can change the code and make it more easily understood (then you
+    should do this instead of adding comments).
+- text: "When you are working in a team with more experienced programmers, and they\
+    \ are certainly familiar with everything you add to the program."
+- text: "When you just start programming, and no one will see the code you are writing\
+    \ except yourself."
+- text: If you already made the same comment a few lines before when introducing something
+    to the program.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14988#comment
+status: Solved
+record: -1
+local_check: false

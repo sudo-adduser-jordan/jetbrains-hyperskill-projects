@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def find_positive(my_list):
+        # complete the next line
+        return list(...)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8129#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 24 Feb 2023 04:10:57 UTC"
+record: -1
