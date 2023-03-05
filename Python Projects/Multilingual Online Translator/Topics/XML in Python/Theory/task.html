@@ -1,0 +1,121 @@
+<h2>XML in Python</h2>
+<html><body><p>As you know from previous topics, XML is a format that stores data in a hierarchical structure. An <strong>element</strong> is a building block of XML and it consists of a <strong>starting tag</strong>, the corresponding <strong>ending tag</strong>, and their content. Now, we are going to learn how to work with XML in Python.</p>
+<h5 id="getting-ready">Getting ready</h5>
+<p>There is a built-in Python submodule called <code class="language-python">xml.etree</code> which can parse XML. However, we will use another library, <code class="language-python">lxml</code>, and its same-name submodule <code class="language-python">etree</code>. The reason is that the latter submodule processes XML documents faster, the core of this library being written in C language.</p>
+<p>Since it is an external library, you should install it first:</p>
+<pre><code class="language-no-highlight">pip install lxml</code></pre>
+<p>Then, import the <code class="language-python">etree</code> module in your code. If you use PyCharm, you can write this line without installing <code class="language-python">lxml</code>, and the IDE will suggest installing the library automatically.</p>
+<pre><code class="language-python">from lxml import etree</code></pre>
+<p>We will work with two classes from this module: <code class="language-python">Element</code> and <code class="language-python">ElementTree</code>.</p>
+<ul>
+<li>An instance of the <code class="language-python">Element</code> class represents <strong>one element in the XML document</strong>. It stores information about the tag name, attributes of the tag and references to child elements.</li>
+<li><code class="language-python">ElementTree</code> represents <strong>the whole XML document</strong>. It contains some general information about the XML document such as its encoding and the version of XML, and also has a reference to the root element of the document.</li>
+</ul>
+<h5 id="from-text-to-xml">From text to XML</h5>
+<p>Let's see how to parse XML documents: they can be parsed from a string or a file.</p>
+<ul>
+<li><strong>To parse a string</strong>, just call the <code class="language-python">fromstring()</code> function that returns the root element of the document.
+
+	<pre><code class="language-python">xml_string = "&lt;a&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/a&gt;"
+
+root = etree.fromstring(xml_string)
+
+print(type(root))  # &lt;class 'lxml.etree._Element'&gt;</code></pre>
+</li>
+<li>
+<p><strong>To parse XML from a file</strong>, use the <code class="language-python">parse()</code> function. It returns an instance of the <code class="language-python">ElementTree</code> class, so you should use the <code class="language-python">getroot()</code> method of this class to obtain the root of the document.</p>
+<pre><code class="language-python">xml_path = "xml_file.xml"
+
+tree = etree.parse(xml_path)
+print(type(tree))  # &lt;class 'lxml.etree._ElementTree'&gt;
+
+root = tree.getroot()
+print(type(root))  # &lt;class 'lxml.etree._Element'&gt;</code></pre>
+</li>
+</ul>
+<p>Also, it might be useful to print your XML document so you can look at it. For this, there is the <code class="language-python">dump()</code> function. It takes an element of the XML document and prints it with all its content in a beautiful way.</p>
+<pre><code class="language-python">xml_string = "&lt;a&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/a&gt;"
+root = etree.fromstring(xml_string)
+
+etree.dump(root)
+# &lt;a&gt;
+#   &lt;b&gt;hello&lt;/b&gt;
+# &lt;/a&gt;</code></pre>
+<p>Now let's see how to traverse an XML document and access the information in it.</p>
+<h5 id="traversing-the-xml-tree">Traversing the XML tree</h5>
+<p>Since the important information is often not stored in the root element, you should be able to access child elements. In the <code class="language-python">lxml</code> library it is very convenient because the <code class="language-python">Element</code> class imitates well-known Python lists. Let's see an example.</p>
+<p>First, we parse an XML document and print it to understand its structure.</p>
+<pre><code class="language-python">xml_file = "xml_file.xml"
+root = etree.parse(xml_file).getroot()
+etree.dump(root)
+
+# &lt;country&gt;
+#   &lt;name&gt;United Stated of America&lt;/name&gt;
+#   &lt;capital&gt;Washington&lt;/capital&gt;
+#   &lt;states&gt;
+#     &lt;state&gt;California&lt;/state&gt;
+#     &lt;state&gt;Texas&lt;/state&gt;
+#     &lt;state&gt;Florida&lt;/state&gt;
+#     &lt;state&gt;Hawaii&lt;/state&gt;
+#   &lt;/states&gt;
+# &lt;/country&gt;
+</code></pre>
+<p>A child element can be accessed by specifying its <strong>index </strong>among other subelements in <strong>square brackets</strong>. Our root element, <code class="language-python">&lt;country&gt;</code>, has three child elements: <code class="language-python">&lt;name&gt;</code>, <code class="language-python">&lt;capital&gt;</code>, and <code class="language-python">&lt;states&gt;</code>. The tag containing the country's capital has index <code class="language-python">1</code> (remember that indices start from 0), so you can access it in this way:</p>
+<pre><code class="language-python">etree.dump(root[1])  # &lt;capital&gt;Washington&lt;/capital&gt;</code></pre>
+<p>The structure of the entire XML document behaves like a <strong>collection of lists</strong> where each list except the root is nested into another. So, to print all states of the US that are mentioned in our document, we should first get the <code class="language-python">&lt;states&gt;</code> element and then iterate over all its subelements. This can be done in the same way as when working with lists:</p>
+<pre><code class="language-python">states = root[2]
+for state in states:
+    print(state.text)
+    
+# California
+# Texas
+# Florida
+# Hawaii</code></pre>
+<p></p><div class="alert alert-primary">Note that when an element contains text, it is stored in its <code class="language-python">text</code> attribute.</div><p></p>
+<h5 id="accessing-attributes">Accessing attributes</h5>
+<p>The data is not necessarily stored as raw text inside tags, there are also <strong>attributes</strong> storing some information inside the starting tags.</p>
+<p>Let's load a new xml document with information contained in attributes.</p>
+<pre><code class="language-python">xml_file = "xml_file1.xml"
+root = etree.parse(xml_file).getroot()
+etree.dump(root)
+
+# &lt;country name="United Stated of America" capital="Washington"&gt;
+#   &lt;states&gt;
+#     &lt;state name="Hawaii"/&gt;
+#     &lt;state name="Florida"/&gt;
+#     &lt;state name="Texas"/&gt;
+#     &lt;state name="California"/&gt;
+#   &lt;/states&gt;
+# &lt;/country&gt;</code></pre>
+<p>The <code class="language-python">Element</code> behaves like a list when we try to access its subelements. But when we want to get attributes of a tag, the element works like a <strong>dictionary</strong>. The <code class="language-python">get()</code> method is used to access the specified attribute. If there is no such attribute, it returns <code class="language-python">None</code>. Note, that unlike a dictionary, you can't specify the attribute in square brackets.</p>
+<pre><code class="language-python">states = root[0]
+for state in states:
+    print(state.get('name'))
+    
+# Hawaii
+# Florida
+# Texas
+# California</code></pre>
+<p>The <code class="language-python">keys()</code> and <code class="language-python">items()</code> methods can be used to get all attributes of a tag:</p>
+<pre><code class="language-python">print(root.keys())     # ['name', 'capital']
+print(root.items())    # [('name', 'United Stated of America'), ('capital', 'Washington')]</code></pre>
+<h5 id="from-xml-to-text">From XML to text</h5>
+<p>Finally, after getting all information we need, we can save an XML document.</p>
+<p>The function <code class="language-python">tostring()</code> takes an element and returns a bytes object that can be later saved to a file.</p>
+<pre><code class="language-python">xml_string = "&lt;a&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/a&gt;"
+root = etree.fromstring(xml_string)
+
+print(etree.tostring(root))  # b'&lt;a&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/a&gt;'</code></pre>
+<p>The method <code class="language-python">write()</code> saves an instance of <code class="language-python">ElementTree</code> directly to a file. If we have worked with an lxml <code class="language-python">Element</code>, we should convert it to <code class="language-python">ElementTree</code> first.</p>
+<pre><code class="language-python">xml_string = "&lt;a&gt;&lt;b&gt;hello&lt;/b&gt;&lt;/a&gt;"
+root = etree.fromstring(xml_string)
+
+tree = etree.ElementTree(root)  # create an instance of ElementTree in order to save it
+tree.write("xml_file.xml")
+</code></pre>
+<h5 id="summary">Summary</h5>
+<ul>
+<li>An element of an XML document in the <code class="language-python">xml.etree</code> module is represented by an instance of the <code class="language-python">Element</code> class.</li>
+<li>Work with <code class="language-python">Element</code> as with a list if you want to access its subelements or as with a dictionary to access the attributes.</li>
+<li>Methods <code class="language-python">fromstring()</code> and <code class="language-python">parse()</code> are used to import XML object from a string or a file, while methods <code class="language-python">tostring()</code> and <code class="language-python">write()</code> allow us to save XML objects back to files.</li>
+</ul></body></html>

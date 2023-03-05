@@ -1,10 +1,10 @@
 type: choice
 is_multiple_choice: false
 options:
-- text: 0 to 1023
-- text: 0 to 1024
-- text: 1023 to 65535
 - text: 0 to 65535
+- text: 1023 to 65535
+- text: 0 to 1024
+- text: 0 to 1023
 files:
 - name: main.py
   visible: true

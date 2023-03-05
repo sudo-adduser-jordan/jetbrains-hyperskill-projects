@@ -1,0 +1,113 @@
+<h2>How to read a traceback</h2>
+<html><body><p><em>"Anyone who has never made a mistake has never tried anything new."</em> — <strong>Albert Einstein</strong>.</p>
+<p>A programmer, like any other person, should be very careful to avoid mistakes. In real life, you may not understand exactly where you did something wrong, but in programming, there is a <strong>traceback</strong> that will point you to the mistake! It is very important to learn to read it. In this topic, we will not dwell on specific exceptions but will try to convince you instead that traceback is very important and you should try to get all the necessary information from it.</p>
+<h5 id="traceback-insides" style="text-align: center;">Traceback insides</h5>
+<p>You've already learned to read a simple traceback and know that the last line is usually the most useful. Sometimes, a traceback can contain several lines of code, and you need to understand how to find the error. It happens a lot with functions, so we'll show you this as an example. Let's write a function <code class="language-python">is_positive()</code> that prints whether the given number is positive or negative:</p>
+<pre><code class="language-python"># this code is in the file 'numbers.py'
+def is_positive(number):
+    if number &gt; 0:
+        return number + " is positive"
+    else:
+        return number + " is negative"
+
+
+print(is_positive(1))</code></pre>
+<p>Can you spot the error? If executed, it will throw the following <code class="language-python">TypeError</code>:</p>
+<pre><code class="language-no-highlight">Traceback (most recent call last):
+  File "/full/path/to/numbers.py", line 9, in &lt;module&gt;
+    print(is_positive(1))
+  File "/full/path/to/numbers.py", line 4, in is_positive
+    return number + " is positive"
+TypeError: unsupported operand type(s) for +: 'int' and 'str'</code></pre>
+<p>Let's go up<em> </em>starting from the last line and divide the traceback into parts:</p>
+<ul>
+<li>
+<pre><code class="language-no-highlight">TypeError: unsupported operand type(s) for +: 'int' and 'str'</code></pre>
+<p>The last line of the traceback always contains the name of the exception that was raised and the reason why it might have happened. </p>
+</li>
+<li>
+<pre><code class="language-no-highlight">File "/full/path/to/numbers.py", line 4, in is_positive
+    return number + " is positive"</code></pre>
+<p>Then there's the line of code that triggered the exception. This part of traceback contains the full path to the <code class="language-python">numbers.py</code> file, the line number where the error occurred, and the name of the function where this line is located.</p>
+</li>
+<li>
+<pre><code class="language-no-highlight">File "/full/path/to/numbers.py", line 9, in &lt;module&gt;
+    print(is_positive(1))</code></pre>
+<p>This block is similar to the previous one, but it refers to the line of code that called the function with the broken code. The location of the function call is also given: the module name and the line inside the file. The <code class="language-python">&lt;module&gt;</code> means that an error occurred in the executable file.</p>
+</li>
+</ul>
+<p>As you might have guessed, the <code class="language-python">number</code> needs to be turned into a string value using the <code class="language-python">str()</code> function to make this code valid.</p>
+<h5 id="find-a-way" style="text-align: center;">Find a way</h5>
+<p>Traceback can be extra useful with other imported modules. Let's create <strong>a new file</strong> <code class="language-python">import_numbers.py</code>, import and then run the very same <code class="language-python">is_positive()</code> function from our previous module, <code class="language-python">numbers.py</code>:</p>
+<pre><code class="language-python">from numbers import is_positive
+
+is_positive(1)</code></pre>
+<p>We are going to get the same<code class="language-python">TypeError</code> again:</p>
+<pre><code class="language-no-highlight">Traceback (most recent call last):
+  File "/full/path/to/import_numbers.py", line 3, in &lt;module&gt;
+    is_positive(1)
+  File "/full/path/to/numbers.py", line 3, in is_positive
+    return number + " is positive"
+TypeError: unsupported operand type(s) for +: 'int' and 'str'</code></pre>
+<p>This traceback is very similar to the previous one, but this time, the path to the module with the error will be changed (<samp>"/full/path/to/numbers.py")</samp> as well as the module with the function (<samp>"/full/path/to/import_numbers.py")</samp>. The main thing, though, remains — thanks to the traceback, we can find out the exact line of the exact module where the error occurred.</p>
+<p>Now we understand that our traceback consists of several blocks. In our example, we got the following bottom-up structure:<br/>
+1. The name of the error and its description.<br/>
+2. The location of the module that contains the "broken" function code line and the line itself.<br/>
+3. The location of the executable file and the executed function.</p>
+<p>In practice, a traceback can contain a good number of blocks. It simply means that many functions were called until the exception was thrown.</p>
+<h5 id="long-problems" style="text-align: center;">"Long" problems</h5>
+<p>Let's add another function to our code; <code class="language-python">check_numbers()</code> accepts a list of elements and prints the result for each number. The user may want to specify a number in a string format, such as <code class="language-python">"2"</code>, so we use the <em>try-except statement </em>to handle this situation. Otherwise, we would have had problems in the line "<code class="language-python">if number &gt; 0:</code>", because we can not compare <code class="language-python">str</code> and <code class="language-python">int</code> values. Take a look at the code below:</p>
+<pre><code class="language-python"># numbers.py
+def is_positive(number):
+    if number &gt; 0:
+        return str(number) + " is positive"
+    else:
+        return str(number) + " is negative"
+
+
+def check_numbers(numbers):
+    for num in numbers:
+        try:
+            print(is_positive(num))
+        except TypeError:
+            if int(num) &gt; 0:
+                print(str(num) + " is positive")
+            else:
+                print(str(num) + " is negative")
+
+# the call works correctly
+check_numbers([1,-1,"2"])
+
+# 1 is positive
+# -1 is negative
+# 2 is positive</code></pre>
+<p>Now, what if a user wants to specify a number in words? Like this:</p>
+<pre><code class="language-python">check_numbers([1,-1,"Two"])</code></pre>
+<p> Then we get something that is not quite legible:</p>
+<pre><code class="language-no-highlight">1 is positive
+-1 is negative
+Traceback (most recent call last):
+  File "/full/path/to/numbers.py", line 12, in check_numbers
+    print(is_positive(num))
+  File "/full/path/to/numbers.py", line 3, in is_positive
+    if number &gt; 0:
+TypeError: '&gt;' not supported between instances of 'str' and 'int'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/full/path/to/numbers.py", line 20, in &lt;module&gt;
+    check_numbers([1,-1,"Two"])
+  File "/full/path/to/numbers.py", line 14, in check_numbers
+    if int(num) &gt; 0:
+ValueError: invalid literal for int() with base 10: 'Two'</code></pre>
+<p>What happened? In fact, this traceback clearly tells us that <code class="language-python">During handling of the above exception, another exception occurred</code>. The first part of the traceback above these words tells us about the <code class="language-python">TypeError</code> exception, which we tried to catch with the <code class="language-python">try</code>-<code class="language-python">except</code> statement. The thing is, during the execution of this block, another exception was raised, the one that we see in the second part of the traceback. A new <code class="language-python">ValueError</code> exception occurred in the <code class="language-python">except TypeError:</code>  block because we tried to pass a string <code class="language-python">"Two"</code> to the function <code class="language-python">int()</code>. That is, when handling the first <code class="language-python">TypeError</code> exception, we received the second <code class="language-python">ValueError</code> exception.</p>
+<p>As you can see, tracebacks can contain a lot of information. It is important not to get lost in it and be able to find errors in your code, as well as to be ready to go back to our past mistakes and correct them.</p>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>Let's not forget the "through hardships to the stars" mantra, or, in our case, through a traceback to the working code:</p>
+<ol>
+<li>It is important to be able to read the traceback and locate your errors.</li>
+<li>The traceback is divided into "blocks" that contain information about the error and its location.</li>
+<li>It is more useful to read the "blocks" from the bottom up.</li>
+<li>If several exceptions occur, the traceback will show all of them, from the earlier to the more recent errors, so that the last error is shown in the last line.</li>
+</ol></body></html>

@@ -1,0 +1,9 @@
+<h2>A possibly redundant flag</h2>
+<html><body>
+<pre><code class="language-python">import re
+
+string = '''I love dogs,
+I love cats'''
+result = re.findall('^I', string, re.MULTILINE)
+print(result)</code></pre>
+<p>Is the <code class="language-python">re.MULTILINE</code> flag necessary in the function above to match all <code class="language-python">I</code>'s in the string? </p></body></html>

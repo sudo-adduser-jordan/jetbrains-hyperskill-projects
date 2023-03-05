@@ -1,0 +1,20 @@
+<h2>Owls</h2>
+<p></p>
+<p>Here we have the decorator <code class="language-python">nighttime</code> and the function <code class="language-python">get_message</code> that we pass to it. However, right now, the code is not going to work as there is something wrong with it.</p>
+<pre><code class="language-python">def nighttime(func):
+    def wrapper():
+        print('It is nighttime')
+        return func()
+
+    return wrapper
+
+
+@nighttime
+def get_message(name):
+    print('We can hear some night birds like', name)
+
+
+get_message('owls')</code></pre>
+<p>What should we do to make it work properly and get the following message output?</p>
+<pre><code class="language-python"># It is nighttime
+# We can hear some night birds like owls</code></pre>

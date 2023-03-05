@@ -1,0 +1,17 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: "Other instances will have this attribute, too, an empty string will be printed."
+- text: "Other instances won't have this attribute, an error will occur."
+- text: "Other instances will have this attribute, too, the same value will be printed."
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15554#comment
+status: Solved
+record: -1
+local_check: false

@@ -1,0 +1,69 @@
+<h2>Datetime module</h2>
+<p>Often, in our projects, we need to work with dates and time. For example, we may want to track the current date and time or see how long our code runs. For these purposes, we can use the <strong><code class="language-python">datetime</code></strong> module. Let's look closely at what we can do with it.</p>
+
+<h5 id="datetime-module-classes" style="text-align: center;">datetime module classes</h5>
+
+<p>The <code class="language-python">datetime</code> module has several classes that make working with time easy:</p>
+
+<ul>
+	<li><code class="language-python">datetime.date</code> represents standard date;</li>
+	<li><code class="language-python">datetime.time</code> represents standard time, independent from the date;</li>
+	<li><code class="language-python">datetime.timedelta</code> represents the difference between two points in time;</li>
+	<li><code class="language-python">datetime.tzinfo</code> represents timezones;</li>
+	<li><code class="language-python">datetime.datetime</code> represents both time and date together.</li>
+</ul>
+
+<p>In this topic, we'll focus on the <strong><code class="language-python">datetime.datetime</code></strong> class.</p>
+
+<h5 id="datetimedatetime" style="text-align: center;">datetime.datetime</h5>
+
+<p>The <code class="language-python">datetime.datetime</code> class is a sort of combination of the <code class="language-python">date</code> and <code class="language-python">time</code> classes. Similarly to those two, it assumes the current Gregorian calendar and that there are exactly 86,400 seconds in each day.</p>
+
+<p>The constructor of the <code class="language-python">datetime.datetime</code> objects takes the following parameters:</p>
+
+<pre><code class="language-python">import datetime
+
+# necessary parameters
+datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)</code></pre>
+
+<p>The <code class="language-python">year</code>, <code class="language-python">month</code> and <code class="language-python">day</code> parameters are required, others are optional. All arguments (except <code class="language-python">tzinfo</code>) should be integers and just like in real life, their values are restricted:</p>
+
+<ul>
+	<li><code class="language-python">datetime.MINYEAR</code> (1) ≤ <strong><code class="language-python">year</code></strong> ≤ <code class="language-python">datetime.MAXYEAR</code> (9999);</li>
+	<li>1 ≤ <strong><code class="language-python">month</code></strong> ≤ 12;</li>
+	<li>1 ≤ <strong><code class="language-python">day</code></strong> ≤ number of days in this month and year;</li>
+	<li>0 ≤ <strong><code class="language-python">hour</code></strong> &lt; 24;</li>
+	<li>0 ≤ <strong><code class="language-python">minute</code></strong> &lt; 60;</li>
+	<li>0 ≤ <strong><code class="language-python">second</code></strong> &lt; 60;</li>
+	<li>0 ≤ <strong><code class="language-python">microsecond</code></strong> &lt; 1,000,000.</li>
+</ul>
+
+<p>The <code class="language-python">tzinfo</code> argument can be an instance of the <code class="language-python">datetime.tzinfo</code> class, but its default value is <code class="language-python">None</code>, so we don't need to worry about it here.</p>
+
+<p>To see how this all works, let's create a <code class="language-python">datetime.datetime</code> object. For example, the date and time of the first human going to space which took place on April 12, 1961, at 6:07 UTC:</p>
+
+<pre><code class="language-python">import datetime
+
+vostok_1 = datetime.datetime(1961, 4, 12, 6, 7)
+print(vostok_1)  # 1961-04-12 06:07:00</code></pre>
+
+<h5 id="datetime-methods" style="text-align: center;">datetime methods</h5>
+
+<p>The <code class="language-python">datetime.datetime</code> class has several very handy methods.</p>
+
+<p>If you need to get the current time and date, there are two methods you can use: <code class="language-python">datetime.datetime.today()</code> and <code class="language-python">datetime.datetime.now(tz=None)</code>. They are very similar and the only difference between these two methods is that <code class="language-python">datetime.datetime.now()</code> has a keyword argument <code class="language-python">tz</code>. If you don't specify it, the two methods work the same. However, in some cases or on some platforms, the <code class="language-python">datetime.datetime.now()</code> method may be more precise.</p>
+
+<p>This is an example of how they perform:</p>
+
+<pre><code class="language-python">print(datetime.datetime.now())  # 2019-09-12 17:18:23.620734
+print(datetime.datetime.today())  # 2019-09-12 17:18:23.625716
+</code></pre>
+
+<p>You can also transform a <code class="language-python">datetime.datetime</code> object to a <code class="language-python">datetime.time</code> or <code class="language-python">datetime.date</code> objects using <code class="language-python">datetime.datetime.time()</code> or <code class="language-python">datetime.datetime.date()</code> methods respectively:</p>
+
+<pre><code class="language-python">print(vostok_1.time())  # 06:07:00
+print(vostok_1.date())  # 1961-04-12</code></pre>
+
+<h5 id="summary">Summary</h5>
+
+<p>To sum up, in this topic, we've familiarized ourselves with Python <strong><code class="language-python">datetime</code></strong> module, its <code class="language-python">datetime.datetime</code> class and some of the methods it has. Those were just a couple of methods available in the <code class="language-python">datetime.datetime</code> class. There are many more: the ones that deal with timestamps or timezones or the ones that help parse and convert datetime objects. Don't worry, you'll have a chance to work with them in the next topics!</p>

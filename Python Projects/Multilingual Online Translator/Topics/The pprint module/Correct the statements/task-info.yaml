@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: This library is useful for viewing data in an organized way
+- text: You need to install the library to use it
+- text: This library is good for formatting complex data output
+- text: This library is very complex and difficult to use
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/16214#comment
+status: Solved
+record: -1
+local_check: false

@@ -1,0 +1,142 @@
+<h2>ast module</h2>
+<html><body><p>The <code class="language-python">ast</code> module is a primary tool from a standard Python library for working with <strong>Abstract Syntax Trees</strong><em> </em>(ASTs). AST is a tree representation of the code. They are abstract since they do not employ the actual syntax; they use structure and concept models, instead. ASTs can help you with understanding how Python works.</p>
+<p>ASTs are often used in IDEs, custom interpreters, static code analyzers, and other testing tools that automatically find code flaws and errors. AST script can help to comprehend why something went wrong, though it is not a standard debugging technique. In this topic, we'll look a little closer at AST using the <code class="language-python">ast</code> module.</p>
+<h5 id="abstract-syntax-trees">Abstract syntax trees</h5>
+<p>Any code consists of characters. They don't really mean anything for the computer in terms of program execution. It cannot really understand them, so they need to be translated to computer commands. As you know, Python is an interpreted programming language, so it includes the interpreter. The interpreter is a special program that translates the code you've written into the form that a machine can understand. In a nutshell, this is how the Python code turns into the code your computer actually executes:</p>
+<ol>
+<li>At first, your code is parsed into pieces called <strong>tokens</strong><em>:</em> keywords, operators, delimiters, and so on.</li>
+<li>Then it constructs an AST — a representation of the Python syntax grammar<em>.</em> AST is a collection of <strong>nodes</strong> and <strong>edges</strong> (links) between them. Graphically, an AST of <code class="language-python">expression = 1 + 2</code> would look like this. <code class="language-python">Assign</code> and <code class="language-python">BinOp</code> are node classes that we'll cover in the next section:
+	<p style="text-align: center;"><img alt="" height="365" src="https://ucarecdn.com/a4ee391c-4e9f-4737-a08c-d930244bdb17/" width="400"/></p>
+</li>
+<li>After that, the interpreter produces <strong>bytecodes</strong> that a computer can run. </li>
+</ol>
+<h5 id="the-ast-helpers-parsing">The ast helpers: parsing</h5>
+<p>Now, let's switch to the <code class="language-python">ast</code> module. We will start with utility functions and classes. They are called <strong>helpers</strong>. We'll only look at some of them. Take a look at the full list in the <a href="https://docs.python.org/3/library/ast.html" rel="noopener noreferrer nofollow" target="_blank">official documentation</a> if you're interested in details.</p>
+<p>The first helper is <code class="language-python">ast.parse()</code>. It takes the source code and parses it into an AST node:</p>
+<pre><code class="language-python">import ast
+
+expression = "1 + 2"
+tree = ast.parse(expression)
+
+print(tree)  # &lt;_ast.Module object at 0x000001F064C3CA08&gt;</code></pre>
+<p>Keep in mind that the <code class="language-python">tree</code> is actually a node, a <strong>root node</strong>, to be specific. You're probably disappointed by the printed value because it doesn't really show anything of importance. Don't worry! Use <code class="language-python">ast.dump()</code> to print the actual AST:</p>
+<pre><code class="language-python">print(ast.dump(tree))
+
+# Module(body=[Expr(value=BinOp(left=Constant(value=1), op=Add(), right=Constant(value=2)))], type_ignores=[])</code></pre>
+<p>See? Here it is! Nodes constitute the tree. A tree normally starts with the <code class="language-python">Module</code> node, which is a root. It has a <code class="language-python">body</code> attribute that contains every other node and its attributes. In our case, we have the <code class="language-python">Expr</code> (expression) node with the<code class="language-python">BinOp</code> (binary operation) node as its value.</p>
+<p>Instances of <code class="language-python">ast.expr</code> and <code class="language-python">ast.stmt</code> subclasses have two handy attributes <code class="language-python"><span style="color: #000000;">lineno</span></code> and <code class="language-python">end_<span style="color: #000000;">lineno</span></code> that store respectively the first and last line numbers of their corresponding source code (the enumeration starts at 1). Let's assume you have a file called <code class="language-python">calculations.py</code> with the following code:</p>
+<pre><code class="language-python">expr = 1 + 2
+expr_2 = 3 + 4
+result = expr * expr_2
+print(result, 'This is '
+      'result.')
+</code></pre>
+<p>You want to analyze it using <code class="language-python">ast</code> module. Here's how you can check at what line each node is and maybe even use this information later on in your work:</p>
+<pre><code class="language-python">file = open('calculations.py').read()
+tree = ast.parse(file)
+
+for n in tree.body:
+    print(n, n.lineno, n.end_lineno)
+
+    
+# &lt;ast.Assign object at 0x000001FF4FA63CD0&gt; 1 1
+# &lt;ast.Assign object at 0x000001FF4FA63BE0&gt; 2 2
+# &lt;ast.Assign object at 0x000001FF4FA63EB0&gt; 3 3
+# &lt;ast.Expr object at 0x000001FF4FA61780&gt; 4 5</code></pre>
+<h5 id="the-ast-helpers-visiting-nodes">The ast helpers: visiting nodes</h5>
+<p>If you just need a list without any particular structure, take a look at the <code class="language-python">ast.walk()</code> helper. It's, in fact, a <strong>generator</strong>, so you can print the values this way:</p>
+<pre><code class="language-python">nodes = ast.walk(tree)
+# not what we want:
+print(nodes)  # &lt;generator object walk at 0x000001F064C2CBC8&gt;
+
+for n in nodes:
+    print(n)
+
+# &lt;ast.Module object at 0x000001FF4FA61A80&gt;
+# &lt;ast.Expr object at 0x000001FF4FA61AB0&gt;
+# &lt;ast.BinOp object at 0x000001FF4FA60370&gt;
+# &lt;ast.Constant object at 0x000001FF4FA603A0&gt;
+# &lt;ast.Add object at 0x000001FF4F7F98D0&gt;
+# &lt;ast.Constant object at 0x000001FF4FA611E0&gt;
+</code></pre>
+<p>It recursively yields children nodes in the tree starting at a given node (included), in no specified order, so it might be useful if you want to modify nodes in place and don’t care about the context.</p>
+<p>There are a couple of alternatives to the <code class="language-python">ast.walk()</code> helper, though. The first one is the <code class="language-python">ast.NodeVisitor</code> class. It 'scans' the tree and calls a visitor function to every node. You can use it by subclassing it and overriding <code class="language-python">visit()</code> methods that should have the names of the corresponding node classes (we will discuss them in detail a bit later):</p>
+<pre><code class="language-python">class BinOpLister(ast.NodeVisitor):
+    def visit_BinOp(self, node):
+        print(node.left)
+        print(node.op)
+        print(node.right)
+        self.generic_visit(node)
+
+        
+BinOpLister().visit(tree)
+        
+# &lt;ast.Constant object at 0x000001FF4FA603A0&gt;
+# &lt;ast.Add object at 0x000001FF4F7F98D0&gt;
+# &lt;ast.Constant object at 0x000001FF4FA611E0&gt;</code></pre>
+<p>Here we have overridden <code class="language-python">visit()</code> to only visit <code class="language-python">BinOp</code> class nodes and print the left operand, the operator, and the right operand. It is helpful if you only need to visit specific nodes, for example.</p>
+<p>The second option is <code class="language-python">ast.NodeTransformer</code> that works similarly, but allows you to modify the visited nodes of the tree. We won't consider it thoroughly now, so you can find more detailed information about the tool in the <a href="https://docs.python.org/3/library/ast.html#ast.NodeTransformer" rel="noopener noreferrer nofollow" target="_blank">docs</a>.</p>
+<h5 id="the-ast-helpers-literal_eval">The ast helpers: <code class="language-python">literal_eval()</code></h5>
+<p>There's also another helper that you may be interested in. Imagine you have a program that works with user input. User input must be an integer. Even if you've indicated it in the docs, you can't be sure that all potential users will comply with the instructions, so you need a backup. You can use <code class="language-python">ast.literal_eval()</code> that safely evaluates strings and, if everything's fine, returns the intended type. Just look at the following:</p>
+<pre><code class="language-python">user_input = "15"
+print(type(user_input))  # &lt;class 'str'&gt;
+
+check_user_input = ast.literal_eval(user_input)
+print(type(check_user_input))  # &lt;class 'int'&gt;
+# awesome, right?</code></pre>
+<h5 id="the-ast-nodes">The ast nodes</h5>
+<p>Alright, helpers are out of the way. Let's now turn to nodes. Each node is a construct that describes a part of the source code. In the <code class="language-python">ast</code> module, they are divided into <strong>classes</strong>, and most of them also have attributes that store the most useful information. For instance, the <code class="language-python">Import(names)</code> class describes the imported parts of your code, and the <code class="language-python">names</code> attribute stores their names.</p>
+<p>Below is a shortlist of the most common node classes with some of their attributes:</p>
+<ul>
+<li>literals: <code class="language-python">Constant(value)</code>, <code class="language-python">List(elts)</code>, <code class="language-python">Set(elts)</code>, <code class="language-python">Dict(keys, values)</code>;</li>
+<li>variables: <code class="language-python">Name(id)</code>, <code class="language-python">Del</code>;</li>
+<li>expressions: <code class="language-python">Expr(value)</code>, <code class="language-python">BinOp(left, op, right)</code>, <code class="language-python">Call(func, args)</code>;</li>
+<li>statements: <code class="language-python">Assign(targets, value)</code>, <code class="language-python">Print(dest, values)</code>;</li>
+<li>imports: <code class="language-python">Import(names)</code>, <code class="language-python">ImportFrom(module, names)</code>; </li>
+<li>control flow: <code class="language-python">If(test, body, orelse)</code>, <code class="language-python">For(target, iter, body, orelse)</code>, <code class="language-python">While(test, body, orelse)</code>, <code class="language-python">Break</code>, <code class="language-python">Continue</code>, <code class="language-python">TryExcept(body, handlers, orelse)</code>;</li>
+<li>functions: <code class="language-python">FunctionDef(name, args, body, returns)</code>, <code class="language-python">Lambda(args, body)</code>, <code class="language-python">Return(value)</code>, <code class="language-python">Yield(value)</code>;</li>
+<li>classes: <code class="language-python">ClassDef(name, keywords, kwargs, body)</code>.</li>
+</ul>
+<p>Is anything looking familiar? We hope so! We have already seen <code class="language-python">Constant</code>, <code class="language-python">Assign</code>, and <code class="language-python">BinOp</code> in the very first example and some other nodes later on. </p>
+<p>This list isn't exhaustive; you can refer to the <a href="https://docs.python.org/3/library/ast.html" rel="noopener noreferrer nofollow" target="_blank">official documentation</a> for more detailed information.</p>
+<h5 id="the-ast-nodes-example">The ast nodes: example</h5>
+<p>It's example time! Imagine someone sent you a pile of scripts to check whether they correspond with PEP 8. You open the first one called <code class="language-python">my_func.py</code> with the following code:</p>
+<pre><code class="language-python">def greet(user_name):
+    print("Hello, world!")
+    print("Hello, ", user_name, "!", sep="")
+
+user = "Mary"
+
+greet(user)
+</code></pre>
+<p>It is small and easy to check. But there's a lot of them! You decide to do the checking automatically. Of course, there are a lot of conventions to be considered, but let's see how the part responsible for argument names can look like. Suppose you have a function that checks the name, but how to extract the names? <code class="language-python">ast</code> knows how to do it:</p>
+<pre><code class="language-python">script = open("my_func.py").read()
+tree = ast.parse(script)
+
+print(ast.dump(tree))
+
+# Module(body=[FunctionDef(name='greet', args=arguments(args=[arg(arg='user_name', 
+# annotation=None)], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[]), body=
+# [Expr(value=Call(func=Name(id='print', ctx=Load()), args=[Str(s='Hello, world!')], keywords=[])), 
+# Expr(value=Call(func=Name(id='print', ctx=Load()), args=[JoinedStr(values=[Str(s='Hello, '), 
+# FormattedValue(value=Name(id='user_name', ctx=Load()), conversion=-1, format_spec=None), 
+# Str(s='!')])], keywords=[]))], decorator_list=[], returns=None), Assign(targets=[Name(id='user', 
+# ctx=Store())], value=Str(s='Mary')), Expr(value=Call(func=Name(id='greet', ctx=Load()), args=
+# [Name(id='user', ctx=Load())], keywords=[]))])</code></pre>
+<p>Okay, that looks pretty confusing... but only at first sight. We see that our tree starts with the <code class="language-python">Module</code> node that has the <code class="language-python">body</code> attribute containing all other nodes. So, at first, we access the <code class="language-python">body</code> and, since <code class="language-python">FunctionDef</code> is the first element, we use the <code class="language-python">0</code> index to access the attributes where the arguments are stored.</p>
+<pre><code class="language-python">function = tree.body[0]</code></pre>
+<p>Now, we will take a look at how the <code class="language-python">FunctionDef</code> is organized. First of all, we, obviously, need the <code class="language-python">args</code> attribute that also has the <code class="language-python">args</code> attribute. This last <code class="language-python">args</code> attribute stores just what we need – the <code class="language-python">arg</code> node with all function arguments, so we just assemble them in a list and print it:</p>
+<pre><code class="language-python">args = [a.arg for a in function.args.args]
+
+print(args)  # ['user_name']</code></pre>
+<p>By doing so, we receive a list of argument names and can proceed to check them. </p>
+<p>Since it might be tricky to clearly understand what node is where in the tree and why, we strongly recommend using visualization tools, like <a href="https://python-ast-explorer.com/" rel="noopener noreferrer nofollow" target="_blank">this one</a>, for example, that make trees more representative and sometimes even let you interact with them. To see how it works, copy the piece of code with the <code class="language-python">greet()</code> function (or any code you like/have difficulties understanding), paste it in the left part of the webpage, and look at the resulting tree.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, we've learned several things:</p>
+<ul>
+<li>how a computer actually executes the code you write;</li>
+<li>what ASTs are, how to build them, and what is their purpose;</li>
+<li>what <code class="language-python">ast</code> helpers are and how to use them;</li>
+<li>what <code class="language-python">ast</code> nodes are, what classes of nodes are there, what attributes they have, and how to use them.</li>
+</ul>
+<p>Now you're ready to build and extract information from ASTs. Don't forget about the practical tasks!</p></body></html>

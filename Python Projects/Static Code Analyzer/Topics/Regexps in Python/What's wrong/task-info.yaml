@@ -1,0 +1,22 @@
+type: code
+custom_name: What's wrong?
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import re
+
+    w1 = input()
+    w2 = input()
+    if not re.mach(w1, w2):
+        print(len(w) * 2)
+    else:
+        print('no matching')
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/11115#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 03 Mar 2023 06:05:30 UTC"
+record: -1
+submission_language: python3

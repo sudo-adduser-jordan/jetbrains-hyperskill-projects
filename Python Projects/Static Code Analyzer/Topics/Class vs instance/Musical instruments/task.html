@@ -1,0 +1,26 @@
+<h2>Musical instruments</h2>
+<p>Suppose we have a class <code class="language-python">MusicalInstrument</code>. It has one class attribute, <code class="language-python">n_instruments</code>, and two instance attributes, corresponding to the name of the musical instrument and its group. We created four instances of this class.</p>
+
+<pre><code class="language-python">class MusicalInstrument:
+    n_instruments = 0  # number of instruments
+
+    def __init__(self, name, group):
+        self.name = name
+        self.group = group
+
+
+drums = MusicalInstrument("drums", "percussion")
+triangle = MusicalInstrument("triangle", "percussion")
+violin = MusicalInstrument("violin", "string instr.")
+flute = MusicalInstrument("flute", "woodwind instr.")</code></pre>
+
+<p>Now, we want to change the attribute <code class="language-python">n_instruments</code> via the instances and print the new result.</p>
+
+<pre><code class="language-python">drums.n_instruments += 1
+triangle.n_instruments += 1
+violin.n_instruments += 1
+flute.n_instruments += 1
+
+print(MusicalInstrument.n_instruments)</code></pre>
+
+<p>What will be the output of the program?</p>

@@ -1,0 +1,99 @@
+<h2>Regexp sets and ranges</h2>
+<p>In the previous topics, we have learned about the dot and the question mark in regexp language and the ways of escaping them, and other regexp metacharacters. Now it is time to learn about these metacharacters and the specifics of their functioning. First of all, let's start with the sets. </p>
+<h5 id="sets">Sets</h5>
+<p>While the dot allows us to match almost every possible character, the sets provide us with the opportunity to be more specific in our regexp templates and narrow down the scope of our search. Each set in the regular expression takes the place of exactly one character in the string, but it defines a whole number of characters that can match it. These characters are listed inside the square brackets, <code class="language-python">[]</code>:</p>
+<pre><code class="language-python">template = '[bd]a[td]'</code></pre>
+<p>In the template above, we have two defined sets. The first one corresponds either to a character <code class="language-python">b</code> or <code class="language-python">d</code> in the string, the second one — to <code class="language-python">t</code> or <code class="language-python">d</code>. Here are the results for some of the possible strings:</p>
+<pre><code class="language-python">re.match(template, 'bat')  # match
+re.match(template, 'dad')  # match
+re.match(template, 'cat')  # no match: 'c' is not in the first set
+re.match(template, 'dot')  # no match: 'o' instead of 'a'</code></pre>
+<p>An empty set causes an error:</p>
+<pre><code class="language-python">re.match('c[]at', 'cat')  # sre_constants.error: unexpected end of regular expression</code></pre>
+<p>An unescaped left square bracket, for which no unescaped right square bracket was found, causes the same error:</p>
+<pre><code class="language-python">re.match('[', '[')  # sre_constants.error: unexpected end of regular expression</code></pre>
+<p>By the way, good news, everyone! There is (almost) no need for boring escaping stuff when we use sets in regexp.  </p>
+<h5 id="escaping-in-sets">Escaping in sets</h5>
+<p>Sets in regular expressions have a sort of superpower: they automatically "neutralize" the metacharacters listed inside the square brackets, turning them into regular characters. This way, the dot and the question mark, for example, do not have to be escaped if they are part of a regexp set:</p>
+<pre><code class="language-python">template = 'Hodor[?.]'
+re.match(template, 'Hodor?')  # match
+re.match(template, 'Hodor.')  # match
+re.match(template, 'Hodor!')  # no match</code></pre>
+<p>The only metacharacters that do not fall under this rule and keep their special status are, predictably, the right square bracket <code class="language-python">]</code> and the backslash <code class="language-python">\</code>. The right square bracket should be escaped to show that it is a part of the set, not the metacharacter denoting its end:</p>
+<pre><code class="language-python">template = r'=[\]]'
+re.match(template, '=]')  # match
+
+template = r'=[)]]'
+re.match(template, '=]')  # no match
+re.match(template, '=)]')  # match (the only string this template can match)</code></pre>
+<p>The backslash in sets, like everywhere else, serves as the starting symbol of escape sequences. So, if you just want to have a backslash in your set, you have to relieve it from this burden by escaping it using double backslash. Here the backslash is escaped and matches itself in the string:</p>
+<pre><code class="language-python">template = r'¯[\\]_'
+re.match(template, r'¯\_(ツ)_/¯')  # match
+# remember that re.match checks whether regexp matches the beginning of the string, not the whole string</code></pre>
+<p>Here the backslash is not escaped and serves as a part of the escape sequence:</p>
+<pre><code class="language-python">template = r'¯[\t]_'
+re.match(template, '¯\_(ツ)_/¯')  # no match
+re.match(template, '¯\t_')  # match</code></pre>
+<p>By the way, you can still escape any character in the set (even if it is not <code class="language-python">]</code> or <code class="language-python">\</code>): this won't change the set of matching characters. But additional escaping characters will make your regular expression more difficult to read and understand, and, believe us, this is a thing to avoid — real-life regexps are usually barely comprehensible even without unnecessary characters. </p>
+<p>Apart from "ordinary" regexp metacharacters, there are, though, some characters that acquire a special meaning specifically when they're used inside the square brackets. </p>
+<h5 id="ranges">Ranges</h5>
+<p>One of the main things about sets is that you may not only list the characters individually but also use ranges of characters. A range is designated by a dash <code class="language-python">-</code>. For example, if you want your set to match every letter from <code class="language-python">a</code> to <code class="language-python">z</code>, you do not have to list out the whole alphabet, you can simply write <code class="language-python">[a-z].</code></p>
+<pre><code class="language-python">re.match('ja[a-z].', 'jazz')  # match
+re.match('[A-Z]ill', 'kill')  # no match: [A-Z] matches only uppercase letters
+re.match('[A-Z]ill', 'Bill')  # match</code></pre>
+<p><code class="language-python">[0-9]</code> does it for the digits. Note that regular expressions match characters, not numbers. So, the template <code class="language-python">[1-100]</code> matches only <code class="language-python">1</code> and <code class="language-python">0</code>, not all numbers in the range from 1 to 100. </p>
+<pre><code class="language-python">re.match('[0-9]', '7')   # match
+re.match('[0-9]', '07')  # match
+re.match('[1-9]', '07')  # no match</code></pre>
+<p>Several ranges can be easily put in one set. They do not have to follow each other in any way:</p>
+<pre><code class="language-python">re.match('love [a-zA-Z]', 'love U')  # match: [a-zA-Z] matches both uppercase and lowercase
+re.match('love [a-z!A-Z]', 'love !')  # match: [a-z!A-Z] matches letters and !</code></pre>
+<p>The characters that fall within the range are determined by <a href="https://hyperskill.org/learn/step/7899" rel="noopener noreferrer nofollow" target="_blank">ASCII / Unicode encoding</a> table, so be careful when defining ranges: they may include something unexpected or exclude something that was meant to be in your set.</p>
+<pre><code class="language-python">re.match('[A-Z]bermensch', 'Übermensch')  # no match: Ü is not within A-Z range
+re.match('[À-Ý]bermensch', 'Übermensch')  # match
+re.match('[À-Ý]bermensch', '×bermensch')  # match: × is within À-Ý range</code></pre>
+<p>To use the dash <code class="language-python">-</code> as a regular character in a set, you should "strip" it of the left or right character defining the range, so just put the dash in the first or last position in the set, <code class="language-python">[-abc]</code> or <code class="language-python">[abc-]</code>:</p>
+<pre><code class="language-python">re.match('[-1-9]1', '-1')  # match
+re.match('[1-9-]1', '-1')  # match</code></pre>
+<p>Take a look at the table summarizing some of the ranges you might want to use in your programs:</p>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 500px;">
+<tbody>
+<tr>
+<td>[a-z]</td>
+<td>Lowercase Latin Letters</td>
+</tr>
+<tr>
+<td>[A-Z]</td>
+<td>Capital Latin Letters</td>
+</tr>
+<tr>
+<td>[a-zA-Z]</td>
+<td>Both Lowercase and Capital Latin Letters</td>
+</tr>
+<tr>
+<td>[0-9]</td>
+<td>Digits</td>
+</tr>
+</tbody>
+</table>
+<p>Sets can also be handy in case you want to ban characters from your template. Let's see how this is done!</p>
+<h5 id="exclusion-of-characters">Exclusion of characters</h5>
+<p>The hat (aka <em>the</em> <em>caret</em>) <code class="language-python">^</code> symbol is also a specific set metacharacter: whenever it is placed as the first character in the set, it makes the set specify the characters you <em>do not </em>want to see in the string. Any character that is not a part of such set will match it:</p>
+<pre><code class="language-python">re.match('[^A-Z]ond', 'Bond')  # no match
+re.match('Bon[^A-Z]', 'Bond')  # match</code></pre>
+<p>The hat placed anywhere else in the set, except for the first position, will lose its special meaning and become a regular character:</p>
+<pre><code class="language-python">re.match('[A-Z^]ames', 'James')  # match
+re.match('[A-Z^]ames', '^ames')  # match</code></pre>
+<p>That is pretty much it about sets. Four metacharacters associated with them are easy to remember, but can turn you into a real regexp wizard!</p>
+<p> </p>
+<p></p><div class="alert alert-primary">Just in case you forgot: there are a lot of websites where you can test your regular expression, see what could be wrong with it, and correct it. For example, <a href="https://regex101.com/" rel="noopener noreferrer nofollow" target="_blank">Regex 101</a> works just fine.</div>
+<p> </p>
+<h5 id="summary">Summary</h5>
+<p>Let's see what we have learned in this topic!</p>
+<ul>
+<li>the square brackets <code class="language-python">[]</code> are used to designate sets in regular expressions;</li>
+<li>the sets are used to specify the number of characters to match;</li>
+<li>only the backslash <code class="language-python">\</code> and the closing bracket <code class="language-python">]</code> should be escaped in your sets;</li>
+<li>the dash <code class="language-python">-</code> allows us to easily put a range of characters in the set;</li>
+<li>a set with the hat <code class="language-python">^</code>  in the first position matches every character that is not listed in it.</li>
+</ul>

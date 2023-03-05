@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # mystery_set has been defined
+    string = input()
+
+    # delete string from mystery_set
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/8087#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 09:47:44 UTC"
+record: -1
+submission_language: python3

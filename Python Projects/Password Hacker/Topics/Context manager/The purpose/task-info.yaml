@@ -1,10 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: Opening files
-- text: 'Managing the resources '
-- text: Making the code more concise
-- text: Handling exceptions
 files:
 - name: main.py
   visible: true

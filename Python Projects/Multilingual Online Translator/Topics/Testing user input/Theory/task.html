@@ -1,0 +1,159 @@
+<h2>Testing user input</h2>
+<p>When we write programs in Python, we often want to interact with a user, for example, to ask them to enter a value to obtain a further result. We need to be very careful with that! Users may enter something other than what they were asked for, and it can lead to unexpected errors. To prevent this, we should <strong>test the user's input</strong>. The idea is to take into account all scenarios and process them correctly. This topic will cover the basics of such testings.</p>
+<h5 id="types-of-values-in-testing-users-input" style="text-align: center;">Types of values in testing user's input</h5>
+<p>Input values can be divided into three groups:</p>
+<ul>
+<li><strong>expected values</strong> are correct input values, a program requires them for implementing next steps.</li>
+<li><strong>border values</strong> when we deal with <em>numeric </em>input; they limit the range of expected inputs and may be included or not, so they could either be expected or invalid values. We mention them separately because you should always be careful with them.</li>
+<li><strong>invalid values</strong> are incorrect inputs: they are not what we asked for.</li>
+</ul>
+<p>Now let's illustrate different types of values with an example. Imagine, we ask a user to input a number:</p>
+<pre><code class="language-python">your_int = int(input("Enter an integer number between 25 and 50: "))</code></pre>
+<p>So that:</p>
+<ol>
+<li>The integers from <code class="language-python">26</code> to <code class="language-python">49</code> are <em>expected values</em>. They are expected from a user.</li>
+<li><code class="language-python">25</code> and <code class="language-python">50</code> are <em>border values</em>. In our example, we have not specified whether we want them or not, so they can be either expected or invalid values. In a real program, we will have to explain it to the user and process them accordingly.</li>
+<li>Other integers, floats, or strings are <em>invalid values</em>.</li>
+</ol>
+<p>In the following sections, we will discuss the ways of testing such inputs in our code.</p>
+<h5 id="if-statements-for-testing" style="text-align: center;">If statements for testing</h5>
+<p>Let's modify our code and read the user input step by step so that we could process every value without errors. First, we create a function that checks the given integer and prints a message if it is a correct value or not:</p>
+<pre><code class="language-python">def check(x):
+    if 25 &lt; x &lt; 50:
+        print(x, "is the right number!")
+    else:
+        print(x, "is the wrong number!")
+
+
+your_int = int(input("Enter an integer number between 25 and 50: "))
+check(your_int)</code></pre>
+<p>Be careful, the border values are not included! Let's run our code several times and see what we will get with different integers as inputs:</p>
+<pre><code class="language-python"># An expected value:
+# Enter an integer number between 25 and 50: 45
+# 45 is the right number!
+
+# A border value:
+# Enter an integer number between 25 and 50: 25
+# 25 is the wrong number!
+
+# An invalid value:
+# Enter an integer number between 25 and 50: 3
+# 3 is the wrong number!</code></pre>
+<p>As you can imagine, such conditional statements are not enough to test the user input. Let's see what else we can do.</p>
+<h5 id="try-except-block-to-deal-with-exceptions" style="text-align: center;">Try-except block to deal with exceptions</h5>
+<p>If our user enters a float or a string, the <code class="language-python">ValueError</code> will occur because the <code class="language-python">int()</code> function would not be able to convert the input into an integer:</p>
+<pre><code class="language-python"># Enter an integer number between 25 and 50: wrong!
+# Traceback (most recent call last):
+#  File "main.py", line 9, in 
+#    your_int = int(input("Enter a number between 25 and 50: "))
+# ValueError: invalid literal for int() with base 10: 'wrong!'</code></pre>
+<p>This behavior is wrong for our program! It should continue executing if an invalid value was entered. To deal with the error, we can use the <code class="language-python">try</code>-<code class="language-python">except</code> block. Note that we modify the lines where the program takes the input.</p>
+<pre><code class="language-python">def check(x):
+    if 25 &lt; x &lt; 50:
+        print(x, "is the right number!")
+    else:
+        print(x, "is the wrong number!")
+
+
+try:
+    your_int = int(input("Enter an integer number between 25 and 50: "))
+    check(your_int)
+except ValueError:
+    print("Your input is not an integer!")</code></pre>
+<p>Now, if the user enters a float or a string, it will produce no errors:</p>
+<pre><code class="language-python"># Enter an integer number between 25 and 50: wrong!
+# Your input is not an integer!</code></pre>
+<p>The <code class="language-python">while</code> loop can also be extremely useful for us in the task of handling the user input. </p>
+<h5 id="while-loop-for-continuous-input-request" style="text-align: center;">While loop for continuous input request</h5>
+<p>In the previous examples, we needed to re-run the code each time to enter another value. However, when working with a user, our program should ask for the input until a correct value is entered. We can do so with the <code class="language-python">while</code> loop.</p>
+<p>In the example below, we combine <code class="language-python">if</code> statements, <code class="language-python">try-except</code> block, and <code class="language-python">while</code> loops for multiple checking. We also consider the border values as the expected ones from now on. We should specify this in the message for a user, and process the values respectively in the code. Note that it is more convenient now to read the input inside the function.</p>
+<pre><code class="language-python">def check_input():
+    while True:
+        try:
+            your_int = int(input("Enter an integer number between 25 and 50 (inclusively): "))
+            if 25 &lt;= your_int &lt;= 50:  # border values are now included
+                print(your_int, "is the right number!")
+                break
+            else:
+                print(your_int, "is the wrong number! Try again!")
+        except ValueError:
+            print("Your input is not an integer! Try again!")</code></pre>
+<p>Now, the program will run until the user enters what we asked them to:</p>
+<pre><code class="language-python"># Enter an integer number between 25 and 50 (inclusively): I don't want to
+# Your input is not an integer! Try again!
+# Enter an integer number between 25 and 50 (inclusively): 3.4
+# Your input is not an integer! Try again!
+# Enter an integer number between 25 and 50 (inclusively): 12
+# 12 is the wrong number! Try again!
+# Enter an integer number between 25 and 50 (inclusively): 45
+# 45 is the right number!</code></pre>
+<p>Finally, our program can process all types of inputs, and will not crash if the user behaves unexpectedly.</p>
+<h5 id="built-in-methods-for-string-testing" style="text-align: center;">Built-in methods for string testing</h5>
+<p>Our previous examples described integer inputs, but in a great number of situations, we need to deal with strings. Checking strings may be needed in various situations. Imagine that you are creating a program to check the password reliability. Python provides several methods that can be used for string input testing. They will allow you to check, for instance, if your password contains both integers and letters of different cases. Below we present a table with the string methods and their brief explanations.</p>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="height: 500px; width: 700px;">
+<thead>
+<tr>
+<th>Method</th>
+<th>The returned value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-python">str.islower()</code></td>
+<td>True if there are only symbols of the lower case in the string.</td>
+</tr>
+<tr>
+<td><code class="language-python">str.isupper()</code></td>
+<td>True if there are only symbols of the upper case in the string.</td>
+</tr>
+<tr>
+<td><code class="language-python">str.isalpha()</code></td>
+<td>True if the string consists only of letters (upper/lower case).</td>
+</tr>
+<tr>
+<td><code class="language-python">str.isdigit()</code></td>
+<td>True if the string consists only of digits.</td>
+</tr>
+<tr>
+<td><code class="language-python">str.isnumeric()</code></td>
+<td>
+<p>True if the string consists of digits and characters that have features of Unicode digits (their <em>Numeric_Type</em> feature is set to <em>Digit</em>, <em>Decimal</em>, or <em>Numeric</em>). For instance, the fraction <code class="language-python">⅝</code> is a symbol of Unicode, meanwhile the string <code class="language-python">"5/8"</code> contains three symbols. The second example will return <code class="language-python">False</code> as there is a slash, whose type is not the <code class="language-python">Numeric_Type</code>.</p>
+</td>
+</tr>
+<tr>
+<td><code class="language-python">str.isalnum()</code></td>
+<td>True if the string consists only of digits and letters (upper/lower case).</td>
+</tr>
+</tbody>
+</table>
+<p>Now let's look at an example. There is a function below that takes a string and checks if it is a name; it should contain only letters, start with a capital letter, and the rest of the letters should be lowercase. These conditions are very simple and may not identify all names correctly, but you can still see how the string methods work:</p>
+<pre><code class="language-python">def check_name(x):
+    if x.isalpha() and x[0].isupper() and x[1:].islower():
+        print("The name is", x)
+    else:
+        print(x, "is not a name!")
+
+
+name = input("Enter a name: ")
+check_name(name)</code></pre>
+<p>If any of the conditions is not met, <code class="language-python">False</code> will be returned and the code will execute the <code class="language-python">else</code> statement.</p>
+<pre><code class="language-python"># Enter a name: Marie
+# The name is Marie
+
+# Enter a name: no
+# no is not a name!
+
+# Enter a name: Why?
+# Why? is not a name!
+
+# Enter a name: HaHa
+# HaHa is not a name!</code></pre>
+<p>Take a look at the question mark in the third input. It is not a letter, so <code class="language-python">x.isalpha()</code> returns <code class="language-python">False</code>.</p>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>The testing of user inputs is a pivotal step for creating a working piece of code. It allows us to process all possible inputs of a user and prevent some errors. So far, we have discussed the following:</p>
+<ul>
+<li>we have three main types of input values: the <em>expected </em>(correct values), the <em>border<strong> </strong></em>(end-points of the expected range)<strong>, </strong>and the <em>invalid </em>(incorrect values) ones;</li>
+<li>how to test inputs with the help of the <code class="language-python">if</code> statements and update your testing code using the <code class="language-python">while</code> loops and the<strong> </strong><code class="language-python">try-except</code> blocks;</li>
+<li>the methods that can be used for string testing — <code class="language-python">str.isdigit()</code>, <code class="language-python">str.isalpha()</code>, <code class="language-python">str.isnumeric()</code>, <code class="language-python">str.isalnum()</code>, <code class="language-python">str.isupper()</code> and <code class="language-python">str.islower()</code>.</li>
+</ul>
+<p>Of course, these methods are the basic ones. For instance, you can process inputs with the help of regular expressions. You can find out more about them <a href="https://hyperskill.org/learn/step/9468" rel="noopener noreferrer nofollow" target="_blank">in our topic on regular expressions.</a></p>

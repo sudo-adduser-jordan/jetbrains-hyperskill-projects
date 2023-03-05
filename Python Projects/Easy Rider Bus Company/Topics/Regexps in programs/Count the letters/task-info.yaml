@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import re
+
+    string = input()
+    # Write your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/24238#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 09:03:43 UTC"
+record: -1
+submission_language: python3

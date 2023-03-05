@@ -1,0 +1,218 @@
+<h2>Unit testing in Python</h2>
+<html><body><p>In this topic, we are going to learn about unit testing in Python. First, let's go back and recap what unit testing is. A <strong>unit</strong> is a small part of the code that performs one task, and we write tests to determine whether the unit works correctly.</p>
+<p>In general, units take input data and generate output data. So with unit testing, we know the input and the expected output, and we just compare the actual output with the expected. We can write numerous tests checking most of the case scenarios. Unit testing enables developers to detect bugs at early stages and notice if the code works incorrectly after changes.</p>
+<p>We can do unit testing either manually or automatically. It is rarely done manually because it is a very time-consuming task. Python provides a lot of instruments for automated unit testing. <code class="language-python">unittest</code> is the most popular test framework in Python, so we are going to learn how to use it in this topic. But it is not the only tool in Python for unit testing; you can also use, for example, <a href="https://docs.nose2.io/en/latest/getting_started.html" rel="noopener noreferrer nofollow" target="_blank">nose</a>, <a href="https://docs.pytest.org/en/latest/" rel="noopener noreferrer nofollow" target="_blank">pytest</a>, or <a href="https://docs.python.org/3/library/doctest.html" rel="noopener noreferrer nofollow" target="_blank">doctest</a>.</p>
+<h5 id="getting-started">Getting started</h5>
+<p><code class="language-python">unittest</code> is a module from the standard library with a great set of tools for writing tests. To see how it works, we will write a simple calculator and then test this program. This is the code of our calculator:</p>
+<pre><code class="language-python"># this code is in the calculator.py file
+
+def add(a, b):
+    """ Addition """
+    return a + b
+
+
+def multiply(a, b):
+    """ Multiplication """
+    return a * b
+
+
+def subtract(a, b):
+    """ Subtraction """
+    return a - b
+
+
+def divide(x, y):
+    """ Division """
+    if y == 0:
+        raise ValueError('Can not divide by zero!')
+    return x / y
+</code></pre>
+<p>Now, the <code class="language-python">calculator.py</code> module contains four different functions that perform basic arithmetic operations: addition, multiplication, subtraction, and division. We are going to write unit tests to check that these functions work as expected. </p>
+<p>It is better to store tests in a separate file, and it is advisable to start the name of the file with <em>test</em>. So we create a new file <code class="language-python">test_calculator.py</code> and import the <code class="language-python">unittest</code> module and the module we are going to test, that is the <code class="language-python">calculator</code>. Note that the tested module should be in the same directory.</p>
+<pre><code class="language-python"># this code is in the beginning of the test_calculator.py file
+
+import unittest
+import calculator
+</code></pre>
+<h5 id="time-to-test">Time to test</h5>
+<p>Now, we are ready to test our program. To do this, we will write one or several test cases. A <strong>test case</strong> is a basic unit of testing, it checks that the tested unit produces the right output when given various kinds of input. We create a test case by subclassing the general <code class="language-python">unittest.TestCase</code> class: </p>
+<pre><code class="language-python">class TestCalculator(unittest.TestCase):  # a test case for the calculator.py module</code></pre>
+<p>In our case, the tested unit is the whole <code class="language-python">calculator.py</code> module, but we could write a separate test case for each function. In Python, the tested unit can be a class, a method, or a function.</p>
+<p>All tests will now be defined as methods inside this class. Let's write the simplest test to check the result of our <code class="language-python">add()</code> function:</p>
+<pre><code class="language-python">class TestCalculator(unittest.TestCase):  # a test case for the calculator.py module
+
+    def test_add(self):
+        # tests for the add() function
+        self.assertEqual(calculator.add(6, 4), 10)
+        self.assertEqual(calculator.add(6, -4), 2)
+        self.assertEqual(calculator.add(-6, 4), -2)
+        self.assertEqual(calculator.add(-6, -4), -10)</code></pre>
+<p></p><div class="alert alert-warning">The names of the test methods must start with <em>test</em>. Otherwise, it is not going to work properly.</div><p></p>
+<p>In the example above, we use the <code class="language-python">assertEqual()</code> method from the <code class="language-python">unittest.TestCase</code> class: it checks that the two given arguments are equal;  otherwise,<span style="color: #66cc66;"> </span>we will get an <code class="language-python">AssertionError</code> and the test will be marked as failed.</p>
+<p>Note that inside one test we check several cases, how the function works when two positive numbers are given, one positive and one negative, and two negative numbers. It is important that we check all possible border cases and all cases when something can go wrong.</p>
+<p>The tests for the <code class="language-python">multiply()</code> and <code class="language-python">subtract()</code> functions will look similar. </p>
+<p></p><div class="alert alert-primary">PyCharm allows you to create tests in a simpler manner, you just need to right-click the name of the tested function or class and choose the option <strong>Go To</strong>, and then <strong>Test</strong>. You can learn more about writing tests with PyCharm <a href="https://www.jetbrains.com/help/pycharm/testing-your-first-python-application.html" rel="noopener noreferrer nofollow" target="_blank">in this tutorial</a>. </div><p></p>
+<h5 id="assert-methods">Assert methods</h5>
+<p>The <code class="language-python">unittest.TestCase</code> class provides special assert methods that are used for testing. You have seen one of them in the example above, we checked that the result of the addition is correct with the help of the <code class="language-python">assertEqual()</code> method.</p>
+<p>All assert methods accept a message argument that, when specified, is used as the error message if the test fails:</p>
+<pre><code class="language-python">class TestCalculator(unittest.TestCase):  # a test case for the calculator.py module
+
+    def test_add(self):
+        # tests for the add() function        
+        self.assertEqual(calculator.add(6, 4), 10, 'Error when adding two positive numbers')
+</code></pre>
+<p>You will see how error messages are displayed in the following sections.</p>
+<p>Now, let's write tests for the <code class="language-python">divide()</code> function. We can write most of the checks using the already known <code class="language-python">assertEqual()</code> method, so we are not going to mention them. However, our function is also supposed to raise an exception when the divider is 0. We must check this as well and will do so with the help of the <code class="language-python">assertRaises()</code> method. It works a bit differently from <code class="language-python">assertEqual()</code>, and two ways to use this method are shown below.</p>
+<p>1. We can pass several arguments to the function: the exception that we expect (<code class="language-python">ValueError</code>), the function that we test (<code class="language-python">divide</code>), and then all arguments that the function takes (<code class="language-python">5</code>, <code class="language-python">0</code>).</p>
+<pre><code class="language-python">class TestCalculator(unittest.TestCase):  # a test case for the calculator.py module
+
+    def test_divide(self):
+        # tests for the divide() function
+        # ...
+        self.assertRaises(ValueError, calculator.divide, 5, 0)</code></pre>
+<p>2. Alternatively, we can use a context manager, within which we call the tested function as we have done it before:</p>
+<pre><code class="language-python">class TestCalculator(unittest.TestCase):  # a test case for the calculator.py module
+
+     def test_divide(self):
+        # tests for the divide() function
+        # ...
+        with self.assertRaises(ValueError):
+            calculator.divide(5, 0)</code></pre>
+<p>All other assert methods are similar to the <code class="language-python">assertEqual()</code> method, so we are not going to discuss them separately. In the table below, we list all widely-used methods:</p>
+<table border="1" cellpadding="1" cellspacing="1" style="height: 578px; width: 637px;">
+<tbody>
+<tr>
+<td><strong>Method</strong></td>
+<td><strong>What it checks</strong></td>
+</tr>
+<tr>
+<td><code class="language-python">assertEqual(a, b)</code></td>
+<td>a == b</td>
+</tr>
+<tr>
+<td><code class="language-python">assertNotEqual(a, b)</code></td>
+<td>a != b</td>
+</tr>
+<tr>
+<td><code class="language-python">assertTrue(x)</code></td>
+<td>bool(x) is True</td>
+</tr>
+<tr>
+<td><code class="language-python">assertFalse(x)</code></td>
+<td>bool(x) is False</td>
+</tr>
+<tr>
+<td><code class="language-python">assertIsNone(x)</code></td>
+<td>x is None</td>
+</tr>
+<tr>
+<td><code class="language-python">assertIsNotNone(x)</code></td>
+<td>x is not None</td>
+</tr>
+<tr>
+<td><code class="language-python">assertGreater(a, b)</code></td>
+<td>a &gt; b</td>
+</tr>
+<tr>
+<td><code class="language-python">assertLess(a, b)</code></td>
+<td>a &lt; b</td>
+</tr>
+<tr>
+<td><code class="language-python">assertIsInstance(a, b)</code></td>
+<td>isinstance(a, b)</td>
+</tr>
+<tr>
+<td><code class="language-python">assertRaises(exception, function, arguments)</code></td>
+<td>The function raises the exception when given the arguments</td>
+</tr>
+</tbody>
+</table>
+<p>If you want more information about the assert methods, you can read <a href="https://docs.python.org/3/library/unittest.html#assert-methods" rel="noopener noreferrer nofollow" target="_blank">the official Python documentation</a>.</p>
+<h5 id="running-tests">Running tests</h5>
+<p>Once the tests are ready, we should run them and check the code. However, if you run <code class="language-python">test_calculator.py</code> as a usual Python file, you are not going to get any information about the result of testing. To see the results, you should run the file from the command line, from the directory where the <code class="language-python">test_calculator.py</code> is located. You need to enter either of the commands:</p>
+<pre><code class="language-no-highlight">python -m unittest
+</code></pre>
+<pre><code class="language-no-highlight">python -m unittest test_calculator</code></pre>
+<p>If we do not specify the name of the test<em> </em>file, only files which start with "<em>test"</em> will be executed.</p>
+<p>There is also an easier way to run the tests right from the editor and get the message. We just need to add the following lines at the end of our code:</p>
+<pre><code class="language-python">if __name__ == "__main__":
+    unittest.main()</code></pre>
+<p>Now, if we run the module directly (not imported in some other module), then all our tests will be collected and executed. In commands, <samp>'-m'</samp> does exactly the same.</p>
+<p>After that, you will get a message with information about the tests. We talk about these messages in detail in the next section.</p>
+<h5 id="test-outcomes">Test outcomes</h5>
+<p>When the tests are executed, we get a message which provides us with information about the result of testing. For example, if we run the tests we have written for our calculator, we will see the following message:</p>
+<pre><code class="language-no-highlight">....
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK</code></pre>
+<p><samp>OK</samp> means that all tests went well, and so do the dots that correspond to the succeeded test cases. So, from this message, we know that:</p>
+<ul>
+<li>4 tests were executed;</li>
+<li>all tests succeeded.</li>
+</ul>
+<p>Now let's imagine that we made a typo in the <code class="language-python">add()</code> function, and accidentally put '-' instead of  '+':</p>
+<pre><code class="language-python">def add(a, b):
+    return a - b
+</code></pre>
+<p>Then, we'll get the following message:</p>
+<pre><code class="language-no-highlight">F...
+======================================================================
+FAIL: test_add (__main__.TestCalculator)
+----------------------------------------------------------------------
+<span style="color: #ff0000;">Traceback (most recent call last):
+  File "C:\Users\...\test_calculator.py", line 11, in test_add
+    self.assertEqual(calculator.add(6, 4), 10, 'Error when adding two positive numbers')
+AssertionError: 2 != 10 : Error when adding two positive numbers</span>
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.003s
+
+FAILED (failures=1)
+</code></pre>
+<p>This message tells us that:</p>
+<ul>
+<li>4 tests were executed;</li>
+<li>3 tests passed (dots);</li>
+<li>one test failed (the letter <samp>'F'</samp> and the number of failed tests explicitly shown in the last line);</li>
+<li>where something went wrong (the 11th line; in the <code class="language-python">test_add</code> method);</li>
+<li>what went wrong (assertion failure).</li>
+</ul>
+<p>Note that together with the <code class="language-python">AssertionError</code>, we see the message that we specified in the code: "<em>Error when adding two positive numbers</em>". It helps us understand what the error was.</p>
+<p></p><div class="alert alert-primary">The tests are executed alphabetically, so the order of dots and letters in the first line does not correspond to the order of tests in our code.</div><p></p>
+<p>There is also a third possible outcome — ERROR. The errors occur when a test raises an exception <em>other than</em> <code class="language-python">AssertionError</code>. In such cases, we see the letter <samp>'E'</samp> in the first line and the information about the occurred problem. </p>
+<p>Let's say we wrote in the tests for the <code class="language-python">divide()</code> function the following assertion:</p>
+<pre><code class="language-python">def test_divide(self):
+    # tests for the divide function
+    # ...
+    self.assertEqual(calculator.divide(10, 0), 0)</code></pre>
+<p>Then we would get the following outcome:</p>
+<pre><code class="language-no-highlight">.E..
+=====================================================================
+FAIL: test_divide (__main__.TestCalculator)
+----------------------------------------------------------------------
+<span style="color: #ff0000;">Traceback (most recent call last):
+  File "C:\Users\...\test_calculator.py", line 28, in test_divide
+    self.assertEqual(calculator.divide(10, 0), 0)
+  File "C:\Users\...\calculator.py", line 16, in divide
+    raise ValueError('Can not divide by zero!')
+ValueError: Can not divide by zero!</span></code><code class="language-no-highlight">----------------------------------------------------------------------
+Ran 4 tests in 0.003s
+
+FAILED (errors=1)
+</code></pre>
+<p>First, it tells us that an error occurred in the line No. 28, in the <code class="language-python">test_divide</code> (the letter <samp>'E'</samp> is the second of all the dots). Further in the message, we can see that the <code class="language-python">divide</code> method raises a <code class="language-python">ValueError</code> if we try to divide it by zero. As a result, the <code class="language-python">ValueError</code> does take place, which is not <code class="language-python">AssertionError</code>, so the test is considered neither failed nor passed.</p>
+<h5 id="summary">Summary</h5>
+<p>In this topic, we have discussed the basics of unit testing in Python using the <code class="language-python">unittest</code> framework. The main points to remember are as follows:</p>
+<ul>
+<li>We write tests in a separate file, in the very beginning of which we import <code class="language-python">unittest</code> and the tested module.</li>
+<li>A <strong>test case</strong> is a basic unit of testing that checks whether the tested unit produces the right output when given various kinds of input. To create a test case, we subclass the <code class="language-python">unittest.TestCase</code> class. All the tests will then be defined as methods within the class.</li>
+<li>We use <em>assert methods</em> for writing tests. The most commonly used assert method is <code class="language-python">assertEqual()</code>.</li>
+<li>Tests can result in 3 possible ways: 
+	<ul>
+<li><strong>Success </strong>— the test passes, everything worked as expected;</li>
+<li><strong>Failure</strong> — the test doesn't pass and raises an AssertionError exception, meaning that the assertion failed;</li>
+<li><strong>Error</strong> — the test raises an exception other than AssertionError.</li>
+</ul>
+</li>
+</ul></body></html>

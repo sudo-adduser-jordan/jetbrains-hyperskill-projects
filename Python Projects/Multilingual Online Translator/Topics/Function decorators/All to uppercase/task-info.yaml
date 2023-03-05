@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def to_upper(function):
+        # YOUR CODE HERE
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15774#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 14:23:22 UTC"
+record: -1
+submission_language: python3

@@ -1,0 +1,94 @@
+<h2>Regexp flags in Python</h2>
+<html><body><p>If you work with Python regexp functions regularly, you know that sometimes they require additional parameters. These additional parameters are called <strong>flags</strong>. In this topic, we are going to cover compilation flags that can help you with adjusting regular expression patterns.</p>
+<h5 id="compilation-flags">Compilation flags</h5>
+<p>Regexes contain <strong>seven compilation flags</strong>. They can be passed as values of the optional <code class="language-python">flags</code> argument to any function. These flags change the behavior of your patterns. Each flag has two names: a long one, <code class="language-python">re.IGNORECASE</code>, for example, and a short one, <code class="language-python">re.I</code> in this case. Below you can find a table with all flags that will be discussed further:</p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<td><strong>Flags</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr>
+<td><code class="language-python">re.IGNORECASE</code> or <code class="language-python">re.I</code></td>
+<td>Ignores a case.</td>
+</tr>
+<tr>
+<td><code class="language-python">re.DOTALL</code> or <code class="language-python">re.S</code></td>
+<td>Allows the <code class="language-python">.</code> metacharacter to match a newline.</td>
+</tr>
+<tr>
+<td><code class="language-python">re.MULTILINE</code> or <code class="language-python">re.M</code></td>
+<td>Allows the <code class="language-python">^</code> and <code class="language-python">$</code> metacharacters to match each line.</td>
+</tr>
+<tr>
+<td><code class="language-python">re.VERBOSE</code> or <code class="language-python">re.X</code></td>
+<td>Allows whitespaces and comments in pattern compilation.</td>
+</tr>
+<tr>
+<td><code class="language-python">re.ASCII</code> or <code class="language-python">re.A</code></td>
+<td>Makes <code class="language-python">\w</code>, <code class="language-python">\W</code>, <code class="language-python">\b</code>, <code class="language-python">\B</code>, <code class="language-python">\s</code>, <code class="language-python">\S</code> match only ASCII characters.</td>
+</tr>
+</tbody>
+</table>
+<p>They can seem a bit overwhelming. Don't worry, we will take a look at each of them in more detail further on.</p>
+<h5 id="ignoring-a-case">Ignoring a case</h5>
+<p>As you may know, regular expressions are case-sensitive. To make your regular expression treat uppercase and lowercase letters equally, you can use the <code class="language-python">re.IGNORECASE</code> (<code class="language-python">re.I</code>) flag:</p>
+<pre><code class="language-python">lower = 'you shall not pass\!'
+upper = 'YOU SHALL NOT PASS\!'
+string = 'You Shall Not Pass!'
+result_lower = re.match(lower, string, flags=re.IGNORECASE)  # match
+result_upper = re.match(upper, string, flags=re.IGNORECASE)  # match</code></pre>
+<h5 id="changing-metacharacter-behavior">Changing metacharacter behavior</h5>
+<p><code class="language-python">Re.DOTALL</code>, or <code class="language-python">re.S</code> for short, is another very useful flag. It matches the special <code class="language-python">.</code> character with any character, including the newline <code class="language-python">\n</code> character. If you remember, the dot meta metacharacter doesn't match a newline by default:</p>
+<pre><code class="language-python">pattern = 'precious .'
+result_1 = re.search(pattern, 'my precious \n')  # no match
+result_2 = re.search(pattern, 'my precious \n', flags=re.DOTALL)  # match</code></pre>
+<p>By default, the <code class="language-python">^</code> character matches only the start of a string while the <code class="language-python">$</code> character matches only the string end. <code class="language-python">Re.MULTILINE</code> (<code class="language-python">re.M</code>) flag matches them with the beginning and the end of each line in a string, respectively. Let's compare:</p>
+<pre><code class="language-python">string = '''A million dollars isn’t cool.\nYou know what’s cool?\nA billion dollars.'''
+
+result_1 = re.findall('^(A|You)', string)  # ['A']
+result_2 = re.findall('^(A|You)', string, flags=re.MULTILINE)  # ['A', 'You', 'A']
+
+result_3 = re.findall('(cool.)$', string)  # []
+result_4 = re.findall('(cool.)$', string, flags=re.MULTILINE)  # ['cool.', 'cool?']
+
+</code></pre>
+<h5 id="making-patterns-more-readable">Making patterns more readable</h5>
+<p>Unlike other flags, <code class="language-python">Re.VERBOSE</code> or <code class="language-python">re.X</code> doesn't change the way your pattern behaves but makes the pattern compilation more comprehensible instead. Most of the regexp patterns are complex and barely understandable, and <code class="language-python">re.VERBOSE</code> allows for two things during compilation:</p>
+<ul>
+<li>Whitespaces can be used for alignment;</li>
+<li>Hash signs <code class="language-python">#</code> can be used for adding comments.</li>
+</ul>
+<p>Let's see how <code class="language-python">re.VERBOSE</code> can improve the pattern that matches e-mail addresses:</p>
+<pre><code class="language-python">pattern = re.compile(r"""
+                      ^([a-z0-9_\.-]+)               # username
+                       @                             # @ sign
+                      ([0-9a-z\.-]+)                 # host name
+                       \.                            # a dot .
+                      ([a-z]{2,6})$                  # top level domain     
+                      """,flags=re.VERBOSE)
+
+results = pattern.match('username@abc.com')  # match</code></pre>
+<p><button class="btn-sm btn-outline-secondary" onclick="getElementById('hint-4666').style.display='inline'">
+        Hint
+      </button>
+</p><div id="hint-4666" style="display:none;">If you use the <code class="language-python">re.VERBOSE</code> flag to make a pattern match whitespaces and hash symbols, you need to escape them. For instance, <code class="language-python">\#</code>.</div>
+<h5 id="matching-ascii-only">Matching ASCII only</h5>
+<p>By default <code class="language-python">\w</code>, <code class="language-python">\W</code>, <code class="language-python">\b</code>, <code class="language-python">\B</code>, <code class="language-python">\d</code>, <code class="language-python">\D</code>, <code class="language-python">\s</code> and <code class="language-python">\S</code> match the entire UNICODE. To make a pattern match <strong>only ASCII characters</strong>, you can use <code class="language-python">re.ASCII</code> or <code class="language-python">re.A</code>:</p>
+<pre><code class="language-python">result_1 = re.findall('\w', 'ä, Ä, ö. Ö, ü, Ü, ß.')  # ['ä', 'Ä', 'ö', 'Ö', 'ü', 'Ü', 'ß']
+result_2 = re.findall('\w', 'ä, Ä, ö. Ö, ü, Ü, ß.', flags=re.ASCII)  # []</code></pre>
+<p>One last thing. If you are going to use several flags at the same time, use either the <code class="language-python">|</code> operator or <code class="language-python">+</code>:</p>
+<pre><code class="language-python">string = "A million dollars isn’t cool.\nYou know what’s cool?\nA billion dollars."
+
+result = re.findall('^(a|you)', string, flags=re.IGNORECASE|re.MULTILINE) 
+print(result)</code></pre>
+<h5 id="conclusion">Conclusion </h5>
+<p>In this topic, we have covered the main compilation flags that can improve your regexes. Let's recap them:</p>
+<ul>
+<li>Compilation flags are passed as values of the optional <code class="language-python">flags</code> argument;</li>
+<li>To ignore a letter case, use <code class="language-python">re.IGNORECASE</code>;</li>
+<li>To make the <code class="language-python">.</code> metacharacter match newlines, use <code class="language-python">re.DOTALL</code></li>
+<li>To make <code class="language-python">^</code> and <code class="language-python">$</code> metacharacters match the beginning and end of each line, use <code class="language-python">re.MULTILINE</code>;</li>
+<li>If you want to add comments and whitespaces inside the regexp pattern, use <code class="language-python">re.VERBOSE</code>, but don't forget to escape the hash symbol and whitespace if you want your pattern to match them.</li>
+<li>And finally, to make your pattern match ASCII characters exclusively, make use of <code class="language-python">re.ASCII</code>. Remember that by default, regexps match UNICODE characters. </li>
+</ul></body></html>

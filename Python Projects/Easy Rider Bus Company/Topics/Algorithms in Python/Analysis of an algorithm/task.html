@@ -1,0 +1,14 @@
+<h2>Analysis of an algorithm</h2>
+<p>In programming, it is important to understand and analyze algorithms written by other people. Given below is some algorithm implemented in Python:</p>
+<pre><code class="language-python">def foo(numbers):
+    counter1 = 0
+    counter2 = 0
+
+    for num in numbers:
+        if num % 2 == 0:
+            counter1 += num if num &lt; 4 else -num
+        else:
+            counter2 += num if num &lt; 5 else -num
+
+    return counter1 * counter2</code></pre>
+<p>What is the output of this algorithm for the list <code class="language-python">[3, 4, 2, 1, 5, 7]</code>? Try not to run the interpreter but identify the output only reading the code snippet. Print your answer in the field below.</p>

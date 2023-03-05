@@ -1,0 +1,109 @@
+<h5 id="description">Description</h5>
+<p>You just started sorting out the existing database of the "Easy Rider" bus company. As you take the first look at the data, you realize that it's not going to be easy.</p>
+<p>Sometimes numbers are missing from where they should definitely be. You also noticed that sometimes there are too many or too few characters. Fortunately, there is documentation to help you sort out this mess. However, this documentation is not a hundred percent complete: part of it was torn away when your colleague spilled coffee on it. Let's see what we can make out.</p>
+<p>Here are the documents that you have: <a href="https://stepik.org/media/attachments/lesson/412967/Documentation.jpg" rel="noopener noreferrer nofollow" target="_blank">documentation</a> and <a href="https://stepik.org/media/attachments/lesson/412967/Diagram_of_the_bus_line.jpg" rel="noopener noreferrer nofollow" target="_blank">diagram of the bus lines</a>.</p>
+<h5 id="objectives">Objectives</h5>
+<ol>
+<li>The string containing the data in JSON format is passed to standard input.</li>
+<li>Check that the <strong>data types</strong> match<strong>.</strong></li>
+<li>Check that the <strong>required fields</strong> are filled in.</li>
+<li>Display the information about the number of found errors in total and in each field. Keep in mind that there might be no errors at all.</li>
+<li>The output should have the same formatting as shown in the example.</li>
+</ol>
+<p> </p>
+<p></p><div class="alert alert-primary">No need to worry about the <strong>format</strong> (name validation) now. Let's at first just make sure that the fields have the right type and all required ones are filled.</div>
+<p> </p>
+<p>If you can't find the necessary information in the stage description, it can probably be found in the attached documentation.</p>
+<p>Note that the type <code class="language-json">Char</code> is present among the data types. </p>
+<h5 id="example">Example</h5>
+<p>Input:</p>
+<pre><code class="language-json">[
+    {
+        "bus_id": 128,
+        "stop_id": 1,
+        "stop_name": "Prospekt Avenue",
+        "next_stop": 3,
+        "stop_type": "S",
+        "a_time": 8.12
+    },
+    {
+        "bus_id": 128,
+        "stop_id": 3,
+        "stop_name": "",
+        "next_stop": 5,
+        "stop_type": "",
+        "a_time": "08:19"
+    },
+    {
+        "bus_id": 128,
+        "stop_id": 5,
+        "stop_name": "Fifth Avenue",
+        "next_stop": 7,
+        "stop_type": "O",
+        "a_time": "08:25"
+    },
+    {
+        "bus_id": 128,
+        "stop_id": "7",
+        "stop_name": "Sesame Street",
+        "next_stop": 0,
+        "stop_type": "F",
+        "a_time": "08:37"
+    },
+    {
+        "bus_id": "",
+        "stop_id": 2,
+        "stop_name": "Pilotow Street",
+        "next_stop": 3,
+        "stop_type": "S",
+        "a_time": ""
+    },
+    {
+        "bus_id": 256,
+        "stop_id": 3,
+        "stop_name": "Elm Street",
+        "next_stop": 6,
+        "stop_type": "",
+        "a_time": "09:45"
+    },
+    {
+        "bus_id": 256,
+        "stop_id": 6,
+        "stop_name": "Sunset Boulevard",
+        "next_stop": 7,
+        "stop_type": "",
+        "a_time": "09:59"
+    },
+    {
+        "bus_id": 256,
+        "stop_id": 7,
+        "stop_name": "Sesame Street",
+        "next_stop": "0",
+        "stop_type": "F",
+        "a_time": "10:12"
+    },
+    {
+        "bus_id": 512,
+        "stop_id": 4,
+        "stop_name": "Bourbon Street",
+        "next_stop": 6,
+        "stop_type": "S",
+        "a_time": "08:13"
+    },
+    {
+        "bus_id": "512",
+        "stop_id": 6,
+        "stop_name": "Sunset Boulevard",
+        "next_stop": 0,
+        "stop_type": 5,
+        "a_time": "08:16"
+    }
+]</code></pre>
+<p>Output:</p>
+<pre><code class="language-no-highlight">Type and required field validation: 8 errors
+bus_id: 2
+stop_id: 1
+stop_name: 1
+next_stop: 1
+stop_type: 1
+a_time: 2</code></pre>

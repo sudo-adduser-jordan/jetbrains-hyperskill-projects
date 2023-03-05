@@ -1,0 +1,27 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def print_info(func):
+        def wrapper(arg1, arg2):
+            print("The arguments of the function are:", arg1, arg2)
+            return func(arg1, arg2)
+
+        return wrapper
+
+
+    def addition(arg1, arg2):
+        ...
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10110#comment
+status: Solved
+feedback:
+  message: |-
+    <html>[+] Test #1. OK
+    [+] Test #2. OK
+
+    2 of 2 test(s) passed.</html>
+  time: "Sat, 04 Mar 2023 12:33:44 UTC"
+record: -1
+submission_language: python3

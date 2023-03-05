@@ -1,0 +1,12 @@
+<h2>Correct a mistake</h2>
+<html><body><p><span style="background-color: #ffffff; color: #222222; font-size: 12pt; font-variant: normal;"></span></p>
+<p>The code below solves the following problem — having the numerator and the denominator of a fraction, check if the fraction equals <code class="language-python">0.5</code>. The program should print <code class="language-python">True</code> or <code class="language-python">False</code>. If the denominator equals <code class="language-python">0</code>, the answer is <code class="language-python">False</code>.</p>
+<pre><code class="language-python">def compare(numerator, denominator):
+    return denominator and numerator / denominator == 0.5
+
+
+a = int(input())
+b = int(input())
+
+print(compare(a, b))</code></pre>
+<p>But this code works incorrectly. Find and correct the mistake, then run the code.</p></body></html><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">5<br>10</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">True</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">3<br>0</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">False</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">-1<br>-2</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">True</code></pre><br><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>

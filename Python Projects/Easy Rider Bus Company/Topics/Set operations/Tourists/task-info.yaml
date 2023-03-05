@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # work with these variables
+    eugene = set(input().split())
+    rose = set(input().split())
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9155#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 09:55:29 UTC"
+record: -1
+submission_language: python3

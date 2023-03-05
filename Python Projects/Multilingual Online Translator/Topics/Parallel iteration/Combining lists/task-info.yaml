@@ -1,0 +1,18 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # please do not modify the following code
+    numbers, word = input().split()
+    numbers = list(numbers)
+
+    # your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14564#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 10:30:51 UTC"
+record: -1
+submission_language: python3

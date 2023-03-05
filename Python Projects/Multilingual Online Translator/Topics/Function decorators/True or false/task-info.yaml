@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: Decorators usually interact with the source code of an object they decorate.
+- text: Decorators can be used for functions and methods only.
+- text: Decorators return a wrapper over an object we pass to them.
+- text: Python doesn't provide any built-in decorators.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10106#comment
+status: Solved
+record: -1
+local_check: false

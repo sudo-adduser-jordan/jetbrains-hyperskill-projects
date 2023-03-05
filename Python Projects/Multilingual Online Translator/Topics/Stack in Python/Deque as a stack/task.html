@@ -1,0 +1,44 @@
+<h2>Deque as a stack</h2>
+<p>Take a look at the following fragments of code:</p>
+<p>A.</p>
+<pre><code class="language-python">my_deque = deque()
+
+my_deque.appendleft('a')
+my_deque.appendleft('b')
+my_deque.appendleft('c')
+
+my_deque.popleft()
+my_deque.popleft()
+my_deque.popleft()
+</code></pre>
+<p>B.</p>
+<pre><code class="language-python">my_deque = deque()
+
+my_deque.append('a')
+my_deque.append('b')
+my_deque.append('c')
+
+my_deque.pop()
+my_deque.pop()
+my_deque.pop()</code></pre>
+<p>C.</p>
+<pre><code class="language-python">my_deque = deque()
+
+my_deque.append('a')
+my_deque.append('b')
+my_deque.append('c')
+
+my_deque.popleft()
+my_deque.popleft()
+my_deque.popleft()</code></pre>
+<p>D.</p>
+<pre><code class="language-python">my_deque = deque()
+
+my_deque.appendleft('a')
+my_deque.appendleft('b')
+my_deque.appendleft('c')
+
+my_deque.pop()
+my_deque.pop()
+my_deque.pop()</code></pre>
+<p> Which of them handles data in the LIFO fashion?</p>

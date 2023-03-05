@@ -1,0 +1,208 @@
+type: edu
+files:
+- name: easyrider/easyrider.py
+  visible: true
+  text: '# Write your code here'
+  learner_created: false
+- name: test/__init__.py
+  visible: false
+  learner_created: false
+- name: test/tests.py
+  visible: false
+  text: "from hstest.stage_test import *\nfrom hstest.test_case import TestCase\n\
+    import re\n\n\nclass EasyRiderStage5(StageTest):\n    def generate(self) -> List[TestCase]:\n\
+    \        return [\n            TestCase(\n                stdin='[{\"bus_id\"\
+    \ : 512, \"stop_id\" : 4, \"stop_name\" : \"Bourbon Street\", \"next_stop\" :\
+    \ 6, \"stop_type\" : \"S\", \"a_time\" : \"08:13\"}, '\n                     \
+    \ '{\"bus_id\" : 512, \"stop_id\" : 6, \"stop_name\" : \"Sunset Boulevard\", \"\
+    next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"08:16\"}]',\n         \
+    \       attach=\"OK\"),\n            TestCase(\n                stdin='[{\"bus_id\"\
+    \ : 128, \"stop_id\" : 1, \"stop_name\" : \"Prospekt Avenue\", \"next_stop\" :\
+    \ 3, \"stop_type\" : \"S\", \"a_time\" : \"08:12\"}, '\n                     \
+    \ '{\"bus_id\" : 128, \"stop_id\" : 3, \"stop_name\" : \"Elm Street\", \"next_stop\"\
+    \ : 5, \"stop_type\" : \"\", \"a_time\" : \"08:19\"}, '\n                    \
+    \  '{\"bus_id\" : 128, \"stop_id\" : 5, \"stop_name\" : \"Fifth Avenue\", \"next_stop\"\
+    \ : 7, \"stop_type\" : \"O\", \"a_time\" : \"08:17\"}, '\n                   \
+    \   '{\"bus_id\" : 128, \"stop_id\" : 7, \"stop_name\" : \"Sesame Street\", \"\
+    next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"08:07\"}, '\n         \
+    \             '{\"bus_id\" : 256, \"stop_id\" : 2, \"stop_name\" : \"Pilotow Street\"\
+    , \"next_stop\" : 3, \"stop_type\" : \"S\", \"a_time\" : \"09:20\"}, '\n     \
+    \                 '{\"bus_id\" : 256, \"stop_id\" : 3, \"stop_name\" : \"Elm Street\"\
+    , \"next_stop\" : 6, \"stop_type\" : \"\", \"a_time\" : \"09:45\"}, '\n      \
+    \                '{\"bus_id\" : 256, \"stop_id\" : 6, \"stop_name\" : \"Sunset\
+    \ Boulevard\", \"next_stop\" : 7, \"stop_type\" : \"\", \"a_time\" : \"09:44\"\
+    }, '\n                      '{\"bus_id\" : 256, \"stop_id\" : 7, \"stop_name\"\
+    \ : \"Sesame Street\", \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" :\
+    \ \"10:12\"}, '\n                      '{\"bus_id\" : 512, \"stop_id\" : 4, \"\
+    stop_name\" : \"Bourbon Street\", \"next_stop\" : 6, \"stop_type\" : \"S\", \"\
+    a_time\" : \"08:13\"}, '\n                      '{\"bus_id\" : 512, \"stop_id\"\
+    \ : 6, \"stop_name\" : \"Sunset Boulevard\", \"next_stop\" : 0, \"stop_type\"\
+    \ : \"F\", \"a_time\" : \"08:16\"}]',\n                attach=((('128', 'Fifth\
+    \ Avenue'), ('256', 'Sunset Boulevard')), 3)),\n            TestCase(\n      \
+    \          stdin='[{\"bus_id\" : 128, \"stop_id\" : 1, \"stop_name\" : \"Fifth\
+    \ Avenue\", \"next_stop\" : 4, \"stop_type\" : \"S\", \"a_time\" : \"08:12\"},\
+    \ '\n                      '{\"bus_id\" : 128, \"stop_id\" : 4, \"stop_name\"\
+    \ : \"Abbey Road\", \"next_stop\" : 5, \"stop_type\" : \"\", \"a_time\" : \"08:19\"\
+    },  '\n                      '{\"bus_id\" : 128, \"stop_id\" : 5, \"stop_name\"\
+    \ : \"Santa Monica Boulevard\", \"next_stop\" : 8, \"stop_type\" : \"O\", \"a_time\"\
+    \ : \"08:25\"},  '\n                      '{\"bus_id\" : 128, \"stop_id\" : 8,\
+    \ \"stop_name\" : \"Elm Street\", \"next_stop\" : 11, \"stop_type\" : \"\", \"\
+    a_time\" : \"08:37\"},  '\n                      '{\"bus_id\" : 128, \"stop_id\"\
+    \ : 11, \"stop_name\" : \"Beale Street\", \"next_stop\" : 12, \"stop_type\" :\
+    \ \"\", \"a_time\" : \"09:20\"},  '\n                      '{\"bus_id\" : 128,\
+    \ \"stop_id\" : 12, \"stop_name\" : \"Sesame Street\", \"next_stop\" : 14, \"\
+    stop_type\" : \"\", \"a_time\" : \"09:45\"},  '\n                      '{\"bus_id\"\
+    \ : 128, \"stop_id\" : 14, \"stop_name\" : \"Bourbon Street\", \"next_stop\" :\
+    \ 19, \"stop_type\" : \"O\", \"a_time\" : \"09:59\"},  '\n                   \
+    \   '{\"bus_id\" : 128, \"stop_id\" : 19, \"stop_name\" : \"Prospekt Avenue\"\
+    , \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"10:12\"},  '\n    \
+    \                  '{\"bus_id\" : 256, \"stop_id\" : 2, \"stop_name\" : \"Pilotow\
+    \ Street\", \"next_stop\" : 3, \"stop_type\" : \"S\", \"a_time\" : \"08:13\"},\
+    \  '\n                      '{\"bus_id\" : 256, \"stop_id\" : 3, \"stop_name\"\
+    \ : \"Startowa Street\", \"next_stop\" : 8, \"stop_type\" : \"\", \"a_time\" :\
+    \ \"08:16\"},  '\n                      '{\"bus_id\" : 256, \"stop_id\" : 8, \"\
+    stop_name\" : \"Elm Street\", \"next_stop\" : 10, \"stop_type\" : \"\", \"a_time\"\
+    \ : \"08:29\"},  '\n                      '{\"bus_id\" : 256, \"stop_id\" : 10,\
+    \ \"stop_name\" : \"Lombard Street\", \"next_stop\" : 12, \"stop_type\" : \"\"\
+    , \"a_time\" : \"08:44\"},  '\n                      '{\"bus_id\" : 256, \"stop_id\"\
+    \ : 12, \"stop_name\" : \"Sesame Street\", \"next_stop\" : 13, \"stop_type\" :\
+    \ \"O\", \"a_time\" : \"08:46\"},  '\n                      '{\"bus_id\" : 256,\
+    \ \"stop_id\" : 13, \"stop_name\" : \"Orchard Road\", \"next_stop\" : 16, \"stop_type\"\
+    \ : \"\", \"a_time\" : \"09:13\"},  '\n                      '{\"bus_id\" : 256,\
+    \ \"stop_id\" : 16, \"stop_name\" : \"Sunset Boulevard\", \"next_stop\" : 17,\
+    \ \"stop_type\" : \"O\", \"a_time\" : \"09:26\"},  '\n                      '{\"\
+    bus_id\" : 256, \"stop_id\" : 17, \"stop_name\" : \"Khao San Road\", \"next_stop\"\
+    \ : 20, \"stop_type\" : \"O\", \"a_time\" : \"10:25\"},  '\n                 \
+    \     '{\"bus_id\" : 256, \"stop_id\" : 20, \"stop_name\" : \"Michigan Avenue\"\
+    , \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"11:26\"},  '\n    \
+    \                  '{\"bus_id\" : 512, \"stop_id\" : 6, \"stop_name\" : \"Arlington\
+    \ Road\", \"next_stop\" : 7, \"stop_type\" : \"S\", \"a_time\" : \"11:06\"}, \
+    \ '\n                      '{\"bus_id\" : 512, \"stop_id\" : 7, \"stop_name\"\
+    \ : \"Parizska Street\", \"next_stop\" : 8, \"stop_type\" : \"\", \"a_time\" :\
+    \ \"11:15\"},  '\n                      '{\"bus_id\" : 512, \"stop_id\" : 8, \"\
+    stop_name\" : \"Elm Street\", \"next_stop\" : 9, \"stop_type\" : \"\", \"a_time\"\
+    \ : \"11:56\"},  '\n                      '{\"bus_id\" : 512, \"stop_id\" : 9,\
+    \ \"stop_name\" : \"Niebajka Avenue\", \"next_stop\" : 15, \"stop_type\" : \"\"\
+    , \"a_time\" : \"12:20\"},  '\n                      '{\"bus_id\" : 512, \"stop_id\"\
+    \ : 15, \"stop_name\" : \"Jakis Street\", \"next_stop\" : 16, \"stop_type\" :\
+    \ \"\", \"a_time\" : \"12:44\"},  '\n                      '{\"bus_id\" : 512,\
+    \ \"stop_id\" : 16, \"stop_name\" : \"Sunset Boulevard\", \"next_stop\" : 18,\
+    \ \"stop_type\" : \"\", \"a_time\" : \"13:01\"},  '\n                      '{\"\
+    bus_id\" : 512, \"stop_id\" : 18, \"stop_name\" : \"Jakas Avenue\", \"next_stop\"\
+    \ : 19, \"stop_type\" : \"\", \"a_time\" : \"14:00\"},  '\n                  \
+    \    '{\"bus_id\" : 1024, \"stop_id\" : 21, \"stop_name\" : \"Karlikowska Avenue\"\
+    , \"next_stop\" : 12, \"stop_type\" : \"S\", \"a_time\" : \"13:01\"},  '\n   \
+    \                   '{\"bus_id\" : 1024, \"stop_id\" : 12, \"stop_name\" : \"\
+    Sesame Street\", \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"14:00\"\
+    },  '\n                      '{\"bus_id\" : 512, \"stop_id\" : 19, \"stop_name\"\
+    \ : \"Prospekt Avenue\", \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\"\
+    \ : \"14:11\"}]',\n                attach=\"OK\"),\n            TestCase(\n  \
+    \              stdin='[{\"bus_id\" : 128, \"stop_id\" : 1, \"stop_name\" : \"\
+    Fifth Avenue\", \"next_stop\" : 4, \"stop_type\" : \"S\", \"a_time\" : \"08:12\"\
+    }, '\n                      '{\"bus_id\" : 128, \"stop_id\" : 4, \"stop_name\"\
+    \ : \"Abbey Road\", \"next_stop\" : 5, \"stop_type\" : \"\", \"a_time\" : \"08:19\"\
+    },  '\n                      '{\"bus_id\" : 128, \"stop_id\" : 5, \"stop_name\"\
+    \ : \"Santa Monica Boulevard\", \"next_stop\" : 8, \"stop_type\" : \"O\", \"a_time\"\
+    \ : \"08:25\"},  '\n                      '{\"bus_id\" : 128, \"stop_id\" : 8,\
+    \ \"stop_name\" : \"Elm Street\", \"next_stop\" : 11, \"stop_type\" : \"\", \"\
+    a_time\" : \"08:37\"},  '\n                      '{\"bus_id\" : 128, \"stop_id\"\
+    \ : 11, \"stop_name\" : \"Beale Street\", \"next_stop\" : 12, \"stop_type\" :\
+    \ \"\", \"a_time\" : \"09:20\"},  '\n                      '{\"bus_id\" : 128,\
+    \ \"stop_id\" : 12, \"stop_name\" : \"Sesame Street\", \"next_stop\" : 14, \"\
+    stop_type\" : \"\", \"a_time\" : \"09:45\"},  '\n                      '{\"bus_id\"\
+    \ : 128, \"stop_id\" : 14, \"stop_name\" : \"Bourbon Street\", \"next_stop\" :\
+    \ 19, \"stop_type\" : \"O\", \"a_time\" : \"09:59\"},  '\n                   \
+    \   '{\"bus_id\" : 128, \"stop_id\" : 19, \"stop_name\" : \"Prospekt Avenue\"\
+    , \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"10:12\"},  '\n    \
+    \                  '{\"bus_id\" : 256, \"stop_id\" : 2, \"stop_name\" : \"Pilotow\
+    \ Street\", \"next_stop\" : 3, \"stop_type\" : \"S\", \"a_time\" : \"08:13\"},\
+    \  '\n                      '{\"bus_id\" : 256, \"stop_id\" : 3, \"stop_name\"\
+    \ : \"Startowa Street\", \"next_stop\" : 8, \"stop_type\" : \"\", \"a_time\" :\
+    \ \"08:16\"},  '\n                      '{\"bus_id\" : 256, \"stop_id\" : 8, \"\
+    stop_name\" : \"Elm Street\", \"next_stop\" : 10, \"stop_type\" : \"\", \"a_time\"\
+    \ : \"08:29\"},  '\n                      '{\"bus_id\" : 256, \"stop_id\" : 10,\
+    \ \"stop_name\" : \"Lombard Street\", \"next_stop\" : 12, \"stop_type\" : \"\"\
+    , \"a_time\" : \"08:28\"},  '\n                      '{\"bus_id\" : 256, \"stop_id\"\
+    \ : 12, \"stop_name\" : \"Sesame Street\", \"next_stop\" : 13, \"stop_type\" :\
+    \ \"O\", \"a_time\" : \"08:27\"},  '\n                      '{\"bus_id\" : 256,\
+    \ \"stop_id\" : 13, \"stop_name\" : \"Orchard Road\", \"next_stop\" : 16, \"stop_type\"\
+    \ : \"\", \"a_time\" : \"08:42\"},  '\n                      '{\"bus_id\" : 256,\
+    \ \"stop_id\" : 16, \"stop_name\" : \"Sunset Boulevard\", \"next_stop\" : 17,\
+    \ \"stop_type\" : \"O\", \"a_time\" : \"09:26\"},  '\n                      '{\"\
+    bus_id\" : 256, \"stop_id\" : 17, \"stop_name\" : \"Khao San Road\", \"next_stop\"\
+    \ : 20, \"stop_type\" : \"O\", \"a_time\" : \"10:25\"},  '\n                 \
+    \     '{\"bus_id\" : 256, \"stop_id\" : 20, \"stop_name\" : \"Michigan Avenue\"\
+    , \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"11:26\"},  '\n    \
+    \                  '{\"bus_id\" : 512, \"stop_id\" : 6, \"stop_name\" : \"Arlington\
+    \ Road\", \"next_stop\" : 7, \"stop_type\" : \"S\", \"a_time\" : \"11:06\"}, \
+    \ '\n                      '{\"bus_id\" : 512, \"stop_id\" : 7, \"stop_name\"\
+    \ : \"Parizska Street\", \"next_stop\" : 8, \"stop_type\" : \"\", \"a_time\" :\
+    \ \"11:15\"},  '\n                      '{\"bus_id\" : 512, \"stop_id\" : 8, \"\
+    stop_name\" : \"Elm Street\", \"next_stop\" : 9, \"stop_type\" : \"\", \"a_time\"\
+    \ : \"11:06\"},  '\n                      '{\"bus_id\" : 512, \"stop_id\" : 9,\
+    \ \"stop_name\" : \"Niebajka Avenue\", \"next_stop\" : 15, \"stop_type\" : \"\"\
+    , \"a_time\" : \"12:20\"},  '\n                      '{\"bus_id\" : 512, \"stop_id\"\
+    \ : 15, \"stop_name\" : \"Jakis Street\", \"next_stop\" : 16, \"stop_type\" :\
+    \ \"\", \"a_time\" : \"12:44\"},  '\n                      '{\"bus_id\" : 512,\
+    \ \"stop_id\" : 16, \"stop_name\" : \"Sunset Boulevard\", \"next_stop\" : 18,\
+    \ \"stop_type\" : \"\", \"a_time\" : \"13:01\"},  '\n                      '{\"\
+    bus_id\" : 512, \"stop_id\" : 18, \"stop_name\" : \"Jakas Avenue\", \"next_stop\"\
+    \ : 19, \"stop_type\" : \"\", \"a_time\" : \"14:00\"},  '\n                  \
+    \    '{\"bus_id\" : 1024, \"stop_id\" : 21, \"stop_name\" : \"Karlikowska Avenue\"\
+    , \"next_stop\" : 12, \"stop_type\" : \"S\", \"a_time\" : \"13:01\"},  '\n   \
+    \                   '{\"bus_id\" : 1024, \"stop_id\" : 12, \"stop_name\" : \"\
+    Sesame Street\", \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\" : \"13:00\"\
+    },  '\n                      '{\"bus_id\" : 512, \"stop_id\" : 19, \"stop_name\"\
+    \ : \"Prospekt Avenue\", \"next_stop\" : 0, \"stop_type\" : \"F\", \"a_time\"\
+    \ : \"14:11\"}]',\n                attach=((('256', 'Lombard Street'), ('512',\
+    \ 'Elm Street'), ('1024', 'Sesame Street')), 4)),\n        ]\n\n    def check(self,\
+    \ reply: str, result) -> CheckResult:\n        if isinstance(result, str):\n \
+    \           if result not in reply:\n                return CheckResult.wrong(f\"\
+    Wrong number of bugs detected or wrong output format.\"\n                    \
+    \                     f\"Expected output: '{result}'.\")\n        else:\n    \
+    \        output_len = len(reply.strip().split('\\n'))\n            if output_len\
+    \ != result[1]:\n                if len(result[0]) == 2:\n                   \
+    \ return CheckResult.wrong(f\"Wrong number of text lines in output. Found {output_len},\
+    \ \"\n                                             f\"expected {result[1]}.\\\
+    n\" \n                                             \"Expected output:\\n\\n\"\n\
+    \                                             \"Arrival time test:\\n\"\n    \
+    \                                         f\"bus_id line {result[0][0][0]}: wrong\
+    \ time on station {result[0][0][1]}\\n\"\n                                   \
+    \          f\"bus_id line {result[0][1][0]}: wrong time on station {result[0][1][1]}\"\
+    )\n                else:\n                    return CheckResult.wrong(f\"Wrong\
+    \ number of text lines in output. Found {output_len}, \"\n                   \
+    \                          f\"expected {result[1]}.\\n\" \n                  \
+    \                           \"Expected output:\\n\\n\"\n                     \
+    \                        \"Arrival time test:\\n\"\n                         \
+    \                    f\"bus_id line {result[0][0][0]}: wrong time on station {result[0][0][1]}\\\
+    n\"\n                                             f\"bus_id line {result[0][1][0]}:\
+    \ wrong time on station {result[0][1][1]}\\n\"\n                             \
+    \                f\"bus_id line {result[0][2][0]}: wrong time on station {result[0][2][1]}\"\
+    )\n\n            for x in range(len(result[0])):\n                query = result[0][x][0]\
+    \ + \"[\\\\D]*\" + result[0][x][1] + \"\\n\"\n                response = re.search(rf'{query}',\
+    \ reply)\n                if not response or sum(\n                        response.group(0).count(txt)\
+    \ for txt in (\"Avenue\", \"Street\", \"Boulevard\", \"Road\")) != 1:\n      \
+    \              return CheckResult.wrong(\"Wrong number of bugs detected or the\
+    \ output format is wrong in bus line \"\n                                    \
+    \         f\"{result[0][x][0]}. Expected output:\\n\\n\" \n                  \
+    \                           f\"bus_id line {result[0][x][0]}: wrong time on station\
+    \ {result[0][x][1]}\")\n        return CheckResult.correct()\n\n\nif __name__\
+    \ == '__main__':\n    EasyRiderStage5('easyrider.easyrider').run_tests()\n"
+  learner_created: false
+- name: tests.py
+  visible: false
+  text: |
+    from test.tests import EasyRiderStage5
+
+    if __name__ == '__main__':
+        EasyRiderStage5('easyrider.easyrider').run_tests()
+  learner_created: false
+- name: easyrider/input.json
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/projects/128/stages/684/implement#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Sat, 04 Mar 2023 10:06:01 UTC"
+record: 5

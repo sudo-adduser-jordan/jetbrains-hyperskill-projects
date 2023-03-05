@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # work with these variables
+    violinists = set(input().split(', '))
+    german_speakers = set(input().split(', '))
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9153#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 09:53:34 UTC"
+record: -1
+submission_language: python3

@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: "Yes, because by default <code>^</code> matches only the beginning of the\
+    \ first string."
+- text: "No, because <code>re.findall</code> will match all <code>I</code>'s anyway."
+- text: "Yes, because the more flags the better."
+- text: "No, we need to use <code>re.DOTALL</code> to match a newline instead."
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14246#comment
+status: Solved
+record: -1
+local_check: false

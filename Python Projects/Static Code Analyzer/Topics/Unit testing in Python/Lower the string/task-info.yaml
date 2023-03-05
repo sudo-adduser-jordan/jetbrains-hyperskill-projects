@@ -1,0 +1,28 @@
+type: code
+custom_name: Lower the string!
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # tests for the string_to_lower() function
+    import unittest
+
+
+    class TestStringToLower(unittest.TestCase):
+        def test_string_to_lower(self):
+            # testing for an exception one way
+            self.assertRaises()
+
+            # testing for an exception another way
+            with self.assertRaises():
+
+    if __name__ == '__main__':
+        unittest.main()
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10805#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Thu, 02 Mar 2023 14:59:47 UTC"
+record: -1
+submission_language: python3

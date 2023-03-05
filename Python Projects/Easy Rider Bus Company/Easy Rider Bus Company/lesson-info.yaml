@@ -1,0 +1,9 @@
+type: framework
+content:
+- Checking the data type
+- Correct syntax
+- Bus line info
+- Special stops
+- Unlost in time
+- On-demand
+current_task: 5

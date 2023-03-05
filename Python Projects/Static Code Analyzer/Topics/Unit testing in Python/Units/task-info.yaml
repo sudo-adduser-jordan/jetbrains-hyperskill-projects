@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: A framework used for writing tests.
+- text: A module with the tested functions.
+- text: A test for a function or class.
+- text: A small part of code that performs one particular task.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10796#comment
+status: Solved
+record: -1
+local_check: false

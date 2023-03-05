@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: <code>nltk.stem</code>
+- text: <code>nltk.tokenize</code>
+- text: <code>nltk.parse</code>
+- text: <code>nltk.chunk</code>
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10023#comment
+status: Solved
+record: -1
+local_check: false

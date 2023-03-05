@@ -1,0 +1,93 @@
+<h2>Regexps in programs</h2>
+<p>Regular expressions are very versatile. They can be used to automate many tedious text-related tasks, such as input text validation or data collection. In this topic, we will have a look at two examples of simple yet powerful programs that employ regular expressions.</p>
+<h5 id="email-validation-program">Email validation program </h5>
+<p>Let's have a look at a basic program that checks whether the text contains email addresses and, if it does, returns them in sequential order:</p>
+<pre><code class="language-python">import re
+
+def find_emails(string):
+    # Here we compile our simple pattern that will match email addresses
+    pattern = re.compile(r'[\w\.-]+@[\w\.-]+')
+
+    # Remember that re.findall() returns a list of all matched email strings
+    emails = re.findall(pattern, string) 
+
+    # To print the matched strings one by one
+    for email in emails:
+        print(email)</code></pre>
+<p>The program above carries out a rather simple check. It checks if the <code class="language-python">@</code> character is preceded and followed by alphanumeric characters, an underscore, and a dot. Mind that <code class="language-python">\w</code> is equal to <code class="language-python">[A-Za-z0-9_]</code>.</p>
+<p>Let's test our program:</p>
+<pre><code class="language-python"># Suppose we have a text with various email addresses
+string = '''cat billy123@something.com, dog 456 
+          alice_2000@website.com johnnY.b@blahblahblah.com'''
+find_emails(string)
+# billy123@something.com
+# alice_2000@website.com
+# johnnY.b@blahblahblah.com
+</code></pre>
+<p>The downside is that our program will also match strings like <code class="language-python">_@._</code>. They obviously cannot be considered email addresses. </p>
+<h5 id="email-validation-20">Email validation 2.0</h5>
+<p>If usernames and domain names are too short, it may lead to rather bad scenarios. We can set some restrictions when compiling our pattern to avoid this:</p>
+<pre><code class="language-python"># Let's say we want the username to be at least 5 characters long 
+# and the domain name of 2 to 4 characters 
+pattern = re.compile(r'[\w\.-]{5,}@[\w-]+\.\w{2,4}')</code></pre>
+<p>Let's break it down piece by piece:</p>
+<ul>
+<li><code class="language-python">[\w\.-]{5,}</code> matches alphanumeric characters, underscores, a dot, or a dash that appear at least 5 times;</li>
+<li><code class="language-python">@</code> matches the <strong>@<em> </em></strong>sign;</li>
+<li><code class="language-python">[\w-]+\.</code> matches alphanumeric characters, underscores, or a dash followed by a dot;</li>
+<li><code class="language-python">\w{2,4}</code> matches alphanumeric characters and underscores that appear 2-4 times.</li>
+</ul>
+<p>Here's our final program: </p>
+<pre><code class="language-python">def find_emails(string):
+    # Here we compile our simple pattern that will match email addresses
+    pattern = re.compile(r'[\w\.-]{5,}@[\w-]+\.[\w]{2,4}')
+
+    # Remember that re.findall() returns a list of all matched email strings
+    emails = re.findall(pattern, string) 
+
+    # To print the matched strings one by one
+    for email in emails:
+        print(email)</code></pre>
+<p>Let's test it:</p>
+<pre><code class="language-python">string = '''_@._ mary_liu@abc._ billy123@something.com, dog 456 
+            alice_2000@website.com johnnY.b@blahblahblah.com one@one.one'''
+find_emails(string)
+# billy123@something.com
+# alice_2000@website.com
+# johnnY.b@blahblahblah.com</code></pre>
+<p>As you can see, simple restrictions can make our pattern more powerful. You can also make your pattern match more specific strings by, for example, adding the boundary shorthands <code class="language-python">\b</code> at the beginning and the end of the pattern, as well as lookaround assertions. </p>
+<h5 id="tokenization">Tokenization</h5>
+<p>As you may already know, text preprocessing plays a crucial role with textual data. Tokenization or splitting text into smaller units (usually words) is the first step in text processing. Text tokenization can go smoother with regular expressions if you don't want to use other special tools. </p>
+<p>The most straightforward approach to tokenization is to split a text by whitespaces. Let's see how it works: </p>
+<pre><code class="language-python">import re
+
+def tokenize(string):
+    tokens = re.split('\s+', string)
+    return tokens
+
+string = "This is a sample string. (And here's another one!!)"
+tokenize(string)
+# ['This', 'is', 'a', 'sample', 'string.', '(And', "here's", 'another', 'one!!)']</code></pre>
+<p>After giving it a thorough look, you can spot the elephant in the room — punctuation marks. Let's get rid of them before we split our sentence:</p>
+<pre><code class="language-python">import re
+
+def tokenize(string):
+    # Let's create a pattern that contains punctuation marks
+    punctuation = re.compile(r'[\.,\?!\*:;()]')
+
+    # Substitute the punctuations with empty strings
+    no_punct = re.sub(punctuation, '', string)
+    print(no_punct)
+    # This is a sample string And here's another one
+
+    # Split sentences by whitespaces
+    tokens = re.split('\s+', no_punct)
+    return tokens
+
+tokenize(string)
+# ['This', 'is', 'a', 'sample', 'string', 'And', "here's", 'another', 'one']</code></pre>
+<p>We have not omitted the apostrophe <code class="language-python">'</code> in the punctuation mark list. This is quite important as we do not want to split words like <code class="language-python">Let's</code>, <code class="language-python">here's</code>, or <code class="language-python">Mary's</code> into two different tokens and change their meaning. </p>
+<p>As you can see, tokenization can be a bit tricky, but regex can help you with it. Of course, there are a lot of ways to tokenize a text depending on the text type you are dealing with. We have presented you with one of the simplest ways to do it. </p>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, we've seen examples of how regular expressions can help us with string processing. You can experiment further and implement other regular expressions to check whether a string is a valid email address or tokenize more complicated sentences. </p>
+<p>To sum up, even simple regular expression patterns can be used to write powerful programs for real-life applications, including textual data extraction and substitution, web scraping, and many other natural language processing tasks. </p>

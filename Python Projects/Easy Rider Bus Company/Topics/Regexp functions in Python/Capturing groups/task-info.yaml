@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: <code>re.split()</code>
+- text: <code>re.search()</code>
+- text: <code>re.findall()</code>
+- text: <code>re.match()</code>
+- text: "None, functions always output strings matched by a pattern."
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14182#comment
+status: Solved
+record: -1
+local_check: false

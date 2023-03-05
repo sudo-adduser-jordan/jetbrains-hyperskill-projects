@@ -1,0 +1,60 @@
+<h2>Escaping in regexps</h2>
+<html><body><p>You already know that in the language of regular expressions some characters, like the dot and the question mark, have special meaning. This way, the dot will match not only itself, but also almost every other possible character, while the question mark won't match itself at all. But what if we want to use such characters in their literal meaning? What if we want the dot to match nothing but the dot? Well, in this case, escaping comes to our rescue. </p>
+<h5 id="escaping-through-backslashes">Escaping through backslashes</h5>
+<p>To use a special character in its literal meaning in your regexp, you need to put a <strong>backslash </strong><code class="language-python">\</code> before it: <code class="language-python">\?</code>, <code class="language-python">\.</code>. The backslash <code class="language-python">\</code> is a so-called <strong>escape character</strong>, it helps symbols to "escape their work duties". However, the backslash is used as an escape character not only in regular expressions, but also in Python itself (it is the first character in such escape sequences as <code class="language-python">\t</code> and <code class="language-python">\n</code>). So, it's possible, though not necessary, to escape the first backslash with another backslash <code class="language-python">\</code> . For example, <code class="language-python">\\?</code> and <code class="language-python">\?</code> in the regular expression both correspond to <code class="language-python">?</code> in a string, while<code class="language-python">\\.</code> and <code class="language-python">\.</code> correspond to a single dot <code class="language-python">.</code> in a string. Take a look at how it works in practice:</p>
+<pre><code class="language-python">re.match("\?", "?")  # match, '?' is the matching string
+re.match("\\?", "?")  # match, '?' is the matching string
+re.match("\\.", ".")  # match, '.' is the matching string
+re.match("?", "?")  # SyntaxError
+# SyntaxError is caused by a "dangling metacharacter" in the regexp,
+# an unescaped question mark not preceded by any character</code></pre>
+<p>The first backslash to the left of the escaped symbol tells regular expression to treat <code class="language-python">?</code> or <code class="language-python">.</code> as characters without special meaning, and the second backslash (if present) tells Python to not treat the first backslash as a start of some Python's escape sequence. Here's a less formal example showing the application of the escape symbol in regexps:</p>
+<pre><code class="language-python">question = "who let the dogs out?!"
+re.match("who let the dogs out?!", question)  # no match
+re.match("who let the dogs out\?!", question)  # match
+re.match("woof\.", "woof!")  # no match
+re.match("woof\.", "woof.")  # match</code></pre>
+<p>So far the escaping in regexps seems reasonable, right? But wait, there's more.</p>
+<h5 id="backslash-plague">Backslash plague</h5>
+<p>Things get worse when you want your regular expression to match a <em>literal </em>backslash. Since a backslash is a metacharacter both in the regexp language and in Python, you have to escape it with three other backslashes, which will result in a cumbersome regexp: <code class="language-python">\\\\</code>. The last backslash here is the backslash you want to match; the second backslash from the left serves as an escape character for the regexp language; the first backslash serves to "escape" the second one in Python syntax; the third one serves to escape the last one in Python syntax. Check out these examples:</p>
+<pre><code class="language-python">re.match("\\\\", "\\")  # match
+# Python requires backslash to be escaped in the string as well
+# so the string consists of one literal backslash and one escape symbol
+re.match("\\", "\\")  # SyntaxError</code></pre>
+<p>SyntaxError in the second example is raised because the regexp template consists of one Python's escape symbol and one backslash. So, this backslash is left unescaped in the regexp, and regexp interprets it as an <em>escape character</em>, but there's nothing to escape, because no character is following this backslash.</p>
+<p>By the way, there are no problems with matching default escape sequences whose notations coincide in Python and in regular expressions language:</p>
+<pre><code class="language-python">re.match("\t", "\t")  # match
+re.match("\\t", "\t")  # match</code></pre>
+<p>Using a bunch of backslashes probably doesn't seem convenient to you, and you are completely right. Fortunately, there's a way to deal with them. </p>
+<h5 id="r-prefix">r prefix</h5>
+<p>To partly avoid the mess created by backslashes, you can always use the <code class="language-python">r</code> prefix in your strings, for example:</p>
+<pre><code class="language-python">regexp = r"\?"</code></pre>
+<p>The <code class="language-python">r</code> prefix is a <strong>raw string notation prefix</strong>: it tells Python to cancel the usage of escape sequences in this string and treat all backslashes in their literal meaning. For example, the string <code class="language-python">r'\t'</code> will be treated by Python as a combination of a backslash and a letter <code class="language-python">t</code>, not as tabulation. This way, you'll only need to use backslash as an escape character for regular expressions. Here's an example:</p>
+<pre><code class="language-python">re.match(r"\\", "\\")  # match: regexp consists of a regexp escape and a backslash
+re.match(r"\\.", ".")  # no match: no backslash in the string 
+re.match(r"\\?", "?")  # match is an empty string: the question mark in regexp is unescaped
+
+re.match(r"\?", "?")  # match, as in the example above, \ is the regexp escape character
+re.match(r"\t", "\t")  # match, \t is the regexp escape sequence
+</code></pre>
+<p>You can't use <code class="language-python">r</code> prefix with already existing strings: that is, you can't create a raw string from a variable. <code class="language-python">r</code> prefix is only used when you write the value of your string by hand. </p>
+<p>There's also a quick way to escape all special characters in your regular expression: <code class="language-python">re.escape</code> function. Let's take a closer look at it!</p>
+<h5 id="reescape">re.escape</h5>
+<p><code class="language-python">re.escape</code> function can help you escape all special characters in your string automatically, without placing backslashes in the regular expression by yourself. This function takes a string with your <em>regular expression</em> as an argument and returns the same string but with necessary backslashes placed before every dot, question mark, and other regexp metacharacters. That's what it looks like:</p>
+<pre><code class="language-python">template = "hyperskill.org"  
+escaped_template = re.escape(template)
+print(escaped_template)  # 'hyperskill\.org'</code></pre>
+<p>The string stored in the <code class="language-python">escaped_template</code> variable, actually, contains <em>two </em>backslashes, i.e. it looks like <code class="language-python">'hyperskill\\.org'</code>: the first one is the Python's escape symbol and the second one is a simple backslash added by <code class="language-python">re.escape</code> to escape the dot in the regular expression. When the <code class="language-python">escaped_template</code> is printed, however, only a single backslash is left since the Python's escape backslash is no longer needed: it has already fulfilled its duty by showing that the following backslash is not a Python's metacharacter. </p>
+<p>By the way, whitespace is a metacharacter too. It's not like it has any special meaning or function, but backslashes are always placed before it. </p>
+<pre><code class="language-python">print(re.escape('whitespace is here'))
+# The output is 'whitespace\ is\ here'</code></pre>
+<p><code class="language-python">re.escape</code> is useful when you want to match an entire string in its literal meaning. This doesn't happen often, though, since the power of regular expressions language lies exactly in its special symbols. So be careful: if there are any special symbols that you want to perform their duties as usual, don't use <code class="language-python">re.escape</code>. </p>
+<p></p><div class="alert alert-primary">Note that <code class="language-python">re.escape</code> escapes nothing but regexp's special characters only if your Python is updated to the version 3.7 or higher. If you're using earlier versions of Python, <code class="language-python">re.escape</code> puts backslashes before every non-alphanumerical character, including, for example, <code class="language-python">!</code>, <code class="language-python">&lt;</code>, <code class="language-python">&gt;</code>, <code class="language-python">@</code>, etc., even though they only have their literal meaning in regexp language. However, these redundant backslashes don't change the result of the <code class="language-python">match</code> function, since a single backslash in a regular expression never matches itself: it simply "cancels" the special meaning of the following character; if there is no special meaning to cancel, the backslash basically doesn't do anything at all. </div><p></p>
+<h5 id="summary">Summary</h5>
+<p>In this topic we've learned that:</p>
+<ol>
+<li>To use regexp's special characters like the dot and the question mark in their literal meaning, we need to escape them with one or two backslashes.</li>
+<li>Backslashes are also used by Python's own syntax, so we <em>can </em>use single or double backslashes in regular expression to escape most metacharacters, but we <em>need </em>to use double backslashes to escape backslash itself. </li>
+<li>To cancel backslash's escape function in Python, we can use <code class="language-python">r</code> prefix before the string. This helps to avoid the need to use multiple backslashes for escaping.</li>
+<li>To backslash each special character in the template automatically, we can use <code class="language-python">re.escape</code> function.</li>
+</ol></body></html>

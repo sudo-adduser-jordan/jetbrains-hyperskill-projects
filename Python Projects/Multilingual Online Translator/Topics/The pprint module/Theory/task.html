@@ -1,0 +1,158 @@
+<h2>The pprint module</h2>
+<html><body><p>For programmers, it's essential to see the output of the variables regardless of the programming language. Sometimes, however, the output in the console isn't what we expect. You may have faced this problem when you tried to output a dictionary or a list variable to the console. Lucky for us, there are libraries to format the output of our variables! We don't need to worry about many loops and prints to format the output. One of such libraries is <code class="language-python">pprint</code>. This library is a native Python library that you will meet in this topic.</p>
+<h5 id="printing-data">Printing data</h5>
+<p>To start using it, import it first. Don't get confused because the method and the library have the same name:</p>
+<pre><code class="language-python">from pprint import pprint</code></pre>
+<p>Then, we can use it as part of the usual <code class="language-python">print()</code> method:</p>
+<pre><code class="language-python">pprint("Hello pprint") # 'Hello pprint'</code></pre>
+<p>At least for now, you can spot no difference. The difference will be visible when you try to print more complex data structures such as lists or dictionaries.</p>
+<p>Let's create a list with dictionaries inside and then print this list using the two methods:</p>
+<pre><code class="language-python">dogs = [
+    {
+        "name": "Max",
+        "breed": "Yorkshire",
+        "age": 1,
+        "owners": ["Susan, Camila, Paul"]
+    },
+    {
+        "name": "Duke",
+        "breed": "Bulldog",
+        "age": 4,
+        "owners": ["Thomas, David, Lucia"]
+    },
+    {
+        "name": "Bella",
+        "breed": "Poodle",
+        "age": 2,
+        "owners": ["Katharina, Arthur"]
+    }
+]</code></pre>
+<p>If we use the common <code class="language-python">print()</code> method, the whole list will be printed on one line. It makes it rather clunky:</p>
+<pre><code class="language-python">print(dogs)
+[{'name': 'Max', 'breed': 'Yorkshire', 'age': 1, 'owners': ['Susan, Camila, Paul']}, ...]</code></pre>
+<p>If you refer to <code class="language-python">pprint()</code>, each object will be printed on a new line:</p>
+<pre><code class="language-python">from pprint import pprint
+
+pprint(dogs)
+
+[{'age': 1,
+  'breed': 'Yorkshire',
+  'name': 'Max',
+  'owners': ['Susan, Camila, Paul']},
+ {'age': 4,
+  'breed': 'Bulldog',
+  'name': 'Duke',
+  'owners': ['Thomas, David, Lucia']},
+ {'age': 2,
+  'breed': 'Poodle',
+  'name': 'Bella',
+  'owners': ['Katharina, Arthur']}]</code></pre>
+<p>Much better! You may also notice that the dictionary was sorted by the key name. This happens because, by default, the <code class="language-python">sort_dicts</code> property is <code class="language-python">True</code>; we will discuss this property later on.</p>
+<h5 id="properties">Properties</h5>
+<p>The name of this library stands for Pretty Printer. It allows you to format output. In this topic, we will focus on the <code class="language-python">pprint</code> method.</p>
+<p>Let's take a look at some settings and their default values.</p>
+<ul>
+<li><code class="language-python">stream=None</code> — use this property when you want to print the contents of a file;</li>
+<li><code class="language-python">indent=1</code> — number of spaces for each line. This property is very useful for aligning;</li>
+<li><code class="language-python">width=80</code> — maximum number of characters that can be printed on each line. If the line exceeds this limit, the remaining characters will be printed on a new line;</li>
+<li><code class="language-python">depth=None</code> — maximum number of nested data types;</li>
+<li><code class="language-python">compact=False</code> — this property compresses complex data structures in the lines, as long as the line does not exceed the width limit;</li>
+<li><code class="language-python">sort_dicts=True</code> — this property displays the key-value pairs of the dictionaries sorted by key.</li>
+</ul>
+<p>Keep in mind that these default values will be reset each time you invoke the method. We will discuss how you can define a global configuration later in this topic.</p>
+<h5 id="indent-and-width">Indent and width</h5>
+<p>Let's start with the <code class="language-python">indent</code>. We will set the value to <code class="language-python">2</code>. Each object will be aligned by 2 spaces:</p>
+<pre><code class="language-python">from pprint import pprint
+
+pprint(dogs, indent=2)
+
+[ { 'age': 1,
+    'breed': 'Yorkshire',
+    'name': 'Max',
+    'owners': ['Susan, Camila, Paul']},
+  { 'age': 4,
+    'breed': 'Bulldog',
+    'name': 'Duke',
+    'owners': ['Thomas, David, Lucia']},
+  { 'age': 2,
+    'breed': 'Poodle',
+    'name': 'Bella',
+    'owners': ['Katharina, Arthur']}]</code></pre>
+<p>Let's say you have a small screen, or you are working with several windows. If you don't want to scroll the terminal to the end of the line to see the data, you can limit the line width using the <code class="language-python">width</code> property:</p>
+<pre><code class="language-python">from pprint import pprint
+
+pprint(dogs, width=20, indent=2)
+
+[ { 'age': 1,
+    'breed': 'Yorkshire',
+    'name': 'Max',
+    'owners': [ 'Susan, '
+                'Camila, '
+                'Paul']},
+  { 'age': 4,
+    'breed': 'Bulldog',
+    'name': 'Duke',
+    'owners': [ 'Thomas, '
+                'David, '
+                'Lucia']},
+  { 'age': 2,
+    'breed': 'Poodle',
+    'name': 'Bella',
+    'owners': [ 'Katharina, '
+                'Arthur']}]</code></pre>
+<p>Even if a key-value pair exceeds the line size limit, it will be kept on the same line.</p>
+<h5 id="depth-sort_dicts-and-compact">Depth, sort_dicts, and compact</h5>
+<p>What if you don't want to display the owner list? You can set the depth to <code class="language-python">2</code>, so the maximum number of nested objects is only two. Since the list of <code class="language-python">owners</code> is inside a dictionary that is inside a list, it will not be displayed:</p>
+<pre><code class="language-python">from pprint import pprint
+
+pprint(dogs, depth=2)
+
+[{'age': 1, 'breed': 'Yorkshire', 'name': 'Max', 'owners': [...]},
+ {'age': 4, 'breed': 'Bulldog', 'name': 'Duke', 'owners': [...]},
+ {'age': 2, 'breed': 'Poodle', 'name': 'Bella', 'owners': [...]}]</code></pre>
+<p>You can see that the contents of the owner list are replaced with dots. The data structure is maintained, so you can easily identify the object type.</p>
+<p>Earlier, we have discussed that dictionaries are sorted by key name by default. If you want to print the dictionary the way it's meant, you need to change this property to <code class="language-python">False</code>:</p>
+<pre><code class="language-python">from pprint import pprint
+
+pprint(dogs, depth=2, sort_dicts=False)
+
+[{'name': 'Max', 'breed': 'Yorkshire', 'age': 1, 'owners': [...]},
+ {'name': 'Duke', 'breed': 'Bulldog', 'age': 4, 'owners': [...]},
+ {'name': 'Bella', 'breed': 'Poodle', 'age': 2, 'owners': [...]}]</code></pre>
+<p></p><div class="alert alert-primary"><code class="language-python">sort_dicts</code> has been first introduced in Python 3.8. If you try to use it in the previous version, it will raise the exception: <code class="language-python">TypeError: pprint() got an unexpected keyword argument 'sort_dicts'</code></div><p></p>
+<p>The compact property is <code class="language-python">False</code> by default. This property is best with lists, so let's create one:</p>
+<pre><code class="language-python">phones = [
+    ["iPhone 7", "iPhone X"], ["Samsung Galaxy S4", "Samsung Galaxy S7"], ["Huawei Mate 10 Pro", "Huawei Mate 9"]
+]</code></pre>
+<p>If you print it as it is, this will be the result:</p>
+<pre><code class="language-python">from pprint import pprint
+
+pprint(phones)
+
+[['iPhone 7', 'iPhone X'],
+ ['Samsung Galaxy S4', 'Samsung Galaxy S7'],
+ ['Huawei Mate 10 Pro', 'Huawei Mate 9']]</code></pre>
+<p>Each list has been printed on a new line. We can now work on visualization. However, if you want to compress the output, change the <code class="language-python">compact</code> property to <code class="language-python">True</code>, and the values will be compressed along the lines, as long as they do not exceed the <code class="language-python">width</code> limit.</p>
+<p>Let's see an example:</p>
+<pre><code class="language-python">from pprint import pprint
+
+pprint(phones, compact=True)
+
+[['iPhone 7', 'iPhone X'], ['Samsung Galaxy S4', 'Samsung Galaxy S7'],
+ ['Huawei Mate 10 Pro', 'Huawei Mate 9']]</code></pre>
+<p>As you can see, everything is printed in two lines.</p>
+<h5 id="setting-a-global-configuration">Setting a global configuration</h5>
+<p>If you don't want to set the properties every time you invoke the <code class="language-python">pprint</code> method, you can import the <code class="language-python">PrettyPrinter</code> class constructor and create an object with the desired settings. If you need to change some settings, you can change them in one place.</p>
+<p>First, you need to import the constructor from the library:</p>
+<pre><code class="language-python">from pprint import PrettyPrinter</code></pre>
+<p>Then, create an instance of this class with the settings you want:</p>
+<pre><code class="language-python">pp = PrettyPrinter(indent=4, depth=2, sort_dicts=False)</code></pre>
+<p>Now, all you have to do is to call the <code class="language-python">pprint</code> method from the object you've just created:</p>
+<pre><code class="language-python">pp.pprint(dogs)
+
+[   {'name': 'Max', 'breed': 'Yorkshire', 'age': 1, 'owners': [...]},
+    {'name': 'Duke', 'breed': 'Bulldog', 'age': 4, 'owners': [...]},
+    {'name': 'Bella', 'breed': 'Poodle', 'age': 2, 'owners': [...]}]</code></pre>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, you have learned about the <code class="language-python">pprint</code> library and its purpose. You can now format the output of your data to print complex data structures without struggling to visualize them.<br/>
+You have also learned that you can use the <code class="language-python">pprint</code> method and define the property each time you want to use it. You can also create an instance of the <code class="language-python">PrettyPrinter</code> class and define the global settings for the method. If you are eager to learn more, you can always check out the <a href="https://docs.python.org/3/library/pprint.html" rel="noopener noreferrer nofollow" target="_blank">Official Documentation</a>.</p></body></html>

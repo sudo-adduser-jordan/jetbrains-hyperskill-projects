@@ -149,7 +149,7 @@ files:
 - name: hacking/passwords.txt
   visible: true
   learner_created: true
-feedback_link: https://hyperskill.org/projects/80/stages/444/implement#comment
+feedback_link: https://hyperskill.org/learn/step/7218#comment
 status: Solved
 feedback:
   message: Congratulations!

@@ -1,0 +1,16 @@
+<h2>Apple tree</h2>
+<html><body><p>Look at the following XML document.</p>
+<pre style="background-color: #ffffff; color: #080808; font-size: 9.8pt;">&lt;<span style="color: #0033b3;">tree</span>&gt;
+    &lt;<span style="color: #0033b3;">roots</span>/&gt;
+    &lt;<span style="color: #0033b3;">trunk</span>&gt;
+        &lt;<span style="color: #0033b3;">branch </span><span style="color: #174ad4;">apples</span><span style="color: #067d17;">="5"</span>/&gt;
+        &lt;<span style="color: #0033b3;">branch </span><span style="color: #174ad4;">apples</span><span style="color: #067d17;">="6"</span>/&gt;
+        &lt;<span style="color: #0033b3;">branch </span><span style="color: #174ad4;">apples</span><span style="color: #067d17;">="3"</span>/&gt;
+    &lt;/<span style="color: #0033b3;">trunk</span>&gt;
+&lt;/<span style="color: #0033b3;">tree</span>&gt;
+</pre>
+<p>The <code class="language-python">tree</code> variable is an instance of the <code class="language-python">Element</code> class representing this XML element.</p>
+<p>What is the result of the following code?</p>
+<pre><code class="language-python">trunk = tree[1]
+branch = trunk[2]
+print(branch.get("apples"))</code></pre></body></html>

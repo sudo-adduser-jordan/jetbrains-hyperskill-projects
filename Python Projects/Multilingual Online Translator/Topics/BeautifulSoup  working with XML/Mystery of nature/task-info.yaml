@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: Tags are created by the developers of a particular document.
+- text: You can use any tags but each tag has to be used only once through the whole
+    document.
+- text: It's a mystery.
+- text: XML has a predefined tag set.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/13100#comment
+status: Solved
+record: -1
+local_check: false

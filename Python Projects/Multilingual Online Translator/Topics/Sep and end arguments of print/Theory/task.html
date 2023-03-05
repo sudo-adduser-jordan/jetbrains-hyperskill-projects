@@ -1,0 +1,48 @@
+<h2>Sep and end arguments of print</h2>
+<html><body><p>You already know that, to print out objects, you can use the <code class="language-python">print()</code> function. For example, the following lines of code will show us the value of a variable:</p>
+<pre><code class="language-python">number = 5
+print(number)  # 5</code></pre>
+<p>But did you know that <code class="language-python">print()</code> can take multiple keyword arguments?</p>
+<h5 id="the-separator">The separator</h5>
+<p>For example, with the <code class="language-python">sep</code> argument you can specify the separator between objects to be printed (the separator itself must be a string).</p>
+<pre><code class="language-python">print('Chip', 'Dale', sep='&amp;')  # Chip&amp;Dale
+print('Chip', 'Dale', sep=0)    # TypeError: sep must be None or a string, not int</code></pre>
+<p>The default value of this argument is space, that is, writing <code class="language-python">print('Gadget', 'Hackwrench', sep=' ')</code> gives the same output as writing <code class="language-python">print('Gadget', 'Hackwrench')</code>:</p>
+<pre><code class="language-python">print('Gadget', 'Hackwrench', sep=' ')
+# Gadget Hackwrench
+
+print('Gadget', 'Hackwrench')
+# Gadget Hackwrench</code></pre>
+<p>You can also use an empty string as <code class="language-python">sep</code> when you want to print several objects together:</p>
+<pre><code class="language-python">print(13, 'th', sep='')  # 13th</code></pre>
+<p>It will work even if you combine different values, such as integers and strings, in the example above.</p>
+<h5 id="the-end">The end</h5>
+<p>The argument <code class="language-python">end</code> determines how the string we want to print should end. The default value is <code class="language-python">'\n'</code>, which means that it ends with a newline. So if you give no arguments to the function and simply write <code class="language-python">print()</code>, it will shift you to a new line:</p>
+<pre><code class="language-python">print('Monterey')
+print()
+print('Jack')</code></pre>
+<p>The output will be as follows:</p>
+<pre><code class="language-no-highlight">Monterey
+
+Jack</code></pre>
+<p>However, just as with the <code class="language-python">'sep'</code> argument, we can set this argument to end with any other string.</p>
+<pre><code class="language-python">print('Tick-Tock', end=' the ')
+print('Crocodil', end='e')
+# Tick-Tock the Crocodile</code></pre>
+<h5 id="unpacking-objects">Unpacking objects</h5>
+<p>The first arguments of the <code class="language-python">print()</code> function are objects we want to print. For example, if it's a list <code class="language-python">characters = ['Humphrey the Bear', 'Spike the Bee', 'Fat Cat']</code>, writing <code class="language-python">print(characters)</code> will yield the output <code class="language-python">['Humphrey the Bear', 'Spike the Bee', 'Fat Cat']</code>. But what if we want to print objects from a list, not the list as a whole? One way would be to use a loop:</p>
+<pre><code class="language-python">for element in characters:
+    print(element)</code></pre>
+<p>However, in Python, there's a more convenient and neat way to do so. Writing an asterisk * before a list means that its elements will be unpacked and passed to the function one after another:</p>
+<pre><code class="language-python">print(*characters)</code></pre>
+<p>An important detail to understand, however, is that, in the first case, the elements will be printed one in one line, whereas in the second case, they will be separated by spaces. This is so because the first snippet of code is equivalent to writing these lines with the default <code class="language-python">end="\n"</code>:</p>
+<pre><code class="language-python">print('Humphrey the Bear')
+print('Spike the Bee')
+print('Fat Cat')</code></pre>
+<p>while the second one could be replaced by the line <code class="language-python">print('Humphrey the Bear', 'Spike the Bee', 'Fat Cat')</code> with the default <code class="language-python">sep=' '</code>:</p>
+<pre><code class="language-python">print(*characters)
+# Humphrey the Bear Spike the Bee Fat Cat</code></pre>
+<h5 id="summary">Summary</h5>
+<p>We rediscovered the built-in <code class="language-python">print()</code> function and examined some of its arguments, <code class="language-python">sep</code> and <code class="language-python">end</code>.</p>
+<p></p><div class="alert alert-primary">Note that the mentioned arguments are so-called keyword arguments. You should explicitly specify them when calling the function because all other (positional) arguments are considered as objects to be printed.</div><p></p>
+<p>As you can see, arguments of the <code class="language-python">print()</code> function provide useful ways of managing output. Keep that in mind when working with strings!</p></body></html>

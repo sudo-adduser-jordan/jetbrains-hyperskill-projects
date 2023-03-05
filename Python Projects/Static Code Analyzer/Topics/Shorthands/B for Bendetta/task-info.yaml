@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: an empty string at the start of the string
+- text: an empty string between a character matching \w and a character matching \W
+- text: an empty string at the end of the string
+- text: an empty string between two characters matching \w
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10144#comment
+status: Solved
+record: -1
+local_check: false

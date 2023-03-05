@@ -1,0 +1,26 @@
+<h2>Advanced e-mail verification</h2>
+<p>Regexp tasks authors just <em>love</em> making tasks about e-mail addresses. We are not an exception.</p>
+
+<p>Let's write a template matching an e-mail address. We'll consider the following format of valid e-mail addresses: </p>
+
+<ul>
+	<li>its first part can contain from 6 to 30 characters. These characters can contain lowercase Latin letters (<code class="java">a-z</code>), digits (<code class="java">0-9</code>), hyphens <code class="java">-</code>, dot characters <code class="java">.</code> , equal signs <code class="java">=</code> or underscores <code class="java">_</code></li>
+	<li>the second part that immediately follows the first one can be either <code class="java">@gmail.com</code>, <code class="java">@jetbrains.org</code> or <code class="java">@hyperskill.org</code> </li>
+	<li>note that other combinations of the correct domain and top-level domain names are invalid. For example, <code class="java">@jetbrains.com</code> or <code class="java">@gmail.org</code> shouldn't be accepted by your regex.</li>
+</ul>
+
+<p>Put your regex in the <code class="java">template</code> variable.</p>
+
+<p><button
+        class="btn-sm btn-outline-secondary"
+        onclick="getElementById('hint-1022').style.display='inline'">
+        Hint
+      </button>
+      <div id="hint-1022" style="display:none;">Some examples of valid e-mails: adminadmin@gmail.com, best_academy@jetbrains.org, whats-up@hyperskill.org.</p>
+
+<p>Some examples of invalid e-mails: mainadmin@gmail,com, EMAIL123@jetbrains.org, 12a@jetbrains.org, funny_cat@gmail.org.</p>
+
+<p>Make use of the <a target="_blank" target="_blank" target="_blank" target="_blank" href="https://regex101.com/" rel="noopener noreferrer nofollow">website</a> allowing you to check your expression online to test them in a fast and easy manner.</div></p><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>
+<b>Caution</b><br><br>
+You may see errors in your code or execution results due to missing context. Don’t worry about it, just write the solution and press Check.
+<br><br>

@@ -1,0 +1,96 @@
+<h2>Shorthands</h2>
+<html><body><p>Previously, you have learned about sets and their most helpful and powerful features of regular expressions. Since some of them are more widespread than others, special shorthands were designed to make them easy to use. The general formula for shorthands is the backslash <code class="language-python">\</code> followed by a letter (for example, <code class="language-python">\s</code>). Let's take a closer look at these metacharacters.</p>
+<h5 id="shorthands-for-sets">Shorthands for sets</h5>
+<p>Like sets, each shorthand represents one character in the string, but which character matches the shorthand and which one does not, depends on the shorthand. There are two types of shorthands that can be used in the place of character sets. Shorthands of the first type correspond to strictly described and limited sets of characters. The shorthands of the second type are <strong>negated </strong>shorthands; they correspond to sets banning certain characters, matching to anything else.</p>
+<p>Shorthands of the first type are denoted by a backslash and a lowercase letter:</p>
+<ul>
+<li><code class="language-python">\w</code> matches alphanumeric characters; in the general regexp language, it stands for a character from the set <code class="language-python">[a-zA-Z0-9_]</code> . However, in Python, this shorthand is even more useful since it also matches all Unicode "letter" and "word" symbols apart from classic Latin letters (matches symbols such as <code class="language-python">ß</code>, <code class="language-python">ê</code>, <code class="language-python">是</code>). Pay attention to the underscore character <code class="language-python">_</code>  in this set and the absence of the hyphen <code class="language-python">-</code>, which theoretically could be there.</li>
+<li><code class="language-python">\d</code> matches a digit and is equivalent to <code class="language-python">[0-9]</code>.</li>
+<li><code class="language-python">\s</code> matches the whitespace characters, such as the usual space character, the tabulation, the newline character. This shorthand is equivalent to <code class="language-python">[ \t\n\r\f\v]</code> (pay attention to the first character (the space) – it is easy to overlook).</li>
+</ul>
+<p>The letters chosen for these shorthands can be easily explained and remembered: <code class="language-python">w</code> is for <strong>w</strong>ord, <code class="language-python">d</code> is for <strong>d</strong>igit, <code class="language-python">s</code> is for <strong>s</strong>pace. </p>
+<p>Here is a short example showing these shorthands in action:</p>
+<pre><code class="language-python">re.match('\w\scamels?', '1 camel')  # match
+re.match('\w\scamels?', 'a\tcamel')  # match
+re.match('\d\scamels?', '8\ncamels')  # match</code></pre>
+<p>Negated shorthands are the total opposites of the first type. There is a "symmetrical" shorthand for each of the shorthands mentioned above, and they are denoted by a backslash and the very same letters, only in uppercase:</p>
+<ul>
+<li><code class="language-python">\W</code> matches everything except for alphanumeric characters, <code class="language-python">[^a-zA-Z0-9_]</code> in the general regexp language (in Python, other Unicode "word" special symbols are also added to this set) </li>
+<li><code class="language-python">\D</code> matches any non-digit character, <code class="language-python">[^0-9]</code></li>
+<li><code class="language-python">\S</code> matches any non-whitespace character and is equivalent to <code class="language-python">[^ \t\n\r\f\v]</code></li>
+</ul>
+<p>You can see how these metacharacters are applied in the following example:</p>
+<pre><code class="language-python">re.match('\D\S\W', 'A1-')  # match
+re.match('\D\S\W', '1 A')  # no match</code></pre>
+<p>Shorthands are very straightforward metacharacters that barely have any specific rules of usage. And they are cool. Why not use them?</p>
+<h5 id="escaping-of-shorthands"> Escaping of shorthands</h5>
+<p>You do not need to escape shorthands in your regular expressions. Although, technically, you can do it. This way, all of the following statements return the same result, no matter what you use, backslash or raw string literal, or neither:</p>
+<pre><code class="language-python">re.match('\w', 'X')
+re.match('\\w', 'X')
+re.match(r'\w', 'X')</code></pre>
+<p>If you need to escape a shorthand, just escape its backslash with any of the techniques we mentioned in the previous topics, like this one:</p>
+<pre><code class="language-python">re.match(r'\\w', r'\w')  # match
+re.match(r'\\w', r'\k')  # no match, because \\w isn't a shorthand here</code></pre>
+<p>Another great feature of shorthands is that they maintain their metacharacter abilities when they are put in sets. Let's discuss it.</p>
+<h5 id="shorthands-in-sets">Shorthands in sets</h5>
+<p>As you remember from the previous topic, most regexp metacharacters become regular characters in sets, but shorthands do not do that. This makes it possible to use shorthands as the basis of your custom character set that you can enlarge by adding some other characters. It may be useful, for example, in case you want to build an alphanumeric set for a language that uses some other letters in addition to "default" ones:</p>
+<pre><code class="language-python">re.match('no[!\w]', 'no!')  # match
+re.match('no[!\w]', 'noo')  # match</code></pre>
+<p>Many great features can be dangerous, though. This feature is not an exception — do not use several negated shorthands in one set, as they are not what they may seem!</p>
+<p>Suppose you want a set that will match everything except for digits and whitespace characters. You could write <code class="language-python">[\D\S]</code>, but that's a wrong move. The explanation is that a character matching a set should match only <em>one</em> element of this set, but not all of them at the same time. This way, when you use the set <code class="language-python">[\D\S]</code>, a character matching this set should match <em>either </em><code class="language-python">\D</code> <em>or </em><code class="language-python">\S</code>. So, every digit matches <code class="language-python">\S</code> (because digits are not whitespace characters), and every whitespace character matches <code class="language-python">\D </code>(because whitespace characters are never digits). In the end, this set matches <em>all</em> possible characters (looks like the dot character <code class="language-python">.</code>, but more powerful, because unlike the dot, it matches <code class="language-python">\n</code> too). </p>
+<pre><code class="language-python">re.match('[\D\S]', '0')   # match, 0 is not a whitespace character
+re.match('[\D\S]', '\n')  # match, \n is not a digit
+re.match('[\D\S]', 'a')   # match, 'a' is not a digit and not a whitespace character</code></pre>
+<p>Instead of <code class="language-python">[\D\S]</code>, use <code class="language-python">[^\d\s]</code>. This set matches everything that does not fall into the categories of whitespaces and digits <em>at the same time</em>. </p>
+<pre><code class="language-python">re.match('[^\d\s]', '0')   # no match, 0 is a digit
+re.match('[^\d\s]', '\t')  # no match, \t is a whitespace character
+re.match('[^\d\s]', 'a')   # match, 'a' is not a digit and not a whitespace</code></pre>
+<p>So, keep in mind that if you are thinking about using a combination of negated shorthands in your set, you probably should replace them with a <em>negated</em> <em>set </em>and regular <em>non-negated</em> <em>shorthands </em>inside it. </p>
+<p>Used alone in combination with regular characters, negated shorthands behave properly in sets. You can add some of the characters banned by the negated shorthand to the set, making the scope of your set even bigger. For example, the set <code class="language-python">[\Wa-c]</code> matches no alphanumeric characters except for the <code class="language-python">a</code>, <code class="language-python">b</code>, <code class="language-python">c</code> letters:</p>
+<pre><code class="language-python">re.match('[\Wa-c]', 'a')  # match, 'a' is in the set
+re.match('[\Wa-c]', 'z')  # no match: 'z' is alphanumeric and is not in the a-c range
+re.match('[\Wa-c]', '?')  # match, ? is not alphanumeric</code></pre>
+<p>There are a few other metacharacters that look like shorthands, but they do a slightly different thing.</p>
+<h5 id="boundary-shorthands">Boundary shorthands</h5>
+<p>These shorthands look more or less the same: a backslash and a letter, but they do not match any characters. These tricky fellows formally match empty strings, but more specifically, they match empty strings in certain <em>situations.</em></p>
+<ul>
+<li><code class="language-python">\b</code> matches a word boundary. In other words, it matches an empty string between an alphanumeric character (any character matching<code class="language-python">\w</code>) and a non-alphanumeric character (<code class="language-python">\W</code>) or absence of characters. You can use it to make sure that your regular expression will match only a separate word, not a part of a bigger word. </li>
+</ul>
+<pre><code class="language-python">re.match(r'\b', 'Hello?')  # match (an empty string between the absence of a character and a letter)
+re.match(r'\b', '')  # no match (no alphanumeric character)
+re.match(r'Hail\b', 'Hail Mary!')  # match
+
+re.match(r'Hail\b Caesar', 'Hail Caesar')  # match (but \b is useless here)</code></pre>
+<ul>
+<li><code class="language-python">\B</code> matches the absence of the word boundary, that is, an empty string between two alphanumeric characters <code class="language-python">\w</code>. It serves for searching for alphanumeric sequences that are parts of bigger alphanumeric sequences. </li>
+</ul>
+<pre><code class="language-python">re.match(r'Hail\b', 'Hailey')  # no match
+re.match(r'Hail\B', 'Hailey')  # match</code></pre>
+<ul>
+<li><code class="language-python">\A</code> matches only an empty string at the start of the string. This way, you can make sure that the substring matching your regular expression will be located at the very beginning of the string. This shorthand is not so useful for us at the moment because the <code class="language-python">match()</code> function always matches substrings located at the start of the string, but it will come in handy later. </li>
+<li><code class="language-python">\Z</code> matches an empty string at the end of the string. </li>
+</ul>
+<pre><code class="language-python">re.match('Hail\Z', 'Hail!')  # no match
+re.match('Hail\Z', 'Hail')   # match</code></pre>
+<p><code class="language-python">\b</code> shorthand is the only one that you need to escape to use correctly, otherwise, it will become a Python metacharacter, not a regexp one. You can avoid escaping by adding the <code class="language-python">r</code> prefix. In general, it is recommended to use the <code class="language-python">r</code> prefix any time you write a regular expression, it will save you some time and make your code more readable.</p>
+<pre><code class="language-python">re.match('Hail\b', 'Hail Mary!')   # no match, \b is a Python escape character
+re.match(r'Hail\b', 'Hail Mary!')  # match, \b is a regexp shorthand</code></pre>
+<p>By the way, <code class="language-python">\A</code> and <code class="language-python">\Z</code> are not widespread. They are often replaced by simpler metacharacters with identical functions.</p>
+<p> </p><div class="alert alert-primary">The hat character <code class="language-python">^</code> is identical to <code class="language-python">\A</code>. The dollar sign <code class="language-python">$</code> is equivalent to <code class="language-python">\Z</code>.</div><p></p>
+<p>Here is an example for the dollar sign character <code class="language-python">$</code>, since it is the only one that makes sense for us as long as we are using the <code class="language-python">match()</code> function to compare a template and a string:</p>
+<pre><code class="language-python">re.match("Bring cash$", "Bring cash$")  # no match: $ in regexp means "the end of the string"
+re.match("Bring cash$", "Bring cash")   # match: h is the last character in the string
+re.match("Bring cash\Z", "Bring cash")  # match: \Z is identical to $</code></pre>
+<p>The hat character <code class="language-python">^</code> works the same way, only for the beginning of the string:</p>
+<pre><code class="language-python">re.match("^Bring cash", "^Bring cash$")  # no match: ^ in regexp means "the start of the string"
+re.match("^Bring cash", "Bring cash$")   # match
+re.match("\ABring cash", "Bring cash$")  # match: \A is identical to ^
+re.match("Bring cash", "Bring cash$")    # match: match() matches the start of the string by default</code></pre>
+<h5 id="summary">Summary</h5>
+<p>So, in this topic we have learned:</p>
+<ul>
+<li>there are special short designations for some sets of characters;</li>
+<li>these shorthands, depending on which one you use, can match alphanumeric characters, digits, or whitespace characters. They can also match any characters <em>except </em>these (these shorthands are called negated);</li>
+<li>shorthands can be used in sets. You should be careful with negated shorthands in sets;</li>
+<li>some shorthands match empty strings in special situations, at word or string boundaries.</li>
+</ul></body></html>

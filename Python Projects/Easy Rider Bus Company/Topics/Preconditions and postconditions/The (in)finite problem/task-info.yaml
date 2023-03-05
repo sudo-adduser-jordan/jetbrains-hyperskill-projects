@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: Negative lookahead <code>(?!pattern)</code>
+- text: Positive lookbehind <code>(?&lt;=pattern)</code>
+- text: Positive lookahead <code>(?=pattern)</code>
+- text: Negative lookbehind <code> (?&lt;!pattern) </code>
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14253#comment
+status: Solved
+record: -1
+local_check: false

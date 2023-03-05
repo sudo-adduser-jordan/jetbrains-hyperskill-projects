@@ -1,0 +1,77 @@
+<h2>Algorithms in Python</h2>
+<p>As you know, algorithms are language-independent, meaning that the same algorithm can be implemented in different programming languages. Since your goal is to learn Python, we will consider how to implement basic algorithms using this language and its features. </p>
+<h5 id="implementing-algorithms-in-python">Implementing algorithms in Python</h5>
+<p>Python has many libraries that provide ready-to-use functions for various problems. Algorithms are not an exception. You can find most of the widely-used algorithms in the Python standard library or in the external packages. Usually, an algorithm is a standalone function that may either be implemented directly in Python or represent a wrapper that calls a function written in another programming language.</p>
+<p>Python standard library contains such functions as <code class="language-python">sorted</code>, <code class="language-python">min</code>, <code class="language-python">max</code>, which represent algorithms for sorting and finding the minimum/maximum values in a collection of elements. There are also modules that unite the algorithms of one subject area, for example:</p>
+<ul>
+<li><code class="language-python">math</code> is a module with mathematical algorithms. For example, <code class="language-python">math.sqrt</code> is an algorithm that calculates the square root of a number. </li>
+<li><code class="language-python">collections</code> is a module that extends and improves the functionality of standard collections such as <code class="language-python">list</code> or <code class="language-python">tuple</code>. An example is <code class="language-python">collections.deque</code>, an efficient implementation of a double-ended queue data structure.</li>
+</ul>
+<p>Although most standard algorithms are already present in libraries and packages, we will learn to implement some of them ourselves. This will help you practice your Python skills and understand how these algorithms work under the hood.</p>
+<h5 id="a-particular-example">A particular example</h5>
+<p>Let's implement a simple algorithm in Python and consider some typical problems that arise during the process. Below is an algorithm that finds the index of the maximum element in a list of numbers: </p>
+<pre><code class="language-python">def indexof_max(numbers):
+    index = 0
+
+    for i in range(1, len(numbers)):
+        if numbers[i] &gt; numbers[index]:
+            index = i
+
+    return index</code></pre>
+<p>The <code class="language-python">indexof_max</code> function takes a list of numbers as an input and returns the index of the maximum element in this list. The algorithm works as follows:</p>
+<ul>
+<li>First, we initialize the variable <code class="language-python">index</code> with zero indicating that the element with this index is a candidate to be the maximum.</li>
+<li>Then, we start iterating through the list, compare the current element with the maximum element, and update the index if necessary.</li>
+<li>Finally, we return the index of the maximum element.</li>
+</ul>
+<h5 id="invoking-the-function">Invoking the function</h5>
+<p>The function above can be invoked as follows:</p>
+<pre><code class="language-python">numbers = [2, 3, 5, 1, 2, 0, 4]
+index = indexof_max(numbers)
+print(index)  # 2</code></pre>
+<p>Here, we create a list of integers and apply the described function. The maximum element is equal to $5$ and its index is $2$.</p>
+<p>Let's try to use lists of other sizes:</p>
+<pre><code class="language-python">numbers = [7, 9, 5]
+index = indexof_max(numbers)
+print(index)  # 1</code></pre>
+<p>Here, the list <code class="language-python">numbers</code> consist of three elements. The index of the maximum element is $1$. Below is how the function works for a list consisting of a single element:</p>
+<pre><code class="language-python">numbers = [7]
+index = indexof_max(numbers)
+print(index)  # 0</code></pre>
+<h5 id="considering-corner-cases">Considering corner cases</h5>
+<p>Looks like the function works well for the above lists. Now, let's try to answer the following questions:</p>
+<ul>
+<li>What will happen if a list contains several elements equal to the maximum value?</li>
+<li>What will happen if a list is empty?</li>
+<li>What will happen if a list contains not only numbers but also strings?</li>
+</ul>
+<p>Let's go through these questions one by one.</p>
+<p>First, the function finds the index of the first maximum element in a list:</p>
+<pre><code class="language-python">numbers = [3, 1, 9, 9, 2]
+index = indexof_max(numbers)
+print(index)  # 2</code></pre>
+<p>This is because we use <strong>greater than (&gt;) </strong>operator and not <strong>greater than or equal</strong> (&gt;=). In some cases, you may need to find the last index of the maximum element. You can easily modify the provided function to do that.</p>
+<p>Secondly, if a list is empty, the function returns $0$:</p>
+<pre><code class="language-python">empty_list = []
+index = indexof_max(empty_list)
+print(index)  # 0</code></pre>
+<p>This happens because at the very start we define the index as $0$. Such behavior is ambiguous: it doesn't allow us to distinguish between the case when the element with the index $0$ is the maximum and the case when the input list is empty.</p>
+<p>To fix the issue, let's return a special value of $-1$ when the input list is empty. The function should be modified in the following way:</p>
+<pre><code class="language-python">def indexof_max(numbers):
+    if not numbers:
+        return -1
+    
+    # the rest of the algorithm
+    ...</code></pre>
+<p>Now it works as follows:</p>
+<pre><code class="language-python">empty_list = []
+index = indexof_max(empty_list)
+print(index)  # -1</code></pre>
+<p>The last question is a bit trickier to answer. What will be the result of the code below?</p>
+<pre><code class="language-python">numbers = [1, 2, 3, "four", 5, 6]
+print(indexof_max(numbers))</code></pre>
+<p>After invoking the code, we will get the <code class="language-python">TypeError</code> exception with the following error message:</p>
+<pre><code class="language-no-highlight">'&gt;' not supported between instances of 'str' and 'int'</code></pre>
+<p>The problem is that the interpreter doesn't know how to compare a string with an integer. This issue may also be fixed, but we will discuss it in another topic.</p>
+<h5 id="summary">Summary</h5>
+<p>Python has a wide range of resources that we can use to work with algorithms: from standard library features to special libraries and modules. In the following topics, we will learn about some basic algorithms and implement them ourselves to improve our Python skills and understand the internal logic of these algorithms. While implementing algorithms, it's important to take into account all kinds of situations, so always think about corner cases!</p>

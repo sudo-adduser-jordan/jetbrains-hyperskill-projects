@@ -1,0 +1,143 @@
+<h2>BeautifulSoup: working with XML</h2>
+<html><body><p>In this topic, we will discuss how <code class="language-python">beautifulsoup</code> can help us with XML. <code class="language-python">Beautifulsoup</code> is a library for processing HTML and XML files. It provides parsing, information extraction, web-scraping, and a lot of other useful features.</p>
+<p>Imagine, your boss gave you a pile of unified XML files. You need to extract the text from them for further analysis. Files are myriad; no way you could handle them manually. That's where<code class="language-python">beautifulsoup</code> comes in handy. It can parse the files and get the information from them.</p>
+<h5 id="installation">Installation</h5>
+<p>You can install <code class="language-python">beautifulsoup</code> with <code class="language-python">pip</code>. Note that<em> </em><code class="language-python">4</code> in the name makes for the official name of the library: </p>
+<pre><code class="language-no-highlight">pip install beautifulsoup4</code></pre>
+<p>You also need the <code class="language-python">lxml</code> library to enable the parser that we'll discuss below. You can install it like this:</p>
+<pre><code class="language-no-highlight">pip install lxml</code></pre>
+<p>Do not forget to import the library before you start:</p>
+<pre><code class="language-python">from bs4 import BeautifulSoup</code></pre>
+<p>You don't need to explicitly import <code class="language-python">lxml</code> to parse your files, it will be automatically done once we set the parser type.</p>
+<h5 id="first-example">First example</h5>
+<p>Below is an example of an XML file:</p>
+<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;movie_library&gt;
+  &lt;movie&gt;
+    &lt;title year="1994"&gt;Pulp Fiction&lt;/title&gt;
+    &lt;director&gt;Quentin Tarantino&lt;/director&gt;
+  &lt;/movie&gt;
+  &lt;movie&gt;
+    &lt;title year="2001"&gt;Mulholland Dr.&lt;/title&gt;
+    &lt;director&gt;David Lynch&lt;/director&gt;
+  &lt;/movie&gt;
+&lt;/movie_library&gt;</code></pre>
+<p>To start processing it, we need to read this XML file just like any other file. You can rewrite the code later to automatically read the files one by one:</p>
+<pre><code class="language-python">file = open("my_file_1.xml", "r").read()</code></pre>
+<p>And create a <code class="language-python">BeautifulSoup</code> object:</p>
+<pre><code class="language-python">soup = BeautifulSoup(file, "xml")  </code></pre>
+<p>The first argument is the opened document and the second one is the type of parser we'd like to use. </p>
+<p> </p>
+<p>Keep in mind that <code class="language-python">xml</code> is the name of the parser while <code class="language-python">lxml</code> is the name of the library we need to install and import to be able to use that parser when creating the <code class="language-python">soup</code> variable. <code class="language-python">xml</code> parser type won't work the way we expect it to work without <code class="language-python">lxml</code> installed.</p>
+<p> </p>
+<p>Now <code class="language-python">soup</code> contains the parsed document and a tree. You can use <code class="language-python">prettify()</code> to make it more readable: </p>
+<pre><code class="language-python">print(soup.prettify())
+
+# &lt;?xml version="1.0" encoding="utf-8"?&gt;
+# &lt;movie_library&gt;
+#  &lt;movie&gt;
+#   &lt;title year="1994"&gt;
+#    Pulp Fiction
+#   &lt;/title&gt;
+#   &lt;director&gt;
+#    Quentin Tarantino
+#   &lt;/director&gt;
+#  &lt;/movie&gt;
+#  &lt;movie&gt;
+#   &lt;title year="2001"&gt;
+#    Mulholland Dr.
+#   &lt;/title&gt;
+#   &lt;director&gt;
+#    David Lynch
+#   &lt;/director&gt;
+#  &lt;/movie&gt;
+# &lt;/movie_library&gt;</code></pre>
+<h5 id="finding-information">Finding information</h5>
+<p>Even though the output above looks decent with <code class="language-python">prettify()</code>, it is somewhat hard to follow. It'll get even more confusing with larger documents. If you're interested in something particular, look for <strong>tags</strong>. Tags are not unified in XML, they may differ from document to document, so you'll have to find the ones you're looking for by yourself. Once you have found the tags you need, you can use the following methods to find them in the tree:</p>
+<ul>
+<li>
+<p><code class="language-python">find()</code> returns <strong>the first occurrence</strong><strong> </strong>of the tag in the tree:</p>
+<pre><code class="language-python">tag1 = soup.find("title")  
+print(tag1)  # &lt;title year="1994"&gt;Pulp Fiction&lt;/title&gt;</code></pre>
+</li>
+<li>
+<p><code class="language-python">find_all()</code> returns the list that contains <strong>all occurrences </strong>of the tag you are searching for:</p>
+<pre><code class="language-python">tag2 = soup.find_all("director")
+print(tag2)  
+# [&lt;director&gt;Quentin Tarantino&lt;/director&gt;, &lt;director&gt;David Lynch&lt;/director&gt;]</code></pre>
+</li>
+</ul>
+<p> </p>
+<p>If the specified tags are not found, <code class="language-python">find()</code> returns <code class="language-python">None</code>; <code class="language-python">find_all()</code> returns <strong>an empty list</strong>.</p>
+<p> </p>
+<p>If a tag has an attribute, you can include it in the search: </p>
+<pre><code class="language-python">tag3 = soup.find("title", {"year": "1994"})
+print(tag3)  # &lt;title year="1994"&gt;Pulp Fiction&lt;/title&gt;</code></pre>
+<p>This query is different since we've added a dictionary specifying an attribute name (key) and the value it stores as the second parameter.</p>
+<h5 id="alternative-way">Alternative way</h5>
+<p>Another way to search for tags is <code class="language-python">soup.&lt;tag&gt;</code> where <code class="language-python">&lt;tag&gt;</code> is the tag you're searching for. This will return the contents between the specified tags. If several tag pairs were found, it will return only <strong>the first occurrence</strong>:</p>
+<pre><code class="language-python">print(soup.director) # &lt;director&gt;Quentin Tarantino&lt;/director&gt;</code></pre>
+<p>You can also find out additional information about tags with main relationship types in XML files: </p>
+<ul>
+<li><code class="language-python">parent</code> shows the tag inside which the one you're searching for is placed:
+
+	<pre><code class="language-python">print(tag3.parent)
+
+# &lt;movie&gt;
+# &lt;title year="1994"&gt;Pulp Fiction&lt;/title&gt;
+# &lt;director&gt;Quentin Tarantino&lt;/director&gt;
+# &lt;/movie&gt;</code></pre>
+</li>
+</ul>
+<ul>
+<li>
+<p><code class="language-python">children</code> shows the tag(s) that are placed in the searched tag:</p>
+<pre><code class="language-python">tag4 = soup.find("movie")
+print(list(tag4.children)) 
+
+# ['\n', &lt;title year="1994"&gt;Pulp Fiction&lt;/title&gt;, '\n', &lt;director&gt;Quentin Tarantino&lt;/director&gt;, '\n']
+</code></pre>
+<code class="language-python">tag4.children</code> returns a generator, so we need to make it a list to be able to see the contents. The <code class="language-python">contents</code> method is similar to the <code class="language-python">children</code> attribute but returns a list instead:
+
+	<pre><code class="language-python">print(tag4.contents)
+
+# ['\n', &lt;title year="1994"&gt;Pulp Fiction&lt;/title&gt;, '\n', &lt;director&gt;Quentin 
+# Tarantino&lt;/director&gt;, '\n']</code></pre>
+</li>
+</ul>
+<ul>
+<li>
+<p><code class="language-python">siblings</code> shows the tag(s) that are placed on the same level as the searched tag. Siblings may precede (<code class="language-python">previous_sibling</code> and <code class="language-python">previous_siblings</code>) or follow (<code class="language-python">next_sibling</code> and <code class="language-python">next_siblings</code>) it. <code class="language-python">Previous_siblings</code> and <code class="language-python">next_siblings</code> both return generators:</p>
+<pre><code class="language-python">tag5 = soup.find("director")
+print(tag5.previous_sibling) # \n
+print(list(tag5.previous_siblings)) # ['\n', &lt;title year="1994"&gt;Pulp Fiction&lt;/title&gt;, '\n']
+
+tag3 = soup.find("title", {"year": "1994"})
+print(tag3.next_sibling) # \n
+print(list(tag3.next_siblings)) # ['\n', &lt;director&gt;Quentin Tarantino&lt;/director&gt;, '\n']
+
+</code></pre>
+</li>
+</ul>
+<h5 id="extracting-information">Extracting information</h5>
+<p>The results we've got can be improved; let's learn how to extract the data. We'll learn how to extract the text contained in tags and attribute values.</p>
+<p>Earlier, we have created a variable with a list of the <code class="language-python">&lt;director&gt;</code> tags. To print them out, you can use a <strong>for loop </strong>and the <code class="language-python">text</code> method to get the text data:</p>
+<pre><code class="language-python">tag2 = soup.find_all("director")
+
+for t in tag2:
+    print(t.text)
+
+# Quentin Tarantino
+# David Lynch</code></pre>
+<p>Each <code class="language-python">t.text</code> returns a text paragraph from the page.</p>
+<p>Another helpful method that can be used to get the tag attributes is <code class="language-python">get()</code>. Include a quoted attribute of the tag you need to extract in round brackets.</p>
+<pre><code class="language-python">tag1 = soup.find("title")
+print(tag1.get("year"))  # 1994</code></pre>
+<h5 id="summary">Summary</h5>
+<p>In this topic, we have covered the main features of <code class="language-python">beautifulsoup</code>. If you work with XML, it can help you with:</p>
+<ul>
+<li>creating a parse tree;</li>
+<li>searching for tags by their names and relations;</li>
+<li>data extraction.</li>
+</ul>
+<p>If you need more information on <code class="language-python">beautifulsoup</code>, take a look at the official <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" rel="noopener noreferrer nofollow" target="_blank">Beautiful Soup Documentation</a>.</p></body></html>

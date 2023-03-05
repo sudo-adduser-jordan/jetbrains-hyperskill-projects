@@ -1,0 +1,75 @@
+<h2>Match object and flags</h2>
+<html><body><p>Regexp template syntax is pretty much the same across all major programming languages. The main features of the Python regexps as opposed to any other programming language are special functions and objects of the <code class="language-python">re</code> module.</p>
+<p>First of all, it may be a good idea to get to know what exactly you are going to get when your regexp template matches a string. In this topic, we'll take a look at the <code class="language-python">Match</code> object and its attributes. Also, we'll check out the <strong>flags </strong>that we can apply while calling any matching function. Flags are a small part of the <code class="language-python">re</code> module, but they can simplify the regexp processing a lot.</p>
+<h5 id="match-object">Match object</h5>
+<p>As you can remember from the introductory topic on Python regexps, when your regexp template isn't found in a string, the matching function returns <code class="language-python">None</code>.</p>
+<pre><code class="language-python">template = "match"
+no_match_result = re.match(template, "no match")
+print(no_match_result is None)  # the output is True</code></pre>
+<p>However, when the match is successful and an example of your template is present in the string, <code class="language-python">match()</code>  returns a so-called <code class="language-python">Match</code> object containing the data about the matching substring: the <strong>contents </strong>(a <code class="language-python">match</code> attribute) and <strong>starting/ending indexes </strong>in the original string (a <code class="language-python">span</code> attribute).</p>
+<pre><code class="language-python">match_result = re.match(template, "match")
+print(match_result)  # the output is "&lt;_sre.SRE_Match object; span=(0, 5), match='match'&gt;"</code></pre>
+<p>When a <code class="language-python">Match</code> object is converted to boolean, it is always <code class="language-python">True</code>. This way, you can use a simple conditional statement <code class="language-python">if match:</code> to check whether your template matches the string. It'll be <code class="language-python">False</code> if the statement returned <code class="language-python">None</code>. And if you have a match, it will be <code class="language-python">True</code>.</p>
+<pre><code class="language-python">if no_match_result:
+    print("That's a match!")
+else:
+    print("No match")
+# the output is "No match"
+if match_result:
+    print("That's a match!")
+else:
+    print("No match")
+# the output is "That's a match!"</code></pre>
+<p>This check is usually required to <strong>avoid errors </strong>in your code. You can't perform the same operations when you have <code class="language-python">None</code> as if you had a <code class="language-python">Match</code> object. The errors can stem from this. What can we do then? Let's see...</p>
+<h5 id="group-method">group() method</h5>
+<p>What makes <code class="language-python">Match</code> objects useful is that they contain important information on the results of the matching operation. By calling the <code class="language-python">group()</code> method with no arguments, you can extract the substring that matches your template:</p>
+<pre><code class="language-python">template = "b.d"  # matches a string starting with "b", ending with "d" and any character in between
+match_1 = re.match(template, "bad").group()  # the result is a string "bad"
+match_2 = re.match(template, "bed").group()  # the result is a string "bed"</code></pre>
+<p>If you try to call <code class="language-python">group()</code> from <code class="language-python">None</code>, it will raise an <code class="language-python">AttributeError</code>:</p>
+<pre><code class="language-python">re.match(template, "dub").group()  # AttributeError: 'NoneType' object has no attribute 'group'</code></pre>
+<p>This is the reason why you may want to add the conditional statement we've discussed above if you're not sure that your template will match the string.</p>
+<h5 id="extracting-match-indexes">Extracting match indexes</h5>
+<p>You may need to know where the matching substring starts, in other words, the starting index of the matching substring in the original string. It can be done with the <code class="language-python">start()</code> method that returns a starting index (an integer):</p>
+<pre><code class="language-python">start = re.match(template, "bad").start()  # the result is integer 0</code></pre>
+<p>This method may be confusing when you use <code class="language-python">match()</code> function, because it always searches for matches starting <strong>at the beginning </strong>of the string. However, with other matching functions that you will encounter a bit later, <code class="language-python">start()</code> becomes more useful.</p>
+<p>You can similarly extract the ending index of the string with the <code class="language-python">end()</code> method:</p>
+<pre><code class="language-python">template = "100%?"  # matches strings "100" or "100%"
+end_1 = re.match(template, "100").end()  # the result is integer 3
+end_2 = re.match(template, "100%").end()  # the result is integer 4</code></pre>
+<p>As you can see, the <code class="language-python">end()</code> method doesn't return the exact index of the last character of the matching substring, it adds <code class="language-python">1</code> to it instead. This feature can facilitate slicing:</p>
+<pre><code class="language-python">template = "100%?"
+string = "100% reason to remember the name"
+end = re.match(template, string).end()
+print(string[end:])
+# the output is " reason to remember the name"</code></pre>
+<p>To extract <strong>both indexes </strong>at the same time, use the <code class="language-python">span()</code> method. Instead of a single integer, it returns a tuple with two integer elements, the starting and the ending index of the matching substring.</p>
+<pre><code class="language-python">span = re.match(template, "100%").span()  # the result is tuple (0, 4)</code></pre>
+<p>Let's check out function flags — a special kind of attribute to make the regexp search engine more powerful.</p>
+<h5 id="function-flags">Function flags</h5>
+<p>It's important to keep in mind that regular expressions by default are <strong>case-sensitive</strong>, letters of the upper and the lower case are treated as different characters.</p>
+<pre><code class="language-python">lower = r'where are the money, Lebowski\?'
+upper = r'WHERE ARE THE MONEY, Lebowski\?'
+# These are different templates</code></pre>
+<p>To make your regex <strong>case-insensitive</strong>, you can use a special flag when you call the <code class="language-python">match()</code> function (or any other function for matching). It's called <code class="language-python">re.IGNORECASE</code>. Pass it to the function as the value of the optional <code class="language-python">flags</code> argument:</p>
+<pre><code class="language-python">lower = r'where is the money, Lebowski\?'
+upper = r'WHERE IS THE MONEY, Lebowski\?'
+string = 'Where Is the money, lebowski?'
+result_lower = re.match(lower, string, flags=re.IGNORECASE)  # match
+result_upper = re.match(upper, string, flags=re.IGNORECASE)  # match</code></pre>
+<p><code class="language-python">re.DOTALL</code> is another very useful flag. It can be used in the same fashion; it matches <strong>a dot character</strong> with literally every character, including <code class="language-python">\n</code> (as you probably remember, by default, a dot character doesn't match a newline character).</p>
+<pre><code class="language-python">dot_template = 'new line .'
+no_flag = re.match(dot_template, 'new line \n')  # None
+with_flag = re.match(dot_template, 'new line \n', flags=re.DOTALL)  # match</code></pre>
+<p>To enable several flags at once, pass their sum as the <code class="language-python">flags</code> value or use the <code class="language-python">|</code> operator.</p>
+<pre><code class="language-python">result = re.match('FLAG ME.', 'flag me\n', flags=re.IGNORECASE + re.DOTALL)  # match</code></pre>
+<p>These flags can make your regexps concise and readable. There are many other flags in Python, you can <a href="http://xahlee.info/python/python_regex_flags.html" rel="noopener noreferrer nofollow" target="_blank">read more</a> about them if you're curious.</p>
+<h5 id="summary">Summary</h5>
+<p>In this topic we have discussed the following points:</p>
+<ul>
+<li>when a regexp template is not found in a string, <code class="language-python">None</code> is returned by the matching function;</li>
+<li>when a regexp template is found in a string, you get a <code class="language-python">Match</code> object as the result of the matching function call;</li>
+<li>to extract a substring that matches your template, use the <code class="language-python">group()</code> method of the <code class="language-python">Match</code> object;</li>
+<li>to extract indexes of the matching substring in the original string, use <code class="language-python">start()</code>, <code class="language-python">end()</code> or <code class="language-python">span()</code> methods;</li>
+<li>flags can simplify your regexps: <code class="language-python">re.IGNORECASE</code> makes your regexp case-insensitive, <code class="language-python">re.DOTALL</code> make the dot character match <code class="language-python">\n</code> character, as well as any other possible character.</li>
+</ul></body></html>

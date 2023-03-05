@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: It will return a tuple with the first group equal to <code>None</code>
+- text: It returns an empty string
+- text: It returns <code>None</code>
+- text: It raises an error
+- text: It will return a tuple with the second group equal to <code>None</code>
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15151#comment
+status: Solved
+record: -1
+custom_name: Is it a problem?
+local_check: false

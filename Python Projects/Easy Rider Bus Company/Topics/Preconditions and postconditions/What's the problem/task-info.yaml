@@ -1,0 +1,20 @@
+type: code
+custom_name: What's the problem?
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import re
+
+    string = input()
+    pattern = "(?<=@)\w+"
+    results = re.match(pattern, string)
+    print(results.group())
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14257#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 05:51:10 UTC"
+record: -1
+submission_language: python3

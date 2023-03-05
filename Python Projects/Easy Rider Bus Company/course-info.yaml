@@ -1,0 +1,15 @@
+type: hyperskill
+title: Easy Rider Bus Company
+language: English
+summary: "<p>You&#39;ve just been hired by a bus company that started actively using\
+  \ the Internet for business. Before you came, their database had been updated a\
+  \ few times by various employees with various levels of skill. Your task is to find\
+  \ all the mistakes they made in the database. Good news: you have documentation,\
+  \ but bad news: it&#39;s incomplete. This promises to be quite an investigation!</p><br/><br/>Learn\
+  \ more at <a href=\"https://hyperskill.org/projects/128?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card\"\
+  >https://hyperskill.org/projects/128</a>"
+programming_language: Python
+content:
+- Easy Rider Bus Company
+- Topics
+mode: Study

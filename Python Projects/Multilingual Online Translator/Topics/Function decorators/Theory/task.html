@@ -1,0 +1,67 @@
+<h2>Function decorators</h2>
+<p><strong>Decorator </strong>is<strong> </strong>a structural design pattern that allows programmers to extend and modify the behavior of a function, a method, or a class without changing their code. The main idea is that we place those callable objects, the functionality of which we need to change, inside other objects with new behavior. So, decorators are just wrappers around the initial objects. Most frequently, we use them to pass a function as an argument to a decorator to call this function later and perform some actions before and after the call.</p>
+<h5 id="syntax">Syntax</h5>
+<p>In Python, the standard syntax for decorators is the <code class="language-python">@</code> sign preceding the name of a decorator, and then the object we want to decorate on the next line with the same indentation. Decorators are called immediately before the body of a function, the behavior of which we would like to change. Here is a small example of what the general structure should look like:</p>
+<pre><code class="language-python">@decorator_function
+def func():
+    ...</code></pre>
+<p>Now, to better understand how it works, let's see how to make a simple decorator.</p>
+<pre><code class="language-python">def our_decorator(other_func):
+    def wrapper(args_for_function):
+        print('This happens before we call the function')
+        return other_func(args_for_function)
+
+    return wrapper</code></pre>
+<p>Here we define the function <code class="language-python">our_decorator </code>, it takes another function as its argument and contains a <code class="language-python">wrapper</code> that prints the message and calls the function that we have passed to <code class="language-python">our_decorator</code>.  Then, we return this wrapper function that contains our modified one.</p>
+<p>Now, we define a function <code class="language-python">greet</code> using <code class="language-python">our_decorator</code>:</p>
+<pre><code class="language-python">@our_decorator
+def greet(name):
+    print('Hello,', name)</code></pre>
+<p>Then, if we call <code class="language-python">greet</code>, we will see the following output:</p>
+<pre><code class="language-python">greet('Susie')
+# This happens before we call the function
+# Hello, Susie</code></pre>
+<p>However, you do not always need to write decorators, sometimes you can use decorators from the Python standard library.</p>
+<h5 id="why-use-decorators">Why use decorators?</h5>
+<p>The reason why you may want to use decorators is that they provide means for making your code more readable and clean. Imagine that we have a set of functions. We want to measure, for instance, how long it takes for each of them to perform the algorithms, so we add timers in each code block:</p>
+<pre><code class="language-python">import time
+
+def func1(args_for_function):
+    start = time.time()  # gets the current time
+    ...                  # something happens here
+    end = time.time()
+    print('func1 takes', end - start, 'seconds')
+
+
+def func2(args_for_function):
+    start = time.time()
+    ...
+    end = time.time()
+    print('func2 takes', end - start, 'seconds')</code></pre>
+<p>However, once it is done, the two following problems may arise:</p>
+<ul>
+<li>Particular lines would appear and be repeated in each function: the ones with <code class="language-python">start</code> and <code class="language-python">end</code> in our case;</li>
+<li>These lines would be redundant to the actual functionality and the initial code.</li>
+</ul>
+<p>These issues can be solved with a separate reusable pattern that may be further applied to any other function. In our case, we can make it like this:</p>
+<pre><code class="language-python">def timer(func):
+    def wrapper(args_for_function):
+        start = time.time()
+        func(args_for_function)
+        end = time.time()
+        print('func takes', end - start, 'seconds')
+
+    return wrapper
+
+
+@timer
+def func1(args_for_function):
+    ...  # something happens here</code></pre>
+<p>In the example above, we have written a function decorator <code class="language-python">timer()</code> that takes any function as an argument, it notes the time then invokes the function, notes the time again, and prints how much time it took. As a result, we can use this decorator for any function later on, and there will be no need to modify the code of the functions itself.</p>
+<h5 id="summary">Summary</h5>
+<p>Now, let's go over the main points we have learned in this topic:</p>
+<ul>
+<li>Decorators allow us to change the behavior of the object without changing its source code;</li>
+<li>They are introduced with the <code class="language-python">@</code> symbol right before the function, the functionality of which we want to modify;</li>
+<li>To create custom decorators, we need to specify a decorator function that will return a wrapper over the given function.</li>
+</ul>

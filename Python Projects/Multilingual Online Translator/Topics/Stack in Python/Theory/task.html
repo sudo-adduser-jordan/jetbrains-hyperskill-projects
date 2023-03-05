@@ -1,0 +1,56 @@
+<h2>Stack in Python</h2>
+<p>A<strong> stack</strong> is a data structure that stores data in the last-in-first-out (LIFO) fashion, meaning that the last element added to a stack will be the first to be removed from it. The simplest example of a stack in real life is a stack of plates — the most recent are on top, and they are also the first you'll remove. Another illustration of a stack is the Tower of Hanoi, a toy that became the inspiration for a famous game. The rings at the very top are the last ones added, but also the first that can be taken away:</p>
+<p style="text-align: center;"><img alt="" height="238" src="https://ucarecdn.com/1e4e8d90-5c69-4bf6-94c3-b702c9e31d65/" width="408"/></p>
+<p>Stack implements two basic operations: <strong>push</strong> that adds an element to the stack, and <strong>pop</strong> that returns its top element and removes it from the stack. Sometimes, there is also a third operation, <strong>peek</strong>. It returns the current top element without removing it from the stack.</p>
+<p>In Python, there is no conventional stack implementation. However, you can use several data structures as one. In this topic, you will learn about some of them.</p>
+<h5 id="using-lists-as-stack" style="text-align: center;">Using lists as stack</h5>
+<p>Built-in Python lists implement all the necessary stack functionality. Indeed, <code class="language-python">append()</code> adds the elements to the list (the analog of the push operator), while <code class="language-python">pop()</code> removes its last element. Note that the top of the stack is at the end of the list. Let's take a look at the example:</p>
+<pre><code class="language-python">my_stack = []
+
+my_stack.append('Out')
+my_stack.append('First')
+my_stack.append('In')
+my_stack.append('Last')
+
+print(my_stack)  # ['Out', 'First', 'In', 'Last']
+
+print(my_stack.pop())  # Last
+print(my_stack.pop())  # In
+print(my_stack.pop())  # First
+print(my_stack.pop())  # Out
+</code></pre>
+<p>Despite the simplicity, using lists as stacks isn't a good idea, as it can lead to memory issues. The way lists are implemented in the Python source code increases the time complexity of some operations. When the list grows bigger, Python might need to find a large block of memory to relocate it to, which can slow down some <code class="language-python">append()</code> calls.</p>
+<h5 id="collectionsdeque-as-a-stack" style="text-align: center;">Collections.deque() as a stack</h5>
+<p>The problem described above can be avoided by using <strong>deque</strong>.</p>
+<p>Deque is a linear data structure that supports adding and removing elements from both sides. In Python, you can find deque implementation in the <code class="language-python">collections</code> module. The essential methods are <code class="language-python">append(element)</code> and <code class="language-python">appendleft(element)</code> that add a new element to the right or left side of the deque respectively. It is similar to <code class="language-python">pop()</code> and <code class="language-python">popleft()</code> that remove the first element<strong> </strong>from the corresponding side of deque.</p>
+<p>Since deque is implemented as a doubly linked list; you don't need to store its elements next to each other in memory. By contrast, only smaller chunks of elements are stored together, and each such chunk stores the references to the previous and the next chunk. This enables faster append operations.</p>
+<p>You can use deque as a stack in your program. Let's take a look at the example:</p>
+<pre><code class="language-python">from collections import deque
+
+my_stack = deque()
+
+my_stack.append('k')
+my_stack.append('c')
+my_stack.append('a')
+my_stack.append('t')
+my_stack.append('s')
+
+print(my_stack.pop())  # 's'
+print(my_stack.pop())  # 't'
+print(my_stack.pop())  # 'a'
+print(my_stack.pop())  # 'c'
+print(my_stack.pop())  # 'k'</code></pre>
+<p>If you call <code class="language-python">pop()</code> one more time, you will get an exception because there are no more elements in the stack for the <code class="language-python">pop</code> operation:</p>
+<pre><code class="language-python">my_stack.pop()  # IndexError: pop from an empty deque</code></pre>
+<p>To avoid this, you can always check if the queue is non-empty before trying to get the next element. This can be done with the help of <code class="language-python">len()</code>:</p>
+<pre><code class="language-python">len(my_stack)  # 0
+
+my_stack.append('a')
+len(my_stack)  # 1</code></pre>
+<h5 id="conclusion" style="text-align: center;">Conclusion</h5>
+<ul>
+<li>Stack is a LIFO data structure;</li>
+<li>You can use Python lists as stacks, but it might lead to memory issues;</li>
+<li><code class="language-python">Collections.deque()</code> implements deque as a doubly linked list;</li>
+<li>Using deque as a stack in your program enables faster append operations.</li>
+</ul>

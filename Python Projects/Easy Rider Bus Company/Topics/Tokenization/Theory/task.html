@@ -1,0 +1,101 @@
+<h2>Tokenization</h2>
+<html><body><p>NLP includes a great variety of procedures. <strong>T</strong><strong>okenization </strong>is one of them. The main task is to split a sequence of characters into units, called <strong>tokens</strong>. Tokens are usually represented by words, numbers, or punctuation marks. Sometimes, they can be represented by sentences or morphemes (word parts). Tokenization is the first step in text preprocessing. It is a very important procedure; before going to more sophisticated NLP procedures, we need to identify words that can help us interpret the meaning.</p>
+<h5 id="tokenization-issues">Tokenization issues</h5>
+<p>The major issue is choosing the right token. It's simple yet challenging. Let's analyze the example below. </p>
+<p style="text-align: center;"><img alt="" height="101" src="https://ucarecdn.com/1480a5b3-9386-4972-88be-84914274566c/" width="520"/></p>
+<p>This example is trivial; we use whitespaces to split the sentence into tokens and get rid of that dot at the end. But, sometimes, the English language displays less obvious cases. What should we do with the apostrophes or a combination of numbers and letters? </p>
+<p style="text-align: center;"><img alt="" height="205" src="https://ucarecdn.com/3f186526-5f25-4264-bd6d-dd7b804240db/" width="200"/></p>
+<p>What is the most suitable token here? Intuitively, we can say that the first option is what we should go for. Of course, the second option also makes sense as "we're" is the contraction for "we are". All other options are also theoretically possible.</p>
+<p>What if we speak about a city with a complex name, for example, <code class="language-python">New York</code> or <code class="language-python">["New", "York"]</code>?</p>
+<p>As you can see, choosing the right token may be a tough task. There is no right answer, so it makes sense to choose a tokenizer that fits best and carry on with it.</p>
+<h5 id="tokenization-in-nltk">Tokenization in NLTK</h5>
+<p>NLTK has the <code class="language-python">tokenize</code> module that consists of different sub-modules. We will take a look at the most significant ones. The chart below describes some of them. The first column contains the names of tokenizers. To import a particular one, use <code class="language-python">from nltk.tokenize import &lt;tokenizer&gt;</code>. Here are some examples of importing:</p>
+<pre><code class="language-python">from nltk.tokenize import word_tokenize
+from nltk.tokenize import sent_tokenize</code></pre>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="width: 600px;">
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>Syntax</strong></td>
+<td style="text-align: center;"><strong>Description</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code class="language-python">word_tokenize()</code></td>
+<td style="text-align: center;">Returns word and punctuation tokens.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code class="language-python">WordPunctTokenizer()</code></td>
+<td style="text-align: center;">
+<p>Returns tokens from a string of alphabetic or non-alphabetic characters (like integers, <em>$</em>, <em>@</em>...).</p>
+</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code class="language-python">regexp_tokenize()</code></td>
+<td style="text-align: center;">Returns tokens using standard regular expressions.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code class="language-python">TreebankWordTokenizer()</code></td>
+<td style="text-align: center;">Returns the tokens as in the <a href="https://catalog.ldc.upenn.edu/docs/LDC95T7/cl93.html" rel="noopener noreferrer nofollow" target="_blank">Penn Treebank</a> using regular expressions. </td>
+</tr>
+<tr>
+<td style="text-align: center;"><code class="language-python">sent_tokenize()</code></td>
+<td style="text-align: center;">Returns tokenized sentences.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="word-tokenization">Word tokenization</h5>
+<p>Let's take a look at an example. Imagine we have a string of three sentences:</p>
+<pre><code class="language-python">text = "I have got a cat. My cat's name is C-3PO. He's golden."</code></pre>
+<p>Now, let's have a look at each tokenization method from the table. Don't forget to import all of them in advance.</p>
+<p>In the example below, we pass the <code class="language-python">text</code> variable to the <code class="language-python">word_tokenize()</code> method:</p>
+<pre><code class="language-python">print(word_tokenize(text))
+# ['I', 'have', 'got', 'a', 'cat', '.', 'My', 'cat', "'s", 'name', 'is', 'C-3PO', '.', 'He', "'s", 'golden', '.']</code></pre>
+<p>The result is a list of strings (tokens). The function splits the string into words and punctuation marks. Mind the possessives and the contractions. The tokenizer transformes all <code class="language-python">'s</code> into separate words. Of course, we understand that <code class="language-python">cat's</code> could also be recognized as one token.</p>
+<p>The next code snippet introduces the <code class="language-python">WordPunctTokenizer()</code>. This tokenizer is similar to the first one, but the result is a little bit different. All the punctuation marks including dashes and apostrophes are separate tokens. Now, <code class="language-python">C-3PO</code>, the cat's name, is split into three tokens. In this case, this behavior is not optimal.</p>
+<pre><code class="language-python">wpt = WordPunctTokenizer()
+print(wpt.tokenize(text))
+# ['I', 'have', 'got', 'a', 'cat', '.', 'My', 'cat', "'", 's', 'name', 'is', 'C', '-', '3PO', '.', 'He', "'", 's', 'golden', '.']</code></pre>
+<p>The next example shows the results of the <code class="language-python">TreebankWordTokenizer()</code>.</p>
+<pre><code class="language-python">tbw = TreebankWordTokenizer()
+print(tbw.tokenize(text))
+# ['I', 'have', 'got', 'a', 'cat.', 'My', 'cat', "'s", 'name', 'is', 'C-3PO.', 'He', "'s", 'golden', '.']</code></pre>
+<p>The <code class="language-python">TreebankWordTokenizer()</code> works almost the same way as the <code class="language-python">word_tokenize()</code>. Mind full stops – they form a token with the previous word, but the last full stop is a separate token. <code class="language-python">Word_tokenize()</code>, on the contrary, recognizes full stops as separate tokens in all cases. Moreover, the apostrophe and <code class="language-python">s</code> are not separated as with <code class="language-python">WordPunctTokenizer()</code>.</p>
+<p>Let's now move on to the next method. The <code class="language-python">regexp_tokenize()</code> function uses regular expressions and accepts two arguments: a string and a pattern for tokens.</p>
+<pre><code class="language-python"># 1
+print(regexp_tokenize(text, "[A-z]+"))
+# ['I', 'have', 'got', 'a', 'cat', 'My', 'cat', 's', 'name', 'is', 'C', 'PO', 'He', 's', 'golden']
+
+# 2
+print(regexp_tokenize(text, "[0-9A-z]+"))
+# ['I', 'have', 'got', 'a', 'cat', 'My', 'cat', 's', 'name', 'is', 'C', '3PO', 'He', 's', 'golden']
+
+# 3
+print(regexp_tokenize(text, "[0-9A-z']+"))
+# ['I', 'have', 'got', 'a', 'cat', 'My', "cat's", 'name', 'is', 'C', '3PO', "He's", 'golden']
+
+# 4
+print(regexp_tokenize(text, "[0-9A-z'\-]+"))
+# ['I', 'have', 'got', 'a', 'cat', 'My', "cat's", 'name', 'is', 'C-3PO', "He's", 'golden']</code></pre>
+<p>The pattern <code class="language-python">[A-z]+</code> in the first example above allows us to find all the words or letters, but it leaves aside integers and punctuation. Because of that, all the possessive forms and the cat's name are split. The next pattern improves the search for tokens as the integers are added. It improves the search for the cat's name, but the way isn't optimal. The third pattern with an apostrophe also allows the tokenizer to find possessive forms. The last pattern includes the hyphen, so the name of the cat is recognized without mistakes.</p>
+<p>You can see that obtaining tokens with the help of regular expressions can be flexible. We change the pattern in each case; this allows us to get more precise results.</p>
+<h5 id="sentence-tokenization">Sentence tokenization</h5>
+<p>Finally, let's look at the <code class="language-python">sent_tokenize()</code> module. It splits a string into sentences:</p>
+<pre><code class="language-python">print(sent_tokenize(text))
+# ['I have got a cat.', "My cat's name is C-3PO.", "He's golden."]</code></pre>
+<p>However, sentence tokenization is also a difficult task. A dot, for example, can mark abbreviations or contractions, not the end of a sentence only. Moreover, some dots can indicate both an abbreviation and the end of a sentence. Let's have a look at the examples.</p>
+<pre><code class="language-python">text_2 = "Mrs. Beam lives in the U.S.A., it is her motherland. She lost about 9 kilos (20 lbs.) last year."
+print(sent_tokenize(text_2))
+# ['Mrs. Beam lives in the U.S.A., it is her motherland.', 'She lost about 9 kilos (20 lbs.)', 'last year.']</code></pre>
+<p>The <code class="language-python">sent_tokenize()</code> includes a list of typical abbreviations and contractions with dots, so they are not recognized as the end of a sentence. Sometimes, it still provides confusing results. For example, after tokenizing the <code class="language-python">text_2</code> above, <code class="language-python">.)</code> was recognized as the end of the sentence. It is a mistake. The last part in the tokenizer output is 'last year.' but it should belong to the previous sentence.</p>
+<p>If you deal with informal texts such as comments splitting them into sentences may be particularly problematic. For example, in <code class="language-python">text_3</code>, there are lots of periods and no spaces, so two sentences are recognized as one.</p>
+<pre><code class="language-python">text_3 = "The plot of the film is cool!!!!!!! but the characters leave much to be desired....i don't like them."
+print(sent_tokenize(text_3))
+# ['The plot of the film is cool!!!!!!!', "but the characters leave much to be desired....i don't like them."]</code></pre>
+<h5 id="conclusion">Conclusion</h5>
+<p>To sum up, tokenization is an important procedure for text preprocessing in NLP. In this topic, we have learned:</p>
+<ul>
+<li>Main terms and difficulties of tokenization;</li>
+<li>How to split a text into words with different NLTK modules;</li>
+<li>How to split a text into sentences with the <code class="language-python">sent_tokenize()</code> module.</li>
+</ul>
+<p>Of course, there are many other tools for tokenization: <a href="https://spacy.io/api/tokenizer/" rel="noopener noreferrer nofollow" target="_blank">spaCy</a>, <a href="https://keras.io/api/preprocessing/text/" rel="noopener noreferrer nofollow" target="_blank">keras</a>, <a href="https://radimrehurek.com/gensim/utils.html" rel="noopener noreferrer nofollow" target="_blank">gensim</a>, <a href="https://huggingface.co/docs/transformers/main_classes/tokenizer" rel="noopener noreferrer nofollow" target="_blank">HuggingFace</a>, <a href="https://stanfordnlp.github.io/stanza/tokenize.html" rel="noopener noreferrer nofollow" target="_blank">Stanza</a>, and others. It's always a good idea to take a look at their documentation.</p>
+<p>Now, it is your time to carry out your tokenization experiments!</p></body></html>

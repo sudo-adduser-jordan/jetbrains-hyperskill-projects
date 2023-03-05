@@ -1,0 +1,134 @@
+<h2>Search in a string</h2>
+<p>One of the essential skills when working with data is to be able to search it and locate specific bits of information. Working with textual data in Python, you may need to get some information about its content: whether it includes a specific <strong>substring</strong> (i.e. part of the string), where this substring is, or how many times it occurs in the text. In this topic, we will learn how to do it.</p>
+
+<h5 id="a-substring-searching-algorithm">A substring searching algorithm</h5>
+
+<p>We'll start with a substring searching problem. Given two strings, <em>text</em> and <em>pattern</em>, we need to identify whether there is at least one occurrence of the <em>pattern</em> in the <em>text</em>. The simplest and most natural way to solve this problem is to sequentially consider all substrings of the <em>text</em> whose length is equal to the length of the <em>pattern</em> and compare them with the <em>pattern</em> itself. If at least in one case all corresponding symbols match, the <em>pattern</em> is found. If none of such attempts were successful, we should indicate that there is no <em>pattern</em> in the text. Here's how this simple algorithm can be implemented in Python:</p>
+
+<pre><code class="language-python">def contains(text, pattern):
+    for i in range(len(text) - len(pattern) + 1):
+        found = True
+
+        for j in range(len(pattern)):
+            if text[i + j] != pattern[j]:
+                found = False
+                break
+
+        if found:
+            return True
+
+    return False</code></pre>
+
+<p>The function named <code class="language-python">contains</code> takes two strings, <code class="language-python">text</code> and <code class="language-python">pattern</code>, as input and returns <code class="language-python">True</code> if <code class="language-python">text</code> contains <code class="language-python">pattern</code> and <code class="language-python">False</code> otherwise.</p>
+
+<p>At each step of the outer <code class="language-python">for</code> loop, we create a variable named <code class="language-python">found</code> and initialize it with <code class="language-python">True</code>. Then, in the inner <code class="language-python">for</code> loop, we start comparing <code class="language-python">pattern</code> with the current substring of <code class="language-python">text</code>. If at least one of the corresponding symbols doesn't match, we set the variable <code class="language-python">found</code> to <code class="language-python">False</code> and break the inner loop. After the inner <code class="language-python">for</code> loop is done,  we check the state of the <code class="language-python">found</code> variable. If it remains <code class="language-python">True</code>, this means that each symbol of <code class="language-python">pattern</code> matches the current substring. In this case, we return <code class="language-python">True</code> indicating that <code class="language-python">pattern</code> is found. Otherwise, we move to the next iteration and start considering the next substring. In case none of the comparisons were successful, that is, the outer <code class="language-python">for</code> loop finishes all iterations, the function returns <code class="language-python">False</code> indicating that <code class="language-python">pattern</code> is not found.</p>
+
+<p>Here is how this algorithm can be used:</p>
+
+<pre><code class="language-python">contains("abacabad", "cab")  # True
+contains("abacabad", "abacabad")  # True
+contains("aba", "")  # True
+contains("abacabad", "hello")  # False</code></pre>
+
+<p>Now we know that there is a substring searching algorithm and how to implement it in Python. However, there are also built-in functions and operators that solve the problem. Let's see what they are.</p>
+
+<h5 id="membership-testing">Membership testing</h5>
+
+<p>Another way to define if there's a specific pattern in our string is called <strong>membership testing</strong>, and it is implemented with the help of the operators <code class="language-python">in</code> and <code class="language-python">not in</code>. When we write <code class="language-python">pattern in string</code>, the left operand should be a string, and membership test checks if <code class="language-python">string</code> contains <code class="language-python">pattern</code> as a substring.</p>
+
+<p>If membership test returns <code class="language-python">True</code>, this means that there exists a position in <code class="language-python">string</code> starting from which you can read the pattern in the string.</p>
+
+<pre><code class="language-python">print("apple" in "pineapple")  # True
+print("milk" in "yogurt")      # False</code></pre>
+
+<p>Interestingly, an empty string is considered to be a substring of any string.</p>
+
+<pre><code class="language-python">print('' in '')           # True
+print('' not in "lemon")  # False</code></pre>
+
+<h5 id="boolean-search-in-a-string">Boolean search in a string</h5>
+
+<p>Apart from knowing that a substring just occurs in the string, we can determine that the string <em>starts </em>or <em>ends </em>with a specific pattern. Methods <code class="language-python">startswith()</code> and <code class="language-python">endswith()</code> return <code class="language-python"><samp>True</samp></code> if the pattern is found and <code class="language-python"><samp>False</samp></code> otherwise.</p>
+
+<pre><code class="language-python">email = "email_address@something.com"
+print(email.startswith("www."))          # False
+print(email.endswith("@something.com"))  # True
+</code></pre>
+
+<p>Optional values for <code class="language-python">start</code> and <code class="language-python">end</code> that bound the search area can be added: <code class="language-python">string.startswith(pattern, start, end)</code>. When we specify only one additional element, it's automatically considered as <code class="language-python">start</code>.</p>
+
+<pre><code class="language-python">email = "my_email@something.com"
+print(email.startswith("email", 2))  # False
+print(email.startswith("email", 3))  # True
+</code></pre>
+
+<p>In the example above, when we specified the <code class="language-python">start</code> argument as <strong>2</strong>, we limited the search to the substring <code class="language-python">"_email@something.com"</code>, which actually doesn't start with <code class="language-python">"email"</code>. Then we fixed this off-by-one mistake by setting start to <strong>3</strong>.</p>
+
+<p>Note that the substring bound by the start and end indexes <em>does </em>include the character with the start index but <em>does not</em> include the element with the end index.</p>
+
+<pre><code class="language-python">email = "my_email@something.com"
+print(email.endswith("@", 5, 8))  # False
+print(email.endswith("@", 5, 9))  # True
+</code></pre>
+
+<p>The substring defined for the search in the first case is <code class="language-python">"ail"</code>, while in the second one it's <code class="language-python">"ail@"</code>.</p>
+
+<h5 id="element-position">Element position</h5>
+
+<p>Now, as we know how to check if a string contains a substring, starts or ends with it, let's learn how to define the exact position of the substring. We can use the methods <code class="language-python">find()</code> or <code class="language-python">index()</code> to do so:</p>
+
+<pre><code class="language-python">best = "friend"
+
+print(best.find("i"))   # 2
+print(best.index("i"))  # 2</code></pre>
+
+<p>They work absolutely the same except that the former returns <code class="language-python">-1</code> if it can't find the given element, while the latter raises <code class="language-python">ValueError</code>.</p>
+
+<pre><code class="language-python">print(best.find("u"))   # -1
+print(best.index("u"))  # ValueError</code></pre>
+
+<p>So, all the examples with <code class="language-python">find()</code> below will work with <code class="language-python">index()</code> as well.</p>
+
+<p>We can search both for single characters and for longer substrings. In the latter case, the index of the <strong>first character</strong> of the substring is returned.</p>
+
+<pre><code class="language-python">print(best.find("end"))  # 3</code></pre>
+
+<p>In the string <code class="language-python">friend</code>, the substring <code class="language-python">end</code> occupies positions from <strong>3</strong> to <strong>5</strong>, and the start index is returned. Keep in mind that both methods return only the index of the first occurrence of the element we search for.</p>
+
+<pre><code class="language-python">magic = "abracadabra"
+print(magic.find("ra"))  # 2</code></pre>
+
+<p>However, we can additionally specify an interval for searching, just as with the boolean search: <code class="language-python">string.find(pattern, start, end)</code>.</p>
+
+<pre><code class="language-python">print(magic.find("ra", 5))      # 9
+print(magic.find("ra", 5, 10))  # -1</code></pre>
+
+<p>Once again, the end index is not included in the search area.</p>
+
+<p>Alternatively, we can use methods <code class="language-python">rfind()</code> and <code class="language-python">rindex()</code> to search backward from the end of the string.</p>
+
+<pre><code class="language-python">print(magic.rfind("ra"))  # 9
+print(magic.rindex("a"))  # 10</code></pre>
+
+<h5 id="element-number">Element number</h5>
+
+<p>Finally, it's often useful to count how many times an element (a char or a substring) occurs in the string, and for this, we can use the method <code class="language-python">count()</code>.</p>
+
+<pre><code class="language-python">magic = "abracadabra"
+
+print(magic.count("abra"))  # 2
+print(magic.count("a"))     # 5</code></pre>
+
+<h5 id="summary">Summary</h5>
+
+<p>In this topic, we have examined different aspects of searching through a string and learned how to locate specific patterns. Now you will be able:</p>
+
+<ul>
+	<li>To implement a substring searching algorithm in Python,</li>
+	<li>To test for membership in a text,</li>
+	<li>To check that the string starts or ends with a specific pattern,</li>
+	<li>To find the exact position of a substring,</li>
+	<li>To count how many times a pattern occurs in the text.</li>
+</ul>
+
+<p>This knowledge will be helpful in real-world tasks, so let's practice it!</p>

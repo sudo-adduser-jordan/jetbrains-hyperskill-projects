@@ -1,0 +1,27 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    dogs = [
+        {
+            "name": "Max",
+            "breed": "Yorkshire",
+            "age": 1,
+            "owners": ["Susan, Camila, Paul"]
+        },
+        {
+            "name": "Duke",
+            "breed": "Bulldog",
+            "age": 4,
+            "owners": ["Thomas, David, Lucia"]
+        }
+    ]
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/16217#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 04 Mar 2023 10:50:10 UTC"
+record: -1
+submission_language: python3

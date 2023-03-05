@@ -1,0 +1,14 @@
+<h2>Find the password</h2>
+<html><body><p><span style="background-color: #ffffff; color: #222222; font-size: 12pt; font-variant: normal;"></span></p>
+<p>Imagine that you are a hacker and you have got access to a web server written in Python. The problem is that it asks for a password that you do not know. However, this server is open source so you know that there is the <code class="language-python">wrong_password()</code> function which takes a password and checks it against <code class="language-python">real_password</code>.</p>
+<pre><code class="language-python">def wrong_password(password):
+    return (password == "" or (not password and real_password)) or password != real_password</code></pre>
+<p>You can not access the <code class="language-python">real_password</code> variable but you can call the <code class="language-python">wrong_password()</code> function and exploit its vulnerability to obtain the password. Write your code inside the <code class="language-python">solve()</code> function. Think about an argument that can be passed to the <code class="language-python">wrong_password()</code> function so that the function returns the <code class="language-python">real_password</code>. <strong>Print</strong> the result of the <code class="language-python">wrong_password()</code> function.</p>
+<p>Your program should not read any input or call the <code class="language-python">solve()</code> function, your task is to implement it.</p>
+<p><button class="btn-sm btn-outline-secondary" onclick="getElementById('hint-1263').style.display='inline'">
+        Hint
+      </button>
+</p><div id="hint-1263" style="display:none;">Remember that "and" and "or" operators return one of their operands. Refer to the tables showing which operands the operators return in different cases.</div></body></html><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>
+<b>Caution</b><br><br>
+You may see errors in your code or execution results due to missing context. Don’t worry about it, just write the solution and press Check.
+<br><br>

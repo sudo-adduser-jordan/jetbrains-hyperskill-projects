@@ -1,0 +1,19 @@
+<h2>Divide correctly</h2>
+<html><body><p>Adele is just learning to program, and she wrote a function that would divide <code class="language-python">100</code> by the given number with certain conditions:</p>
+<pre><code class="language-python">def divide_by(number):
+    if number &gt; 0:
+        print(100 / number)
+    else:
+        print(100 / (number / 2))</code></pre>
+<p>But when she tried to call a function in a specific way, she saw a traceback with <code class="language-python">ZeroDivisionError</code>:</p>
+<pre><code class="language-no-highlight">Traceback (most recent call last):
+  File "/full/path/to/divide.py", line 40, in 
+    divide_by(0)
+  File "/full/path/to/divide.py", line 38, in divide_by
+    print(100 / (number / 2))
+ZeroDivisionError: division by zero</code></pre>
+<p>Correct the <code class="language-python">divide_by()</code> function so that in the case of division by zero<strong> </strong>the user will receive a message like: <code class="language-python">Please enter a number that is not equal to zero</code>.</p>
+<p>You do NOT need to call a function, just implement it.</p></body></html><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">5</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">20.0</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">0</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">Please enter a number that is not equal to zero</code></pre><br><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>
+<b>Caution</b><br><br>
+You may see errors in your code or execution results due to missing context. Don’t worry about it, just write the solution and press Check.
+<br><br>

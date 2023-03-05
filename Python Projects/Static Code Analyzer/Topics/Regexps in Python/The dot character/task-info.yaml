@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: matches any single character except the newline character
+- text: matches any number of any characters except the newline character
+- text: signals that the previous character can be either present or absent
+- text: matches any single character except the dot character itself
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9470#comment
+status: Solved
+record: -1
+local_check: false

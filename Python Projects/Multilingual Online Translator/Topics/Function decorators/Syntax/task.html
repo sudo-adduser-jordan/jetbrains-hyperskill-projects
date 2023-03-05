@@ -1,0 +1,14 @@
+<h2>Syntax</h2>
+<p></p>
+<p>In the example below, we have two functions: <code class="language-python">decorate</code> and <code class="language-python">func1</code>. The first one can be used as a decorator.</p>
+<pre><code class="language-python">def decorate(func):
+    def wrapper():
+        func()
+        print('A decorated function')
+        
+    return wrapper
+
+
+def func1():
+    print('An ordinary function')</code></pre>
+<p> Which syntax construction should be added before <code class="language-python">func1</code> to apply the decorator to it?</p>

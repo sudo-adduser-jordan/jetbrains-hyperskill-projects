@@ -1,0 +1,122 @@
+<h2>Logging</h2>
+<html><body><p>By now, you probably have an understanding of what logs are. Now, it is time to take a step further and explore the built-in Python <code class="language-python">logging</code> module.</p>
+<h5 id="the-logging-module">The logging module</h5>
+<p>According to the <a href="https://docs.python.org/3/library/logging.html" rel="noopener noreferrer nofollow" target="_blank">Official Documentation</a>, the <code class="language-python">logging</code> module defines functions and classes that implement a flexible event logging system for applications and libraries. In other words, this module provides a flexible framework for outputting log messages.</p>
+<p>To use this module, we need to import it and configure a logger. Let's take a look at the example below:</p>
+<pre><code class="language-python">import logging
+
+logging.warning("Your %s was executed successfully, but the %s is wrong!", "script", "output")
+
+
+# WARNING:root: Your script was executed successfully, but the output is wrong!</code></pre>
+<p></p><div class="alert alert-primary">As you can see, we use <code class="language-python"><strong>%</strong></code> with string formatting. We do it for backward compatibility. The logging package pre-dates newer formatting options such as <code class="language-python">str.format()</code>.</div><p></p>
+<p>By default, the output message has the following format: <code class="language-python">{LEVEL}:{LOGGER}:{MESSAGE}</code>. This format can be changed by using the <code class="language-python">format</code> attribute when configuring the logger. To do it, we need to call the <code class="language-python">basicConfig()</code> method:</p>
+<pre><code class="language-python">import logging
+
+logging.basicConfig(format='%(levelname)s:%(message)s')
+logging.info("Your program is running excellent")
+logging.warning("Your %s was executed successfully, but the %s is wrong!", "script", "output")
+
+
+# WARNING: Your script was executed successfully, but the output is wrong!</code></pre>
+<p>There are other attributes that you can use to merge data from the log record into the format string, such as <code class="language-python">asctime</code> and <code class="language-python">lineno</code>. To get more information and other available attributes, refer to the <a href="https://docs.python.org/3/library/logging.html#logrecord-attributes" rel="noopener noreferrer nofollow" target="_blank">LogRecord attributes</a> page of the Official Documentation.</p>
+<p>You probably noticed that only the warning message was printed. This happens because the default configuration of the logging module is set to the <code class="language-python">WARNING</code> level, so the <code class="language-python">info</code> level is not shown in the output. Let's explore what log levels are.</p>
+<h5 id="the-log-levels">The log levels</h5>
+<p>It is important to provide a <strong>priority scale </strong>when logging. A log that notifies the developer that the application is going to crash should be more visible than a log that indicates that there are no problems.</p>
+<p>The logging priority scale in Python consists of five different hierarchical log levels. Each log level has a numeric value associated with it. It is much easier to determine if a specific level has to be logged or not.</p>
+<ul>
+<li><code class="language-python">DEBUG: 10</code><strong> </strong>—<strong> </strong>the messages at this level provide detailed insights about the application. It is typically used by developers when they have a bug. If you log a message at the debug level instead of <code class="language-python">print()</code>, you can avoid removing the print statement when your debugging phase is over;</li>
+<li><code class="language-python">INFO: 20</code><strong> </strong>— at this level, the messages confirm that things are business as usual. We can regard the messages at this level as checkpoints of our program;</li>
+<li><code class="language-python">WARNING: 30</code><strong> </strong>— the messages at this level indicate that something went sour. The program is still working, but the output could be weird;</li>
+<li><code class="language-python">ERROR: 40</code><strong> </strong>— as suggested by the name, the messages at this level suggest that the application is not working correctly. The output will be affected;</li>
+<li><code class="language-python">CRITICAL: 50</code><strong> </strong>— the highest level. The program may be unable to continue running and will no longer produce an output.</li>
+</ul>
+<h5 id="the-logger-class">The logger class</h5>
+<p><strong>Logger </strong>is the main class of the <code class="language-python">logging</code> module. It can help us interact with the log system and output log messages:</p>
+<ul>
+<li><code class="language-python">logging.debug("message")</code> — to log a message at the debug level;</li>
+<li><code class="language-python">logging.info("message")</code> — to log a message at the info level;</li>
+<li><code class="language-python">logging.warning("message")</code> — to log a message at the warning level;</li>
+<li><code class="language-python">logging.error("message")</code> — to log a message at the error level;</li>
+<li><code class="language-python">logging.critical("message")</code> — to log a message at the critical level.</li>
+</ul>
+<p>As a practical example, we can run the following script:</p>
+<pre><code class="language-python">import logging
+logging.basicConfig(format="%(message)s")
+
+logging.critical("It is critical to understand logs!")
+logging.error("Running this line will result in an error message!")
+logging.warning("You must catch that bug! It is a warning!")
+logging.info("My info is that you are here!")
+logging.debug("I'm debugging!")</code></pre>
+<p>The output to the console will be:</p>
+<pre><code class="language-no-highlight">It is critical to understand logs!
+Running this line will result in an error message!
+You must catch that bug! It is a warning!</code></pre>
+<p><br/>
+In the previous example, only the messages from the <code class="language-python">WARNING</code><em> </em>(or higher) level can be output! This happens because the<strong> </strong>default configuration of the logging module is set to the <code class="language-python">WARNING</code> level. To output all the messages, we need to set the <code class="language-python">level</code> attribute to the <code class="language-python">DEBUG</code><strong> </strong>level:</p>
+<pre><code class="language-python">import logging
+
+logging.basicConfig(format='%(message)s', level='DEBUG')
+
+logging.critical("It is critical to understand logs!")
+logging.error("Running this line will result in an error message!")
+logging.warning("You must catch that bug! It is a warning!")
+logging.info("My info is that you are here!")
+logging.debug("I'm debugging!")
+</code></pre>
+<p>The output of this piece of code will be as follows:</p>
+<pre><code class="language-no-highlight">It is critical to understand logs!
+Running this line will result in an error message!
+You must catch that bug! It is a warning!
+My info is that you are here!
+I'm debugging!</code></pre>
+<p>If you add <code class="language-python">filename=''</code> and <code class="language-python">filemode=''</code> parameters to the <code class="language-python">basicConfig()</code> method, you will also be able to save the output into a file for later use:</p>
+<pre><code class="language-python">logging.basicConfig(filename='log_file.txt',
+                    filemode='a',
+                    format='%(message)s',
+                    level='DEBUG')</code></pre>
+<p>In this case, the messages won't be printed but directly written into the file.</p>
+<h5 id="better-logging">Better logging</h5>
+<p>If you would like to do more complicated logging tasks, you may need to use a more professional approach to it.</p>
+<p>At the advanced level, we use a logger object to track events in the code. We need to set up our logger object in four steps:</p>
+<pre><code class="language-python">import logging
+
+# STEP 1
+# create a logger object instance
+logger = logging.getLogger()
+
+# STEP 2
+# specify the lowest boundary for logging
+logger.setLevel(logging.DEBUG)
+
+# STEP 3
+# set a destination for your logs or a handler
+# here, we choose to print on console (a console handler)
+console_handler = logging.StreamHandler()
+
+# STEP 4
+# set the logging format for your handler
+log_format = '%(asctime)s | %(levelname)s: %(message)s'
+console_handler.setFormatter(logging.Formatter(log_format))
+
+# finally, add the handler to the logger
+logger.addHandler(console_handler)
+
+# start the logging and show the messages
+logger.debug('Here you have some information for debugging.')
+logger.info('Everything is OK. Keep going!')
+logger.warning("Something strange has happened, but it's not critical.")
+logger.error('Something unexpected and critical has happened.')
+logger.critical('A critical error! The code cannot run!')</code></pre>
+<p>If you run the script, you will get the following output:</p>
+<pre><code class="language-no-highlight">2021-09-19 22:55:05,829 | DEBUG: Here you have some information for debugging.
+2021-09-19 22:55:05,830 | INFO: Everything is OK. Keep going!
+2021-09-19 22:55:05,831 | WARNING: Something strange has happened, but it's not critical.
+2021-09-19 22:55:05,831 | ERROR: Something unexpected and critical has happened.
+2021-09-19 22:55:05,831 | CRITICAL: A critical error! The code cannot run!</code></pre>
+<p>As you can see, we have created a logger object and set its level. Then, we have created the console handler and set its format. We have also added the console handler to the logger object and, finally, we initiated the logging. Now, you can imagine how hard it would be to replicate the same functionality with <code class="language-python">print()</code> statements.</p>
+<p>There are many advanced tools and settings that you can use in your logger. We won't get into detail now. You can learn more about all available tools and settings in the <a href="https://docs.python.org/3/howto/logging-cookbook.html" rel="noopener noreferrer nofollow" target="_blank">Logging Cookbook</a>.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>All developers make errors, and all programs may crash. It is important to identify and resolve the issues quickly. The logging module is one of the most powerful tools at our disposal to easily determine the source of issues in our code.</p>
+<p>In this topic, we have introduced you to the main player of the logging module: the <code class="language-python">logger</code> class. You also have got a sense of what log levels are and how to set them. There is more to discuss on logging, but for now, let's practice what you have learned!</p></body></html>

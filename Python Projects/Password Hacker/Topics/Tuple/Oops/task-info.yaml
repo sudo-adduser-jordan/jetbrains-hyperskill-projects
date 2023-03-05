@@ -1,10 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: Get an element by an index that does not exist in a tuple
-- text: Set a new value to a tuple item
-- text: Convert a string to a tuple using the <code>tuple()</code> function
-- text: 'Create a singleton tuple using round brackets without the comma '
+is_multiple_choice: false
 files:
 - name: main.py
   visible: true

@@ -1,0 +1,96 @@
+<h2>Regexp quantifiers</h2>
+<p>We have already learned about sets and shorthands in regular expressions. Now it is time to learn another powerful feature that significantly contributes to the regexp flexibility. The metacharacters we are going to talk about are called <strong>quantifiers</strong>. Quantifiers always follow some other character (or a group of characters), and they are meant to specify the number of repetitions of this character in the string. So, quantifiers allow you to write not only fixed-length templates but also templates for strings of varying length. The indications for the required length of strings (the number of repetitions) can be both fixed or rough.</p>
+<p>We already know one of the quantifiers, the question mark <code class="language-python">?</code>, which matches either one or zero occurrences of the preceding character. Let's see what other quantifiers we can use!</p>
+<h5 id="the-plus-quantifier">The plus quantifier</h5>
+<p>Let's start with, perhaps, the simplest and the most straightforward quantifier, the plus <code class="language-python">+</code> quantifier. The plus <code class="language-python">+</code> quantifier basically means "the preceding character should appear <em>one</em><strong> </strong>or <em>more </em>times". That is, it matches one or more occurrences of the preceding character in the string. Look at the example below:</p>
+<pre><code class="language-python">template = "wo+w!"  # matches "wow!" with one or more 'o'
+re.match(template, "wow!")            # match: one 'o' character encountered
+re.match(template, "wooooooooooow!")  # match: many (11) 'o' characters encountered
+re.match(template, "ww!")             # no match: no 'o' character encountered</code></pre>
+<p>You can easily pair this quantifier with many other metacharacters. For example, with the dot character, to match this combination with any number of any characters except for the <code class="language-python">\n</code> (but not the absence of any characters), or with a set of characters. So, the plus will match a sequence of the characters from this set (with one character from this set being the shortest possible sequence). </p>
+<pre><code class="language-python">template = ".+Jack Sparrow"  # matches the string "Jack Sparrow" with some preceding characters
+re.match(template, "Captain Jack Sparrow")  # match: there are some characters before "Jack"
+re.match(template, "Jack Sparrow")          # no match: the string starts with "Jack"
+
+template = "Louis [IXV]+"
+re.match(template, "Louis III")  # match
+re.match(template, "Louis XVI")  # match
+re.match(template, "Louis ")     # no match
+</code></pre>
+<p>There is also a very similar quantifier with just a slightly different function: the asterisk <code class="language-python">*</code> quantifier. </p>
+<h5 id="the-asterisk-quantifier">The asterisk quantifier</h5>
+<p>The asterisk <code class="language-python">*</code> quantifier does almost the same thing, but the scope is a bit wider; it also matches the <em>absence </em>of the previous character. So, zero or more occurrences of a character are enough to match the combination of this character with the asterisk quantifier. </p>
+<pre><code class="language-python">template = "go*d"
+re.match(template, "good")  # match: double 'o' occured
+re.match(template, "god")   # match: one 'o' occured
+re.match(template, "gd")    # match: no 'o' occured, but the rest of the string matches the template
+re.match(template, "gud")   # no match: 'u' is not in the template</code></pre>
+<p>You can pair the asterisk with other metacharacters in the same way as the plus quantifier. For example, the combination of the dot character and the asterisk quantifier, <code class="language-python">.*</code>, matches any string of any length, including an empty string.</p>
+<pre><code class="language-python">template = ".*no.*"  # matches 'no' with any or no preceding/following sequences of characters
+re.match(template, "no")                             # match: 'no' is the whole string
+re.match(template, "no rest for the wicked")         # match: 'no' at the start of the string
+re.match(template, "I'm no superman")                # match: 'no' inside the string
+re.match(template, "— Luke, I'm your father. — no")  # match: 'no' at the end of the string</code></pre>
+<p>In addition to the asterisk and the plus, there is another type of quantifier. Unlike the ones that we have just talked about, it allows us to indicate a specific number of repetitions that we want to find. </p>
+<h5 id="a-fixed-number-of-repetitions">A fixed number of repetitions</h5>
+<p>In case we want to match a fixed number of occurrences of a certain character, we can use curly brackets with a number inside them, just like that: <code class="language-python">{n}</code>. This quantifier matches exactly <em>n</em> consecutive occurrences of the preceding character. </p>
+<pre><code class="language-python">template = "\w{5}"  # matches a sequence of exactly 5 alphanumeric characters
+re.match(template, "doggy")  # match: 5 letters sequence
+re.match(template, "dog")    # no match: there're only 3 alphanumeric characters
+re.match(template, "a dog")  # no match: space doesn't match \w</code></pre>
+<p>As well as the aforementioned quantifiers, curly brackets quantifier (in all its forms which we're going to discuss now) can follow other metacharacters, such as the dot character or a set, for example. </p>
+<h5 id="a-range-of-repetitions">A range of repetitions</h5>
+<p>The braces also serve for the designation of a specific <em>range </em>of the length of the sequence that we want to find. In its general form, this quantifier looks like two numbers put inside braces and separated by a comma: <code class="language-python">{n,m}</code>. The quantifier matches <em>at least n</em> and <em>no more</em> than <em>m </em>instances of the previous (quantified) character.</p>
+<p></p><div class="alert alert-warning">Unlike Python ranges that end exclusively (that is, not including the number specifying the end of the range), the ranges in regular expressions both start and end inclusively: <code class="language-python">{n,m}</code> matches both <em>n</em> and <em>m </em>occurrences of the character.  </div><p></p>
+<p>Take a look at the example to see how the <code class="language-python">{n,m}</code> quantifier works:</p>
+<pre><code class="language-python">template = "\d{5,10}"  # matches any sequence of digits with length from 5 to 10
+re.match(template, "12345")       # match: 5 digits
+re.match(template, "1234567890")  # match: 10 digits
+re.match(template, "12345678")    # match: 8 digits
+re.match(template, "1234")        # no match: only 4 digits</code></pre>
+<p>This quantifier is quite flexible in the way that you can leave out either <code class="language-python">n</code> or <code class="language-python">m</code>,  in this way mentioning only the maximum or the minimum number of occurrences; <code class="language-python">{n,}</code> matches <em>n</em> and more occurrences of the character, while <code class="language-python">{,m}</code> matches no more than <em>m</em> (including zero occurrences). Pay attention to the comma and its location relative to the number. If you forget the comma or put it in the wrong place, the meaning of the quantifier will be absolutely different.</p>
+<pre><code class="language-python">template = "i'm just a po{2,}r boy"  # there should be at least 2 'o' in the string
+re.match(template, "i'm just a poor boy")         # match: 2 'o'
+re.match(template, "i'm just a pooooooooor boy")  # match: 9 'o'
+re.match(template, "i'm just a por boy")          # no match
+
+template = "i need no sy{,3}mpathy"  # there should be no more than 3 'y'
+re.match(template, "i need no sympathy")     # match: 1 'y'
+re.match(template, "i need no syyympathy")   # match: 3 'y'
+re.match(template, "i need no smpathy")      # match: zero occurrences match the quantifier too
+re.match(template, "i need no syyyympathy")  # no match: 4 'y'</code></pre>
+<p>Since <code class="language-python">{,m}</code> quantifier matches zero occurrences of the character as well, be careful with it. If you omit to mention any characters that should necessarily occur in the string in your template, it will also match an empty string. Take a look at the example:</p>
+<pre><code class="language-python">template = "\d{,3}"  # matches no more than 3 digits (and zero digits too)
+re.match(template, "123")        # match
+re.match(template, "no digits")  # also match: the template matches an empty string at the start</code></pre>
+<p>To avoid these situations, you may want to specify the minimum number of occurrences: <code class="language-python">{1,m}</code>, for example.</p>
+<p></p><div class="alert alert-warning">Another crucial point of quantifier syntax is that there should be <em>no spaces</em> inside the curly brackets. If you put a space after the comma, for example, the quantifier automatically turns from a metacharacter into a simple sequence of literal characters. That is, <code class="language-python">a{2, 3}</code> is not going to match strings <code class="language-python">"aa"</code> or <code class="language-python">"aaa"</code>: it will only match a string <code class="language-python">"a{2, 3}"</code>, because the quantifier in the template is not working, it is broken by the space character. </div><p></p>
+<h5 id="greedy-and-lazy-quantifiers">Greedy and lazy quantifiers</h5>
+<p>By default, all quantifiers (<code class="language-python">+</code>, <code class="language-python">*</code>, <code class="language-python">{n,m}</code>, <code class="language-python">{n,}</code> or <code class="language-python">{,m}</code>, <code class="language-python">?</code>) are greedy. It means that they match as many instances of the previous character as possible. For example, when a template <code class="language-python">"a+"</code> is compared against a string <code class="language-python">"aaa"</code>, we have some kind of a dilemma — the regex engine can return any substring as the result of the match, <code class="language-python">"a"</code>, <code class="language-python">"aa"</code> or <code class="language-python">"aaa"</code>, since they all comply with the template. They consist of at least one <code class="language-python">a</code> character. But since our <code class="language-python">+</code> quantifier is greedy, it has no choice as it matches the longest possible substring, <code class="language-python">"aaa"</code>. The dilemma is resolved. </p>
+<p>In some situations, this behavior may not be desired for your purposes. Suppose we want to find a pair of <code class="language-python">&lt;p&gt;</code> and <code class="language-python">&lt;/p&gt;</code> tags with some text in between them. We write a template <code class="language-python">&lt;p&gt;.*&lt;/p&gt;</code> to find such substring in a text filled with tags. See what happens there:</p>
+<pre><code class="language-python">template = "&lt;p&gt;.*&lt;/p&gt;"
+re.match(template, "&lt;p&gt;paragraph&lt;/p&gt;&lt;p&gt;another paragraph&lt;/p&gt;")
+# the template matches the whole string "&lt;p&gt;paragraph&lt;/p&gt;&lt;p&gt;another paragraph&lt;/p&gt;"</code></pre>
+<p>Even though we wanted to find substrings <code class="language-python">"&lt;p&gt;paragraph&lt;/p&gt;"</code> and <code class="language-python">"&lt;p&gt;another paragraph&lt;/p&gt;"</code> <em>separately</em>, we were not able to do that, because our quantifier <code class="language-python">.*</code> is greedy; it matched the longest possible string located between <code class="language-python">&lt;p&gt;</code> and <code class="language-python">&lt;/p&gt;</code> tags. </p>
+<p>If we want to change this behavior, we need to put the question mark character <code class="language-python">?</code>  right after the quantifier: <code class="language-python">+?</code>, <code class="language-python">*?</code>, <code class="language-python">{n,m}?</code>. Yes, the question mark has another function as a metacharacter in regular expressions when it immediately follows a quantifier; it switches this quantifier from the "greedy" mode to "lazy". </p>
+<p>A lazy quantifier matches as few occurrences of the quantified character as possible. For example, a template <code class="language-python">"a+?"</code> compared to the string <code class="language-python">"aaa"</code> matches <code class="language-python">"a"</code>, and not <code class="language-python">"aaa"</code>. The aforementioned example with tags ends in a very different way:</p>
+<pre><code class="language-python">template = "&lt;p&gt;.*?&lt;/p&gt;"
+re.match(template, "&lt;p&gt;paragraph&lt;/p&gt;&lt;p&gt;another paragraph&lt;/p&gt;")
+# the template first matches the substring "&lt;p&gt;paragraph&lt;/p&gt;"</code></pre>
+<p>Note that lazy and greedy modes do not work with the quantifier <code class="language-python">{n}</code>, since it searches for a fixed number of occurrences, and cannot choose between the lesser and the bigger number of them.</p>
+<p>Please, remember this feature and choose carefully between a greedy and a lazy quantifier according to your purposes in a particular situation.</p>
+<p></p><div class="alert alert-primary">When the question mark <code class="language-python">?</code> character is used to signify that the preceding character may be absent, it is equal to <code class="language-python">{,1}</code> quantifier.</div><p></p>
+<h5 id="summary">Summary</h5>
+<p>In this topic, we have learned about quantifiers in regular expressions. There are several quantifiers we need to remember:</p>
+<ul>
+<li>the plus <code class="language-python">+</code> quantifier matches one or more instances of the quantified character;</li>
+<li>the asterisk <code class="language-python">*</code> quantifier matches zero or more instances of the quantified character;</li>
+<li>the fixed-length quantifier <code class="language-python">{n}</code> matches exactly <em>n</em> instances;</li>
+<li>the quantifier <code class="language-python">{n,m}</code> matches from <em>n</em> to <em>m </em>(inclusively) instances;</li>
+<li>we can leave out either <code class="language-python">n</code> or <code class="language-python">m</code>.</li>
+</ul>
+<p>We have also learned about two modes of quantifiers (except for fixed-length quantifier):</p>
+<ul>
+<li>greedy mode (by default) when the quantifier matches as many occurrences of the character as possible;</li>
+<li>lazy mode (the quantifier is followed by <code class="language-python">?</code>) when the quantifier matches as few occurrences as possible.</li>
+</ul>

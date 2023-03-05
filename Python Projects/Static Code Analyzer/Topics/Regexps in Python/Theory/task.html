@@ -1,0 +1,80 @@
+<h2>Regexps in Python</h2>
+<p>A <strong>regular expression</strong> is a sequence of characters defining <em>a search pattern</em>, that is,<em> </em>a pattern describing a set of strings. These patterns are used for searching and editing text, replacing one substring with another, and so on. The simplest example of using a regular expression is when we search for some word in a text file or on a web page. For example, if we look for the word "python", the string "python" becomes a simple regular expression <em>— </em>a search pattern that corresponds only to the word "python" and nothing else. More complicated regular expressions will be able to match a larger number of strings.</p>
+<p>In the previous topic, we've already learned the basics of regular expressions common for all programming languages. Now it's time to see what are the specifics of using regexps in Python.</p>
+<h5 id="re-module-and-match">Re module and match()</h5>
+<p>You can use the power of regexps if you refer to a standard Python module called <code class="language-python">re</code>. That is, to use anything related to regexps in Python, you must first import this module.</p>
+<pre><code class="language-python">import re</code></pre>
+<p>This module provides you with several functions that search for matches for your regular expression in different ways. Let's get familiar with one of these functions, <code class="language-python">match()</code>. It<span style="color: #000000;"> </span>accepts a <em>regular expression</em> <em>pattern </em>(first argument) and a <em>string </em>(second argument) and checks whether there's a match for the pattern in the <em>beginning of the string</em>.</p>
+<pre><code class="language-python">import re
+
+regexp = 'burrito'
+string = 'boorrito'
+result = re.match(regexp, string)</code></pre>
+<p> If there's no match for your regexp right in the beginning of the string, <code class="language-python">match</code> returns <code class="language-python">None</code> value. Otherwise, the function returns a special structure called <em>match object</em> that will contain the information about the found match. We won't go into the nature of this object right now: all we need to know is that a match object is always a result of a successful match, and <code class="language-python">None</code> is always a result of no found matches. Thus, to know if we have a match, we simply need to check whether the result is equal to <code class="language-python">None</code> .</p>
+<pre><code class="language-python">result = re.match('burrito', 'boorrito')
+print(result is None)
+# The output is True (no matches are found)
+# because 'boorrito' doesn't match 'burrito'</code></pre>
+<p>Let's try out some other examples! Here, there's a successful application of <code class="language-python">match()</code> function:</p>
+<pre><code class="language-python">result = re.match('hedge', 'hedgehog')
+print(result is None)
+# The output is False, 
+# because there's 'hedge' in the beginning of the string 'hedgehog'</code></pre>
+<p>Don't forget that <code class="language-python">match()</code> won't help you with finding parts of the string that match the template, but aren't located in the beginning of the string. Check out this example:</p>
+<pre><code class="language-python">result = re.match('hog', 'hedgehog')  # no match
+# because the beginning of the string doesn't match the template 'hog'</code></pre>
+<p>You might also want to note that even if the match is an empty string, match object will still be equal to <em>True</em>, because the length of the matching string doesn't matter: only the presence of match does.</p>
+<pre><code class="language-python">result = re.match('', 'not an empty string')  # match
+# because an empty template doesn't need anything to match the string</code></pre>
+<p> The example above suggests that you should be careful with empty templates: even though it may seem counterintuitive, they don't match <em>only empty</em> strings, they match <em>all</em> strings (at least, when you use <code class="language-python">match() </code>function and check the presence of matching substring in the beginning of the string). </p>
+<p>Don't forget that regular expressions by default are case sensitive, that is, it's important whether you use upper or lower case letters in your template. Two identical letters of different case won't match each other. </p>
+<pre><code class="language-python">result = re.match('HURRAY', 'hurray')  # no match</code></pre>
+<p>Alright, now that we know the basics of how <code class="language-python">re</code> module can be used in Python, we can talk about more complicated examples of regexp templates.</p>
+<h5 id="the-dot-character">The dot character</h5>
+<p>Regular expressions wouldn't be so useful if they could only correspond to one particular string. The true power of regexps lies in the possibility to state the presence (or absence) of some characters in the regexp template without even specifying these characters directly. The dot character <code class="language-python">.</code> is one of the most important special symbols allowing to do this. It literally matches any single character, e.g., any digit, letter, space, and so on, except for the newline character <code class="language-python">\n</code>.</p>
+<p>Let's take a look at some examples. Here <code class="language-python">match()</code> will successfully find a match:</p>
+<pre><code class="language-python"># This regexp will correspond to the substring 'python'
+# followed by a space and any character 
+regexp = 'python .'
+
+# all examples match the regexp
+re.match(regexp, 'python 3') 
+re.match(regexp, 'python 2')
+re.match(regexp, 'python !')</code></pre>
+<p>On the other hand, these examples will result in <code class="language-python">None</code>:</p>
+<pre><code class="language-python"># The dot doesn't match \n
+newline = re.match(regexp, 'python \n')
+
+# '?' doesn't match the space
+question = re.match(regexp, 'python?!')</code></pre>
+<p> Let's also recall another useful special character that we've already learned, that is, the question mark. </p>
+<h5 id="the-question-mark">The question mark</h5>
+<p>The question mark <code class="language-python">?</code>, unlike the dot, doesn't replace any character by itself. It is a quantifier that basically means "the previous character can be absent". In other words, the question mark <code class="language-python">?</code> signals that the character before it can occur once or zero times in a string to match the pattern.</p>
+<pre><code class="language-python">regexp = 'regexp?'
+word1 = re.match(regexp, 'regex')  # match
+word2 = re.match(regexp, 'regexp')  # match</code></pre>
+<p>Of course, you can use the combination of the dot and the question mark. In this case, it'll mean that the string can contain either any single character or nothing. </p>
+<pre><code class="language-python">regexp = '.? points? to gryffindor'
+
+# '.? points?' matches '1 point'
+re.match(regexp, '1 point to gryffindor')
+
+# '.? points?' matches '0 points'
+re.match(regexp, '0 points to gryffindor')
+
+# no match, since '.? points?' doesn't match '-5 points'
+re.match(regexp, '-5 points to gryffindor')
+
+# '.? points?' matches ' points'
+re.match(regexp, ' points to gryffindor')</code></pre>
+<p>Even these two basic special symbols, the dot and the question mark, will give you great regexp power. But remember, with great power comes great responsibility. We'll learn to handle this responsibility (and make the dot character match only itself) in the following topic. </p>
+<h5 id="summary">Summary</h5>
+<p>Here is a recap:</p>
+<ol>
+<li>For handling regular expression in Python, the <code class="language-python">re</code> module is used.</li>
+<li>The <code class="language-python">match()</code> function of the <code class="language-python">re</code> module checks whether there's any substring in the beginning of the string that matches your regexp template.</li>
+<li>The result of the <code class="language-python">match()</code> function is either <code class="language-python">None</code> or a <code class="language-python">match</code> object. </li>
+<li>A <code class="language-python">match</code> object converted to <code class="language-python">bool</code> always equals <code class="language-python">True</code>.</li>
+<li>Regular expressions by default are case-sensitive.</li>
+<li>Dot <code class="language-python">.</code> replaces any character except for <code class="language-python">\n</code>; question mark <code class="language-python">?</code> means that the previous character is optional and can be missing from the string.</li>
+</ol>

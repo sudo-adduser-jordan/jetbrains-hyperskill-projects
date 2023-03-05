@@ -8,5 +8,6 @@ summary: "In this project, you will create a simple static analyzer tool that fi
   >https://hyperskill.org/projects/112</a>"
 programming_language: Python
 content:
+- Static Code Analyzer
 - Topics
 mode: Study

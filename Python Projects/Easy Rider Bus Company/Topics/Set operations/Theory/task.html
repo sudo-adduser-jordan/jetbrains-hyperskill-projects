@@ -1,0 +1,92 @@
+<h2>Set operations</h2>
+<html><body><p>One of the main features of sets is that they allow you to perform <strong>mathematical</strong> <strong>set operations</strong>, such as intersection and union.<strong> </strong>That is, if you have two or more sets, you can use special methods to see which objects are contained within each of these sets, or objects present in one of them but not in the other, or get the total set of objects contained in every set at hand. Why not learn more about this useful set functionality?</p>
+<h5 id="union">Union</h5>
+<p>Before we start, it must be said that you can perform each set operation in two ways: by using an operator or by calling a method. So, first, let's see how it works with the simplest operation — union. When you perform a union on two sets, you get a new set that comprises all the elements of the initial sets. The set method for this is (quite obviously) referred to as <code class="language-python">union</code>, and it should be called as a method of one of your sets that accepts another set as an argument: <code class="language-python">A.union(B)</code>. Here is an example:</p>
+<pre><code class="language-python">democrats = {'Kennedy', 'Obama'}
+republicans = {'Trump', 'Lincoln'}
+presidents = democrats.union(republicans)
+print(presidents)
+# The output is {'Kennedy', 'Obama', 'Trump', 'Lincoln'}</code></pre>
+<p>You can do the same by means of the operator <code class="language-python">|</code>, the syntax for which is more straightforward. You simply put the operator between your sets, just like that: <code class="language-python">A | B</code>. </p>
+<pre><code class="language-python">democrats = {'Kennedy', 'Obama'}
+republicans = {'Trump', 'Lincoln'}
+# operator
+presidents = democrats | republicans
+# method
+also_presidents = democrats.union(republicans)
+# let's compare
+print(presidents == also_presidents)
+# The output is True</code></pre>
+<p>You can also unite sets without creating a whole new set — just by adding all the elements from one set to another one. The operator for that is <code class="language-python">|=</code> (<code class="language-python">A |= B</code>) and the method is called <code class="language-python">update</code>. Check this out:</p>
+<pre><code class="language-python">ghostbusters = {'Peter', 'Raymond', 'Egon'}
+soldiers = {'Winston'}
+secretaries = {'Janine'}
+
+ghostbusters |= soldiers
+ghostbusters.update(secretaries)
+print(ghostbusters)
+# The output is {'Peter', 'Raymond', 'Egon', 'Winston', 'Janine'}</code></pre>
+<p>Now, what other set operations do we have?</p>
+<h5 id="intersection">Intersection</h5>
+<p>Intersection allows you to get only the objects that are present in each set. So, by calling the method <code class="language-python">intersection</code> or by using the operator <code class="language-python">&amp;</code> in the same manner as for union, you can see what your sets have in common. </p>
+<pre><code class="language-python">light_side = {'Obi-Wan', 'Anakin'}
+dark_side = {'Palpatine', 'Anakin'}
+both_sides = light_side.intersection(dark_side)
+print(both_sides)
+# The output is {'Anakin'}
+print(light_side &amp; dark_side)
+# The output is {'Anakin'}</code></pre>
+<p>In order to delete from the first set all the elements that are absent in the second set and leave only the elements that both sets contain, you can use the operator <code class="language-python">&amp;=</code> or the method <code class="language-python">intersection_update</code>.</p>
+<pre><code class="language-python">creatures = {'human', 'rabbit', 'cat'}
+pets = {'rabbit', 'cat'}
+creatures.intersection_update(pets)
+print(creatures)
+# The output is {'rabbit', 'cat'}
+beasts = {'crocodile', 'cat'}
+creatures &amp;= beasts
+print(creatures)
+# The output is {'cat'}
+</code></pre>
+<p>You can probably guess the next operation we're going to tackle!</p>
+<h5 id="difference">Difference</h5>
+<p>Difference operation is equal to the simple subtraction of sets: as a result, you'll get a set containing all the unique elements of the initial set. The name of the method, <code class="language-python">difference</code>, is as predictable as the operator <code class="language-python">-</code>. </p>
+<pre><code class="language-python">painters = {'Klimt', 'Michelangelo', 'Picasso'}
+ninja_turtles = {'Michelangelo', 'Leonardo'}
+print(painters.difference(ninja_turtles))
+# The output is {'Klimt', 'Picasso'}
+print(painters - ninja_turtles)
+# The output is {'Klimt', 'Picasso'}</code></pre>
+<p>Similarly to previous operations, to remove from your set all the elements present in the second set without creating a new collection, you can address the <code class="language-python">difference_update</code> method or the operator <code class="language-python">-=</code>. </p>
+<pre><code class="language-python">criminals = {'Al Capone', 'Blackbeard', 'Bonnie and Clyde'}
+gangsters = {'Al Capone'}
+pirates = {'Blackbeard'}
+
+criminals.difference_update(gangsters)
+criminals -= pirates
+print(criminals)
+# The output is {'Bonnie and Clyde'}</code></pre>
+<p>So far so good! Though, we still haven't mentioned a couple of details you may find important. </p>
+<h5 id="methods-and-operators-whats-the-difference">Methods and operators: what's the difference?</h5>
+<p>Mind that syntax is not the only difference between using a set operation method and an operator. More importantly, a set operator requires both arguments to be sets, while the method only demands this from the first one — while the second argument can be any iterable object, for example, a list or a string. In this case, the method will create a set out of the second argument implicitly (that is, by itself, without your interference). </p>
+<pre><code class="language-python">santa_claus_sound = set('ho ho ho')
+pirate_sound = 'yo ho ho'
+ho_sound = santa_claus_sound.intersection(pirate_sound)
+print(ho_sound)
+# The output is {'h', 'o', ' '}
+print(santa_claus_sound &amp; pirate_sound)
+# Causes TypeError</code></pre>
+<p>Also, sometimes it happens that you don't have specific variables for each of your sets, for example, you store them all in some container. How do you quickly find an intersection or a union of all these nameless sets? With the help of the operation set method and the asterisk (<code class="language-python">*</code>) operator (it is used to "unpack" containers; let's not go into details of this operator now, though): <code class="language-python">set.method(*list_of_sets)</code>. Watch this:</p>
+<pre><code class="language-python"># sets are within a container
+languages = [{'c', 'c++', 'python'}, {'python', 'javascript'}, {'python', 'java'}]
+the_best = set.intersection(*languages)
+print(the_best)
+# The output is {'python'}</code></pre>
+<p>So, now when you know all this, set operations will faithfully serve you!</p>
+<p></p><div class="alert alert-primary">Do not forget about frozenset — this data type also supports all of the above operations.</div><p></p>
+<h5 id="summary">Summary</h5>
+<p>Let's sum it up:</p>
+<ul>
+<li>you can perform union, intersection and difference operations on sets,</li>
+<li>each operation has two versions: one of them returns a new set and another updates the existing one,</li>
+<li>there are two ways of calling each operation: by method and by operator.</li>
+</ul></body></html>

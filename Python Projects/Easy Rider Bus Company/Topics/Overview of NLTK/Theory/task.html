@@ -1,0 +1,97 @@
+<h2>Overview of NLTK</h2>
+<p><code class="language-python">NLTK</code> (short for the Natural Language Toolkit) is a Python library for natural language processing (NLP). It provides modules for various language-related tasks, including part-of-speech tagging, syntactic parsing, text classification, named-entity recognition, etc. The library includes a lot of datasets and pre-trained models that are available for free. It is designed to support NLP researchers and learners. Apart from its practical application, NLTK is also suitable for starting with computational linguistics methods.</p><h5 id="installation">Installation</h5><p>To begin working with NLTK, you need to install it first. It can be quickly done with the <code class="language-python">pip</code>:</p><pre><code class="language-python">pip install nltk</code></pre><p>Now, If we want to use it, import it at the beginning of our program:</p><pre><code class="language-python">import nltk</code></pre><p>Once you have installed the library, you may also want to download some external datasets and models. The datasets include, for instance, collections of classic literary works, samples of web conversations, movie reviews, as well as various lexical resources like sets of synonyms. As for the models, NLTK provides several models, for example, the pre-trained <a href="https://code.google.com/archive/p/word2vec/" rel="noopener noreferrer nofollow" target="_blank">word2vec</a>. It allows you to find out the relations between words. <code class="language-python">NLTK</code> also has a couple of pre-trained models for sentiment analysis and so forth. The whole list is available on the official NLTK site – <a href="https://www.nltk.org/nltk_data/" rel="noopener noreferrer nofollow" target="_blank">NLTK Data</a>. Use <code class="language-python">download()</code> to get to the resources:</p><pre><code class="language-python">nltk.download()</code></pre><p>The method without arguments opens the NLTK Downloader window. You can select the required data there. Choose "all" in the Collections tab to obtain the entire collection. Alternatively, you can type <code class="language-python">all</code> as the function argument. It will get you the entire set:</p><pre><code class="language-python">nltk.download('all')</code></pre><p>Any package or collection of packages in NLTK can be downloaded the same way. Their IDs are the arguments of <code class="language-python">nltk.download()</code>, as in the example above.</p><h5 id="advantages-and-disadvantages">Advantages and disadvantages</h5><p>We have mentioned that <code class="language-python">NLTK</code> is a great starting point for studying NLP due to its academic nature. The documentation is straightforward, easy to follow, and comes with a lot of examples. We want to mention some other advantages also:</p><ul><li><p>NLTK is well suited for NLP tasks;</p></li><li><p>External resources are easily accessible, and all the models are trained on reliable datasets;</p></li><li><p>Texts are often supplied with annotations.</p></li></ul><p>However, there are some restrictions:</p><ul><li><p>NLTK is not a good choice for some tasks;</p></li><li><p>Built-in models are not advanced. They are still good as a starting point;</p></li><li><p>Even though the library supports some standard machine learning techniques, it does not provide any tools for neural network training.</p></li></ul><h5 id="nltk-applications">NLTK applications</h5><p>Let's take a quick look at the applications of NLTK. Most of them will be discussed in detail later. Take a look at the table:</p><table align="center" style="width: 385px;"><tbody><tr><td><p><strong>Application</strong></p></td><td><p><strong>NLTK modules</strong></p></td></tr><tr><td><p>String processing</p></td><td><p>tokenize, stem</p></td></tr><tr><td><p>Accessing corpora</p></td><td><p>corpus</p></td></tr><tr><td><p>Collocation discovery</p></td><td><p>collocations</p></td></tr><tr><td><p>Part-of-speech tagging</p></td><td><p>tag</p></td></tr><tr><td><p>Syntactic analysis</p></td><td><p>chunk, parse</p></td></tr><tr><td><p>Machine learning</p></td><td><p>classify, cluster</p></td></tr><tr><td><p>Evaluation metrics</p></td><td><p>metrics</p></td></tr><tr><td><p>Probability and estimation</p></td><td><p>probability</p></td></tr></tbody></table><p>Let's start with pre-processing. Several things should happen before any data processing. The first one is <strong>tokenization</strong>. It breaks raw textual data into smaller units (words, phrases, or any other entities). The second step is either <strong>lemmatization</strong> or <strong>stemming</strong>. Roughly speaking, that's where you normalize and reduce various word forms. The difference between processes will be discussed a bit later. NLTK has special modules for these procedures: <code class="language-python">nltk.tokenize</code> for the first one and <code class="language-python">nltk.stem</code> for lemmatization and stemming.</p><p>You may require additional pre-processing to remove high-frequency words; these words have little value. NLTK contains wordlists of common words for several languages. Such words are called <strong>stopwords</strong>; they can be found in <code class="language-python">nltk.corpus.stopwords</code>. With the help of the same <code class="language-python">corpus</code> module, you can get access to other corpora of NLTK.</p><p>The library is also good for other specific tasks, for example, <strong>collocation discovery</strong>. Collocations are two or more words that appear frequently together (<code class="language-python">best friend</code>, <code class="language-python">make breakfast</code>, <code class="language-python">save time</code>). Such phrases can be extracted with the help of <code class="language-python">nltk.collocations</code>.</p><p>Another task is <strong>part-of-speech tagging</strong>. Annotation is done using the pre-trained model included in NLTK. It also has tools for <strong>chunking</strong>, a procedure related to part-of-speech tagging. It identifies syntactically related groups of sentences, such as noun phrases. Unlike plain part-of-speech tagging, chunking is not that useful for understanding the syntactic structure of a text. <strong>Parsing</strong> can assist you with a deep analysis of the text's syntactic organization. NLTK also contains a module that allows you to produce tree representations of the inner sentence structures.</p><p>Another thing that NLTK can do is <strong>text classification </strong>and <strong>clustering </strong>for basic machine learning. To evaluate the performance of your NLP tasks, you can use the <strong>metrics </strong>provided in NLTK.</p><p>Last but not the least, NLTK has ways of <strong>statistical counting</strong>. Most of them are included in the <code class="language-python">FreqDist</code> class of the <code class="language-python">nltk.probability</code> package. For example, you can learn about word frequency distributions in your text.</p><h5 id="pos-tagging">POS Tagging</h5><p>Categories like adverbs, adjectives, nouns, and verbs are called part-of-speech. In NLP each token has a certain POS tag — its grammatical category. So, part-of-speech tagging is the process of classifying words into such lexical categories.</p><p>First, you need to download the average perceptron tagger:</p><pre><code class="language-python">import nltk
+from nltk import word_tokenize
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')  # download the tagger</code></pre><p>Now, we can POS tag the text:</p><pre><code class="language-python">text = 'The Amazon Theatre is an opera house in Manaus, in the heart of the Amazon rainforest in Brazil'
+tokenized = word_tokenize(text)
+print(nltk.pos_tag(tokenized))
+
+# [('The', 'DT'), ('Amazon', 'NNP'), ('Theatre', 'NNP'), ('is', 'VBZ'), ('an', 'DT'), ('opera', 'NN'), ('house', 'NN'), ('in', 'IN'), ('Manaus', 'NNP'), (',', ','), ('in', 'IN'), ('the', 'DT'), ('heart', 'NN'), ('of', 'IN'), ('the', 'DT'), ('Amazon', 'NNP'), ('rainforest', 'NN'), ('in', 'IN'), ('Brazil', 'NNP')]
+</code></pre><p>So, the output will be a list of tuples: in each tuple, the first element will be the token itself, and a POS tag.</p><p>For English, <code class="language-python">NLTK</code> uses the Penn Treebank tagset. If you want to get more information on a certain tag, use the following code:</p><pre><code class="language-python">nltk.help.upenn_tagset('VBG')
+
+# VBG: verb, present participle or gerund
+#    telegraphing stirring focusing angering judging stalling lactating
+#    hankerin alleging veering capping approaching traveling besieging
+#    encrypting interrupting erasing wincing ...</code></pre><h5 id="syntactic-parsing">Syntactic parsing</h5><p><strong>Syntactic parsing</strong>, also known as Syntax parsing or simply parsing, is a process of analyzing a sequence of symbols conforming to the rules of formal grammar. There are a lot of syntax parsers. Parsers can be, depending on the grammar, dependency parsers, and Context Free Grammars (CFG).</p><p>In <code class="language-python">NLTK</code>, you can find the Penn Treebank corpus. This corpus contains many parsed sentences. Let's check the first sentence in the corpus:</p><pre><code class="language-python">import nltk
+from nltk.corpus import treebank
+
+nltk.download('treebank')
+
+print(treebank.parsed_sents()[0])
+
+#  (S
+#    (NP-SBJ
+#      (NP (NNP Pierre) (NNP Vinken))
+#      (, ,)
+#      (ADJP (NP (CD 61) (NNS years)) (JJ old))
+#      (, ,))
+#    (VP
+#      (MD will)
+#      (VP
+#        (VB join)
+#        (NP (DT the) (NN board))
+#        (PP-CLR (IN as) (NP (DT a) (JJ nonexecutive) (NN director)))
+#        (NP-TMP (NNP Nov.) (CD 29))))
+#    (. .))</code></pre><p>In the output, you see that each new node (except for the terminals) appears as a new tuple. This scheme is based on Context Free Grammar. Let's draw a tree for this sentence: </p><pre><code class="language-python">treebank.parsed_sents()[0].draw()</code></pre><p><img alt="" height="218" src="https://ucarecdn.com/6424f0c5-6504-4f3d-b8cd-ad8e6b326dca/" width="612"/></p><p>Now, let's create a dependency tree. In <code class="language-python">NLTK</code>, we can create our custom rules for dependency parsers too:</p><pre><code class="language-python">grammar = nltk.DependencyGrammar.fromstring("""
+'shot' -&gt; 'I' | 'elephant' | 'in'
+'elephant' -&gt; 'an' | 'in'
+'in' -&gt; 'jungle'
+'jungle' -&gt; 'the'
+""")</code></pre><p> We can also create a tree. In this case, we will get two syntax trees alongside each other:</p><pre><code class="language-python">draw_trees(*(tree for tree in parser.parse(sent)))</code></pre><p><img alt="" height="210" src="https://ucarecdn.com/8227bcd9-6b2b-4724-b487-17e1c446eb34/" width="499"/></p><p>Now, let's check our dependency tree:</p><pre><code class="language-python">parser = nltk.ProjectiveDependencyParser(grammar)
+sent = ['I', 'shot', 'an', 'elephant', 'in', 'the', 'jungle']
+trees = parser.parse(sent)
+for tree in trees:
+    print(tree)
+draw_trees(*(tree for tree in parser.parse(sent)))
+
+
+#  (shot I (elephant an (in (jungle the))))
+#  (shot I (elephant an) (in (jungle the)))</code></pre><p><img alt="" height="141" src="https://ucarecdn.com/760c3185-98ac-43ae-98ce-3460494773b9/" width="225"/></p><p>Here, two different trees are possible.</p><h5 id="named-entity-recognition">Named entity recognition</h5><p>NER implementation in <code class="language-python">NLTK</code> is somewhat poorer than in <code class="language-python">Spacy</code> or <code class="language-python">Stanza</code>. The default NE chunker in <code class="language-python">NLTK</code> is the maximum entropy chunker trained on the ACE corpus. It cannot recognize dates, times, and so on:</p><pre><code class="language-python">import nltk
+from nltk import word_tokenize, pos_tag
+
+nltk.download('words')
+nltk.download('maxent_ne_chunker')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('punkt')
+
+
+
+text = "Death Note is written by Tsugumi Ohba and illustrated by Takeshi Obata."
+tagged = pos_tag(word_tokenize(text))
+
+print(nltk.ne_chunk(tagged))
+
+#  (S
+#    (PERSON Death/NNP)
+#    (ORGANIZATION Note/NNP)
+#    is/VBZ
+#    written/VBN
+#    by/IN
+#    (PERSON Tsugumi/NNP Ohba/NNP)
+#    and/CC
+#    illustrated/VBN
+#    by/IN
+#    (PERSON Takeshi/NNP Obata/NNP)
+#    ./.)</code></pre><p>You will get a sentence tree where each token has its own POS tag. If there is a named entity, then NLTK will make a tuple with an entity class in its beginning.</p><p>Here we see that in <code class="language-python">NLTK</code>, the NE chunker does not recognize all entities correctly. Take, for instance, <code class="language-python">Death Note</code>. It is neither a <code class="language-python">PERSON</code>, nor an <code class="language-python">ORGANIZATION</code>. By the way, <code class="language-python">NLTK</code> offers only four categories of entities: <code class="language-python">PERSON</code>, <code class="language-python">LOCATION</code>, <code class="language-python">ORGANIZATION</code> and <code class="language-python">MISC</code> (others); the last one is generally not tagged in the output.</p><h5 id="sentiment-analysis">Sentiment analysis</h5><p>Sentiment Analysis is the task of classifying a text according to its sentiment, or author's emotions. It may be just a polar classification (positive, negative) or more elaborate, for example: happy, surprised, grief, despair, sad.</p><p>Let's check a polar classification. In NLTK, there are many ways to implement a polar sentiment classification — one of those is the Vader Lexicon Classification:</p><pre><code class="language-python">from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+nltk.download('vader_lexicon')
+
+sentences = ["You cannot read this book without tears",  "I think this book is very wise"]
+for sentence in sentences:
+    sid = SentimentIntensityAnalyzer()
+    print(sentence)
+    ss = sid.polarity_scores(sentence)
+    for k in sorted(ss):
+        print('{0}: {1}, '.format(k, ss[k]), end='')
+
+#  You cannot read this book without tears
+#  compound: -0.2263, 
+#  neg: 0.241, 
+#  neu: 0.759, 
+#  pos: 0.0, 
+#  I think this book is very wise
+#  compound: 0.5256, 
+#  neg: 0.0, 
+#  neu: 0.596, 
+#  pos: 0.404, </code></pre><p>Here we classified two sentences:</p><ol><li><p> <code class="language-python">You cannot read this book without tears</code>;</p></li><li><p><code class="language-python">I think this book is very wise</code>.</p></li></ol><p>The first sentence is classified as negative (we generally ignore the neutral score), while the second one is positive.</p><h5 id="conclusion">Conclusion</h5><p>In this topic, we have learned how to install the library and download its external resources, taken a look at the advantages and disadvantages, and outlined some of the modules that can be used for natural language processing tasks. We also made a quick overview of the following topics:</p><ul><li><p>POS Tagging</p></li><li><p>Syntactic Parsing</p></li><li><p>Named Entity Recognition</p></li><li><p>Sentiment Analysis</p></li></ul><p>Of course, NLTK provides much more possibilities. You can explore them by looking at the <a href="https://www.nltk.org/" rel="noopener noreferrer nofollow" target="_blank">NLTK documentation</a>.</p>

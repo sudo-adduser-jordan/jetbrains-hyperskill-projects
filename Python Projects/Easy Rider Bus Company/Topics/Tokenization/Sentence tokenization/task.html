@@ -1,0 +1,12 @@
+<h2>Sentence tokenization</h2>
+<html><body><p>Let's count sentences in the text. Choose the right output for the following code.</p>
+<pre><code class="language-python">from nltk import sent_tokenize
+
+text = '''Louis XVI (born 1754 A.D.) also encouraged major voyages of exploration. 
+In 1785, he appointed La Pérouse to lead a sailing expedition around the world. 
+(La Pérouse and his fleet disappeared after leaving Botany Bay in March 1788. 
+Louis is recorded as having asked, on the morning of his execution, "Any news of La Pérouse?".)'''
+
+print(len(sent_tokenize(text)))</code>
+</pre>
+<p>Please, take into account the following — this tokenizer checks dots inside brackets, too. It also<span style="font-size: inherit; font-weight: inherit;"> doesn't recognize typical abbreviations as the sentence end and </span><span style="font-size: inherit; font-weight: inherit;">a dot before a bracket.</span></p></body></html>

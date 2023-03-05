@@ -1,0 +1,117 @@
+<h2>Set</h2>
+<html><body><p>When you need to get rid of duplicates in a sequence or intend to perform some mathematical operations, you may use a <strong>set</strong> object. A<strong> set</strong> is an <strong>unordered </strong>container of <strong>hashable </strong>objects<strong>. </strong>You will learn more about hashable objects later, for now, remember that only immutable data types can be elements of a set. Due to their form, sets <strong>do NOT </strong>record element position or order of insertion, so you cannot retrieve an element by its index.</p>
+<h5 id="creating-sets" style="text-align: center;">Creating sets</h5>
+<p>First things first, we create a set by listing its elements in curly braces. The only exception would be an <strong>empty set </strong>that can be formed with the help of the <code class="language-python"><strong>set()</strong></code><strong> </strong>function:</p>
+<pre><code class="language-python">empty_set = set()
+print(type(empty_set))   # &lt;class 'set'&gt;
+
+empty_dict = {}
+print(type(empty_dict))  # &lt;class 'dict'&gt;</code></pre>
+<p>If you pass a string or a list into <code class="language-python">set()</code>, the function will return a set consisting of all the elements of this string/list:</p>
+<pre><code class="language-python">flowers = {'rose', 'lilac', 'daisy'}
+
+# the order is not preserved
+print(flowers)  # {'daisy', 'lilac', 'rose'}  
+
+
+letters = set('philharmonic')
+print(letters)  # {'h', 'r', 'i', 'c', 'o', 'l', 'a', 'p', 'm', 'n'}</code></pre>
+<p>Each element is considered a part of a set only once, so double letters are counted as one element:</p>
+<pre><code class="language-python">letters = set('Hello')
+print(len(letters))  # the length equals 4
+print(letters)       # {'H', 'e', 'o', 'l'}
+</code></pre>
+<p>Moreover, using sets can help you avoid repetitions:</p>
+<pre><code class="language-python">states = ['Russia', 'USA', 'USA', 'Germany', 'Italy']
+print(set(states))  # {'Russia', 'USA', 'Italy', 'Germany'}</code></pre>
+<p> Have a look: as the order of naming the elements doesn't play any role, the following two sets will be equal.</p>
+<pre><code class="language-python">set1 = {'A', 'B', 'C'}
+set2 = {'B', 'C', 'A'}
+print(set1 == set2)  # True</code></pre>
+<h5 id="working-with-a-sets-elements" style="text-align: center;">Working with a set’s elements</h5>
+<p>You can:</p>
+<ul>
+<li>get the number of a set's elements with the help of <code class="language-python"><strong>len()</strong></code> function.</li>
+<li>go through all the elements using <code class="language-python"><strong>for loop</strong></code>.</li>
+<li>check whether an element belongs to a specific set or not (<code class="language-python"><strong>in / not in</strong></code> operators), you get the boolean value.</li>
+</ul>
+<pre><code class="language-python">nums = {1, 2, 2, 3}
+print(1 in nums, 4 not in nums)  # True True
+</code></pre>
+<ul>
+<li>add a new element to the set with <strong><code class="language-python">add()</code> </strong>method or <strong><code class="language-python">update()</code></strong> it with another collection</li>
+</ul>
+<pre><code class="language-python">nums = {1, 2, 2, 3}
+nums.add(5)
+print(nums)  # {1, 2, 3, 5}
+
+more_nums = {6, 7}
+nums.update(more_nums)
+print(nums)  # {1, 2, 3, 5, 6, 7}
+ 
+# we can also add a list
+text = ['how', 'are', 'you']
+nums.update(text)
+print(nums)  # {'you', 1, 2, 3, 5, 6, 7, 'are', 'how'}
+ 
+# or a string
+word = 'hello'
+nums.add(word)
+print(nums)  # {1, 2, 3, 'how', 5, 6, 7, 'hello', 'you', 'are'}
+</code></pre>
+<p></p><div class="alert alert-primary">Note that when we update a set with a list, those are the elements of the list that are added to the set rather than the list itself.</div><p></p>
+<ul>
+<li>delete an element from a specific set using <code class="language-python"><strong>discard/remove</strong></code> methods. The only difference between them operating is a situation when the element to be removed is absent from this set. In this case, <code class="language-python"><strong>discard</strong></code> does nothing and <code class="language-python"><strong>remove</strong></code> generates a <code class="language-python">KeyError</code> exception.</li>
+</ul>
+<pre><code class="language-python">nums.remove(2)
+print(nums)  # {1, 3, 5}
+
+empty_set = set()
+empty_set.discard(2)  # nothing happened
+empty_set.remove(2)   # KeyError: 2
+</code></pre>
+<ul>
+<li>remove one random element using <code class="language-python"><strong>pop()</strong></code> method. As it's going to be random, you don't need to choose an argument.</li>
+</ul>
+<pre><code class="language-python">nums = {1, 2, 2, 3}
+nums.pop()
+print(nums)  # {2, 3}
+</code></pre>
+<ul>
+<li>
+<p>delete all elements from the set with <code class="language-python"><strong>clear()</strong></code> method.</p>
+</li>
+</ul>
+<h5 id="when-to-use-sets" style="text-align: center;">When to use sets?</h5>
+<p>One important feature of sets (and all unordered collections in general) is that they allow you to run membership tests <em>much faster</em> than lists. In real life, if you have a list and you try to check by hand whether a particular item is present there, the only way to do this is to look through the entire list until you find this item. Python does the same thing: it looks for the needed item starting from the beginning of a list, because it has no idea where it may be placed. If the item is located at the end or there is no such item at all, Python will iterate over the majority of items in the list by the time it discovers this fact. So, in case your program is looking for items in a large list many times, it will be slow.</p>
+<p>And that's where sets come to help us! In sets membership testing works almost instantly, since they use a different way of storing and arranging values. So, depending on the situation, you need to decide what is more important to you: preserving the order of items in your collection or testing for membership in a faster way. In the first case, it's reasonable to store your items in the list, in the second it's better to use set.</p>
+<h5 id="frozenset" style="text-align: center;">Frozenset</h5>
+<p>The only difference between <code class="language-python">set</code> and <code class="language-python">frozenset</code> is that set is a mutable data type, but frozenset is not. To create a frozenset, we use the <code class="language-python">frozenset()</code> function.</p>
+<pre><code class="language-python">empty_frozenset = frozenset()
+print(empty_frozenset)  # frozenset()</code></pre>
+<p>We can also create a frozenset from a list, string or set:</p>
+<pre><code class="language-python">frozenset_from_set = frozenset({1, 2, 3})
+print(frozenset_from_set)  # frozenset({1, 2, 3})
+
+frozenset_from_list = frozenset(['how', 'are', 'you'])
+print(frozenset_from_list)  # frozenset({'you', 'are', 'how'})</code></pre>
+<p>As mentioned above, a frozenset is immutable. This means that while the elements of a set can change, in a frozenset they remain unchanged after creation. You can not add or remove items.</p>
+<pre><code class="language-python">empty_frozenset.add('some_text')  # AttributeError: 'frozenset' object has no attribute 'add'</code></pre>
+<p>So why do we need frozenset exactly? Since a set is mutable, we can't make it an element of another set.</p>
+<pre><code class="language-python">text = {'hello', 'world'}
+nested_text = {'!'}
+nested_text.add(text)  # TypeError: unhashable type: 'set'</code></pre>
+<p>But with a frozenset, such problems will not appear. It can be an element of another set or an element of another frozenset due to its hashability and immutability.</p>
+<pre><code class="language-python">some_frozenset = frozenset(text)
+nested_text.add(some_frozenset)
+print(nested_text)  # {'!', frozenset({'world', 'hello'})}</code></pre>
+<p>Also, these properties of frozensets allow them to be keys in a Python dictionary, but you will learn more about this later.</p>
+<h5 id="summary" style="text-align: center;">Summary</h5>
+<p>All things considered, now you know how to work with sets:</p>
+<ul>
+<li>you know how to create a new set and what can be stored in a set (immutable data types only).</li>
+<li>you understand the difference between the set and other Python objects.</li>
+<li>you can work with a set's elements: add new elements or delete them, differentiate <code class="language-python">discard</code> and <code class="language-python">remove</code> methods, etc.</li>
+<li>you know when to use sets (this really can save your time!).</li>
+<li>you know that <code class="language-python">frozenset</code> is an immutable alternative of set.</li>
+</ul></body></html>

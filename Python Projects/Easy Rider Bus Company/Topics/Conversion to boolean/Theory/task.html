@@ -1,0 +1,157 @@
+<h2>Conversion to boolean</h2>
+<html><body><p>You already know that all objects in Python can be interpreted as boolean values. Objects that are evaluated to <code class="language-python">True</code> are called <strong>truthy</strong>, objects that are evaluated to <code class="language-python">False</code> are called <strong>falsy</strong>. The following values are falsy:</p>
+<ul>
+<li>some constants: <code class="language-python">None</code> and <code class="language-python">False</code>,</li>
+<li>zero: <code class="language-python">0</code>, <code class="language-python">0.0</code>, <code class="language-python">0j</code>,</li>
+<li>empty containers such as a string <code class="language-python">""</code>, a list <code class="language-python">[]</code>, and others.</li>
+</ul>
+<p>All other objects are evaluated to <code class="language-python">True</code>.</p>
+<p>This allows us to use objects of any type in boolean expressions. In this topic, we are going to learn when it can be useful and when you should explicitly convert objects into boolean values.</p>
+<h5 id="truthy-test">Truthy test</h5>
+<p>Since there are few objects in Python that are evaluated to <code class="language-python">False</code>, there are not many cases when non-boolean values are used in logical expressions. The most common one is checking whether the given container is empty or not. Let's write a function that prints a list if it is not empty and the string <code class="language-python">"empty list"</code> if it is the opposite.</p>
+<pre><code class="language-python">def print_list(lst):
+    if lst:
+        print(lst)
+    else:
+        print('empty list')
+
+
+print_list([2, 3, 4])  # [2, 3, 4]
+print_list([])         # empty list</code></pre>
+<p>According to PEP8, writing <code class="language-python">if lst</code> instead of <code class="language-python">if len(lst) &gt; 0</code> is preferable, but you should understand well which objects could be passed to your function. In this example, if the passed argument <code class="language-python">lst</code> turns out to be <code class="language-python">None</code>, this function prints <code class="language-python">"empty list"</code>.</p>
+<p> </p>
+<p></p><div class="alert alert-primary">Here and later in this topic, all examples use lists but this all can be applied to other containers in the same way.</div>
+<p> </p>
+<p>There is a more compact way to implement the same function but it requires a deep understanding of how the <code class="language-python">and</code> and <code class="language-python">or</code> operators work with non-boolean values.</p>
+<h5 id="logical-operations-with-non-boolean-values">Logical operations with non-boolean values</h5>
+<p>You already know that given two boolean values, <code class="language-python">and</code> returns <code class="language-python">True</code> if both operands equal <code class="language-python">True</code> while <code class="language-python">or</code> returns <code class="language-python">True</code> if at least one operand equals <code class="language-python">True</code>. When the operands are of the arbitrary type, Python can apply <code class="language-python">and</code> and <code class="language-python">or</code> operators to them, but the result will be one of the operands rather than the boolean values <code class="language-python">True</code> or <code class="language-python">False</code>.</p>
+<p>The tables below show what <code class="language-python">and</code> , <code class="language-python">or</code> and <code class="language-python">not</code> operators return depending on whether their operands are truthy or falsy.</p>
+<p><em>The <code class="language-python">and</code> operator.</em></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="height: 223px; width: 225px;">
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>a</strong></td>
+<td style="text-align: center;"><strong>b</strong></td>
+<td style="text-align: center;"><strong>a and b</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">b</td>
+</tr>
+<tr>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">b</td>
+</tr>
+<tr>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">a</td>
+</tr>
+<tr>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">a</td>
+</tr>
+</tbody>
+</table>
+<p><em>The <code class="language-python">or</code> operator.</em></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="height: 225px; width: 228px;">
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>a</strong></td>
+<td style="text-align: center;"><strong>b</strong></td>
+<td style="text-align: center;"><strong>a or b</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">a</td>
+</tr>
+<tr>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">a</td>
+</tr>
+<tr>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;">b</td>
+</tr>
+<tr>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;">b</td>
+</tr>
+</tbody>
+</table>
+<p><em>The <code class="language-python">not</code> operator.</em></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1" style="height: 141px; width: 226px;">
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>a</strong></td>
+<td style="text-align: center;"><strong>not a</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">truthy</td>
+<td style="text-align: center;"><code class="language-python">False</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">falsy</td>
+<td style="text-align: center;"><code class="language-python">True</code></td>
+</tr>
+</tbody>
+</table>
+<p>Now we can implement the <code class="language-python">print_list()</code> function in one line:</p>
+<pre><code class="language-python">def print_list(lst):
+    print(lst or 'empty list')
+
+
+print_list([2, 3, 4])  # [2, 3, 4]
+print_list([])         # empty list</code></pre>
+<p>According to the second table, when <code class="language-python">lst</code> is not empty, so it is truthy, the <code class="language-python">or</code> operator returns the first operand (the list itself); when <code class="language-python">lst</code> is empty, so it is falsy, the <code class="language-python">or</code> operator returns the second operand (the string in our case).</p>
+<p>Another thing to note is that when the first operand uniquely determines the result of the operation, which happens when the first operand in the <code class="language-python">and</code> operation is falsy or when the first operand in the <code class="language-python">or</code> operation is truthy, Python does not look at the second operand at all. For example, when we want to check if the given list <code class="language-python">lst</code> is not empty and its first element is positive, we may write the following:</p>
+<pre><code class="language-python">if lst and lst[0] &gt; 0:
+    ...</code></pre>
+<p>If <code class="language-python">lst</code> is empty, the <code class="language-python">lst[0] &gt; 0</code> expression is invalid but it does not cause an exception because it never gets evaluated.</p>
+<h5 id="bool-function">bool() function</h5>
+<p>Although we can use any objects in boolean expressions, there are cases when we should explicitly convert objects into real boolean values. This can be done with the <code class="language-python">bool()</code> function. The <code class="language-python">bool()</code> function returns <code class="language-python">True</code> if the passed argument is truthy, and <code class="language-python">False</code> if it is falsy.</p>
+<pre><code class="language-python">print(bool(True), bool(False))    # True False
+print(bool(None))                 # False
+print(bool([]), bool([2, 3, 9]))  # False True</code></pre>
+<p>This function is not very common, but there are special cases when it can be useful.</p>
+<h5 id="when-to-use-the-bool-function">When to use the bool() function?</h5>
+<p>Sometimes you need to store the result of a logical expression or even write it to a file. In this case, you would want to get <code class="language-python">True</code> or <code class="language-python">False</code>, not a truthy or falsy object.</p>
+<p>Let's look at the example. You have a list of lists with integer values. You want to check if this list is not empty and its first element is not zero for each inner list. The solution is the following code:</p>
+<pre><code class="language-python">def check_list(lst):
+    return lst and lst[0]
+
+
+lists = [[5, 9], [0, 0], []]
+result = []
+for lst in lists:
+    result.append(check_list(lst))
+
+print(result)  # [5, 0, []]</code></pre>
+<p>Although <code class="language-python">5</code> is a truthy value and <code class="language-python">0</code> and <code class="language-python">[]</code> are falsy values, most likely you would prefer to get a list consisting of real boolean values:<code class="language-python">result = [True, False, False]</code>. So you should explicitly convert the result of the function into a boolean value.</p>
+<pre><code class="language-python">def check_list(lst):
+    return bool(lst and lst[0])
+
+
+lists = [[5, 9], [0, 0], []]
+result = []
+for lst in lists:
+    result.append(check_list(lst))
+
+print(result)  # [True, False, False]</code></pre>
+<p> </p>
+<p></p><div class="alert alert-primary">When you do not have to store the result of a logical expression, there is no need to enclose the expression in the <code class="language-python">bool()</code> function. For example, <code class="language-python">if lst</code> is more readable than <code class="language-python">if bool(lst)</code>.</div>
+<p> </p>
+<h5 id="summary">Summary</h5>
+<ul>
+<li>All objects in Python can be interpreted as boolean values.</li>
+<li>Some boolean operators, such as <code class="language-python">and</code> and <code class="language-python">or</code>, return one of the operands as a result; <code class="language-python">not</code>, on the contrary, always returns a boolean value.</li>
+<li>It is fine to use the test for truthiness when checking if the container is empty but do it carefully.</li>
+<li>When you want to store the result of a logical operation, not just check if it is true or false, you should explicitly convert it to a boolean value using the <code class="language-python">bool()</code> function.</li>
+</ul></body></html>

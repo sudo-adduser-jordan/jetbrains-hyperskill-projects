@@ -1,3 +1,9 @@
 content:
-- Class
-- Class instances
+- Unit testing in Python
+- Regexps in Python
+- Escaping in regexps
+- Regexp sets and ranges
+- Shorthands
+- Regexp quantifiers
+- ast module
+- Class vs instance

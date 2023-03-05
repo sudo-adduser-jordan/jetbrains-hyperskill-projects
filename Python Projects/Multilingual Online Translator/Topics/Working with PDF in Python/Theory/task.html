@@ -1,0 +1,87 @@
+<h2>Working with PDF in Python</h2>
+<html><body><p>Everyone is familiar with PDF files. <strong>Portable Document Format</strong> (PDF) is a file format developed by Adobe Systems. It was introduced in 2008 as an open standard and governed by the ISO under the ISO 32000 standard.</p>
+<p>Each PDF file is a complete representation of a document. It can include images, texts, tables, styles, links to web pages, and other multimedia elements. It maintains the exact format of the document, so PDF is one of the most popular formats for printing. The PDF specification also provides for encryption, digital signatures, file attachments, and metadata. To view it, we need a PDF reader like <a href="https://get.adobe.com/reader/" rel="noopener noreferrer nofollow" target="_blank">Adobe Reader®</a> or a web browser.</p>
+<p>PDF ensured the transit from paper to digital format. We can create documents and send their electronic version anywhere. In this topic, we'll learn how to read an existing document and create <em>.pdf</em> files in Python.</p>
+<h5 id="reading-pdf-using-python">Reading PDF using Python</h5>
+<p>PDF documents are binary files; they are more complex than plain text files because they may contain different fonts, colors, tables, and so on. In this section, we will use the <a href="https://pypi.org/project/PyPDF4/" rel="noopener noreferrer nofollow" target="_blank">PyPDF4</a> library to work with this type of file. First, let's install it using the Python Package Index (PyPI) with the command below. If everything is fine, you'll see the package version:</p>
+<pre><code class="language-python">pip install PyPDF4
+
+# Installing collected packages: PyPDF4
+# Successfully installed PyPDF4-1.27.0</code></pre>
+<p>Now, let's use the <code class="language-python">PyPDF4</code> library to extract the metadata from <code class="language-python">dummy.pdf</code>. You can download it <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" rel="noopener noreferrer nofollow" target="_blank">here</a>. Don't forget to put it in the same folder as your python script!</p>
+<pre><code class="language-python">from PyPDF4 import PdfFileReader
+
+with open(file="dummy.pdf", mode='rb') as file:
+    pdf = PdfFileReader(file)
+    information = pdf.getDocumentInfo()
+    number_of_pages = pdf.getNumPages()
+</code></pre>
+<p>The <code class="language-python">PdfFileReader</code> class provides all necessary methods and attributes to access data in a PDF file. In the example above, the <code class="language-python">.getDocumentInfo()</code> method extracts the PDF metadata that is drawn up when a PDF is created:</p>
+<pre><code class="language-python">metadata = f"""
+    Author: {information.author}
+    Creator: {information.creator}
+    Producer: {information.producer}
+    Subject: {information.subject}
+    Title: {information.title}
+    Number of pages: {number_of_pages}
+    """
+</code></pre>
+<p>Let's take a look at the <code class="language-python">dummy.pdf</code> metadata:</p>
+<pre><code class="language-python">    Author: Evangelos Vlachogiannis
+    Creator: Writer
+    Producer: OpenOffice.org 2.1
+    Subject: None
+    Title: None
+    Number of pages: 1
+</code></pre>
+<h5 id="writing-pdf-files">Writing PDF files</h5>
+<p>The <code class="language-python">PdfFileWriter</code> class creates new PDF files. Before you can save it, you need to add some pages. You can leave them blank. Let's write a new file with a unique page from the dummy file.</p>
+<pre><code class="language-python">from PyPDF4 import PdfFileReader, PdfFileWriter
+
+
+new_pdf = PdfFileWriter()
+original_pdf = PdfFileReader("dummy.pdf")
+
+# Rotate page 90 degrees to the right
+page_0 = original_pdf.getPage(0).rotateClockwise(90)
+new_pdf.addPage(page_0)
+
+pdf_reader = PdfFileReader("dummy.pdf")
+
+# Rotate page 90 degrees to the left
+page_1 = pdf_reader.getPage(0).rotateCounterClockwise(90)
+new_pdf.addPage(page_1)
+
+with open(file="rotate_page.pdf", mode="wb") as new_file:
+    new_pdf.write(new_file)
+</code></pre>
+<p>In the code snippet above, we use <code class="language-python">.getPage()</code> to get a specific page. In that case, both pages are <code class="language-python">0</code> because the <code class="language-python">dummy.pdf</code> file has only one page. We have also used <code class="language-python">.rotateClockwise(90)</code> and <code class="language-python">.rotateCounterClockwise(90)</code> to change the orientation of the first page to the right and the second one to the left. Then, we call <code class="language-python">.addPage()</code> to add the rotated version of every page to the <code class="language-python">writer</code> object. Finally, we proceed to create a new PDF using <code class="language-python">.write()</code>.</p>
+<p><code class="language-python">PdfFileWriter</code> objects can create new PDF files, but they can't write new contents from scratch other than blank pages. This is a limitation. Next, we will learn an alternative way to generate PDF files.</p>
+<h5 id="creating-a-pdf-from-scratch">Creating a PDF from scratch</h5>
+<p>Let's continue with <a href="https://pypi.org/project/fpdf2/" rel="noopener noreferrer nofollow" target="_blank">fpdf2</a>. This is a minimalist library that allows us to generate PDF documents. It is a port of FPDF that is written in PHP.  Let's install it with the Python Package Index (PyPI) as we've done with the previous library:</p>
+<pre><code class="language-bash">pip install fpdf2
+
+# Installing collected packages: fpdf2
+# Successfully installed fpdf2-2.4.3
+
+</code></pre>
+<p>The <code class="language-python">fpdf2</code> library is simple, small, and versatile, advanced-level, but it's also user-friendly, comprehensive, and well-maintained. Have a look at the following example:</p>
+<pre><code class="language-python">from fpdf import FPDF, XPos, YPos
+
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font(family='times', style='I', size=14)
+pdf.cell(w=1, txt="hello world!")
+pdf.output("dummy.pdf")
+</code></pre>
+<p>As a result, we can get the following PDF:</p>
+<p><img alt="" height="624" name="dummy_pdf.PNG" src="https://ucarecdn.com/5711ce2a-6d4b-44ef-b4f8-7b40b98439f7/" width="1118"/></p>
+<p>We've created an <code class="language-python">FPDF</code> object with the default values: the pages are in A4 portrait mode, the unit of measurement is a millimeter. It is possible to set the PDF in landscape mode (<code class="language-python">L</code>) and use other page formats (such as <code class="language-python">Letter</code> or <code class="language-python">Legal</code>), as well as different units of measurement (<code class="language-python">pt</code>, <code class="language-python">cm</code>, <code class="language-python">in</code>).</p>
+<pre><code class="language-python">pdf = FPDF(orientation="L", format="Letter", unit="cm")</code></pre>
+<p>As you've seen, we are using the <code class="language-python">.cell()</code> function to add a line of text to our file. A cell is a rectangular area with text. It is rendered at the current position. We can specify some of its dimensions: width and height in the units defined in the <code class="language-python">FPDF</code> object (for borders) and text alignment. Note that <code class="language-python">w</code> is a required argument.</p>
+<pre><code class="language-python">pdf.cell(w=1, h=1, txt="I am the first line at the left", border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="L")
+pdf.cell(w=1, h=1, txt="I am the centered line", border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")</code></pre>
+<p>The <code class="language-python">fpdf2</code> library has a great deal of other interesting features, such as changing the font color, adding multiple cells, header, footer, images, etc. You can check out the <a href="https://pyfpdf.github.io/fpdf2/fpdf/fpdf.html" rel="noopener noreferrer nofollow" target="_blank">Official Documentation</a>.</p>
+<p>Finally, the PDF document is closed and saved in the directory using the <code class="language-python">output</code> method. </p>
+<h5 id="conclusion">Conclusion</h5>
+<p>PDF is the standard for secure sharing and distribution of electronic documents around the globe, both on corporate intranets and on the Web. In this topic, you've learned how to use the <code class="language-python">PyPDF4</code> library to read PDF files with the help of the <code class="language-python">PdfFileReader</code> class and write the new ones using the <code class="language-python">PdfFileWriter</code> class. You've also learned how to create custom PDF files with the <code class="language-python">fpdf2</code> library.</p></body></html>

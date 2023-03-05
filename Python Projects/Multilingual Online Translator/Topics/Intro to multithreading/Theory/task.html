@@ -1,0 +1,126 @@
+<h2>Intro to multithreading</h2>
+<html><body><p>If you are familiar with the notion of <strong>threading</strong>, you probably have an idea of how threading utilizes different parts of one process to run concurrently. A <strong>process</strong> is nothing else but a program that is currently using the CPU. Almost any process now supports <strong>multithreading</strong>. This means that multiple threads<strong> </strong>(units) will work together to achieve one common goal.</p>
+<p> </p>
+<p>Every process has at least one thread. It is the <strong>main thread</strong>.</p>
+<p> </p>
+<p>Let us take an example to illustrate the notion of multithreading: imagine that you are an avid fan of video games. In a video game, the process has to run different tasks — rendering, interaction with players, and, possibly, internet connection. All these tasks run in parallel because the game should be responsive all the time. To accomplish this, it employs multithreading, where each thread is responsible for running a separate task.</p>
+<p>Another example is when you create a simple application for registration at an event. People must register if they want to attend the event, so you have prepared a simple form for attendees. If the system that saves user data is a single-threaded application, it can only process one request at a time. But what if the event is a concert for millions of people? Processing one request at a time will slow down the performance drastically. That's why it is a good idea to make the application multithreaded to allow multiple requests to be processed at the same time.</p>
+<h5 id="threading-in-python">Threading in Python</h5>
+<p>Almost everything in Python can be represented as an object. Threading is represented in Python. Therefore, threading<strong> </strong>is also an object. A thread<strong> </strong>in Python can hold data, can be passed as a parameter to a function, can have various states such as <strong>locked</strong><strong> </strong>or <strong>unlocked</strong>, and can be stored in different data structures like dictionaries, lists, and so on. </p>
+<p>Before jumping into code implementation, let's understand the concept of locking. A lock is a synchronization object that controls simultaneous access to an object. A lock acts as a permit: it is a vital thing in the prevention of data corruption.</p>
+<p>The lock will be assigned to only one thread at a time. Other threads will wait for the lock owner to complete its task and return it. Thanks to the lock mechanism, it is possible to control the competition between various threads, ensuring that each one of them performs its activities without the unwanted interference of other threads.</p>
+<p>Now, let's return to the notion of threading. Python offers two modules for thread-control in programs: <code class="language-python">_thread</code> and <code class="language-python">threading</code>. The main difference between them is that the <code class="language-python">_thread</code> module implements a thread as a function, while the <code class="language-python">threading</code> module offers an object-oriented approach to enable thread creation. Below you'll see examples that will give you an idea of how to implement threads using both built-in modules.</p>
+<h5 id="the-_thread-module">The _thread module</h5>
+<p>First, let's create a function called <code class="language-python">greet</code>. It takes a lock object as an argument, waits for 3 seconds, and prints a welcome message. The parameter will be necessary later when we'll use a thread to execute the function:</p>
+<pre><code class="language-python">import time
+
+locks = []
+
+def greet(lockobject):
+    time.sleep(3)
+    print('Hello, ')
+    # Release the lock as we are done here
+    lockobject.release()
+</code></pre>
+<p>Then we need to create a thread, where we can execute our function. When the thread is started, it takes the function and a tuple of lock objects:</p>
+<pre><code class="language-python">import _thread
+
+def create_thread():
+    # Create a lock and acquire it
+    lockobject = _thread.allocate_lock()
+    lockobject.acquire()
+
+    # Store it in the global lock list
+    locks.append(lockobject)
+    # Pass it to a new thread that can release the lock once done
+    _thread.start_new_thread(greet, (lockobject,))
+</code></pre>
+<p>Let's continue with locks. A lock can be either locked or unlocked. It has only two basic methods, <code class="language-python">acquire()</code> and <code class="language-python">release()</code>. When the state is <strong>unlocked</strong>, <code class="language-python">acquire()</code> changes the state to <strong>locked</strong> and returns immediately. When it is <strong>locked</strong>, <code class="language-python">acquire()</code> blocks it until a call to <code class="language-python">release()</code> in another thread changes it to <strong>unlocked</strong>, then the <code class="language-python">acquire()</code> call resets it to <strong>locked</strong> and returns. Call the <code class="language-python">release()</code> method only when the state is <strong>locked</strong>; it changes the state to <strong>unlocked</strong> and returns immediately. If an attempt is made to release an unlocked lock, an error will be raised.</p>
+<p>Finally, we can call the <code class="language-python">create_thread</code> function and print the rest of the greeting message:</p>
+<pre><code class="language-python">create_thread()
+print('world!')
+# Acquire all locks = release all threads
+all(lock.acquire() for lock in locks)</code></pre>
+<h5 id="the-threading-module">The threading module</h5>
+<p>In the following code snippet, we will recreate the above greeting function and then pass it as a target parameter to our thread. A target is a callable object that is invoked by thread methods. Once we create the thread object, we must start it with the <code class="language-python">start()</code> method.</p>
+<pre><code class="language-python">import time
+from threading import Thread
+
+
+def greet():
+    time.sleep(3)
+    print('Hello, ')
+
+
+t = Thread(target=greet)
+t.start()
+
+print('world!')</code></pre>
+<p>If you run the snippets above, you will notice that even if we created a thread before the print statement, <code class="language-python">world!</code> is printed 3 seconds before the <code class="language-python">Hello, </code> string. This happens because when using threading, our program does not wait until the delay but rather goes and executes the next lines. </p>
+<p>You may also have noticed that creating a thread with the <code class="language-python">threading</code> module is more straightforward than doing the same with the <code class="language-python">_thread</code> module. In the first example, we had to create a lock as well. Otherwise, the operating system will ignore our thread, and our <code class="language-python">Hello, </code> message would not have been printed out. The <a href="https://docs.python.org/3/library/_thread.html" rel="noopener noreferrer nofollow" target="_blank">Official documentation</a> indicates that the <code class="language-python">_thread</code> module is a <strong>low-level </strong>threading API,<strong> </strong>so<strong> </strong>it is considered a good practice to use a higher-level level module like <a href="https://docs.python.org/3/library/threading.html#module-threading" rel="nofollow noreferrer noopener" target="_blank">threading</a>, where you can simply wait for all the threads to exit. In the examples below, we will follow this recommendation.</p>
+<h5 id="multithreading-in-python">Multithreading in Python</h5>
+<p>Now that you have a good understanding of how to create a thread, it is time to make a step forward into threading and see how a program behaves when we set up multiple threads. </p>
+<pre><code class="language-python">import time
+from threading import Thread
+
+
+def cube_area(thread, length, delay=0):
+    time.sleep(delay)
+    print(f"{thread} ---&gt; Area of a cube with an edge length of {length} is: \t{6 * (length ** 2)}")
+
+
+def circle_area(thread, length, delay=0):
+    time.sleep(delay)
+    print(f"{thread} ---&gt; Area of a circle with a radius length of {length} is: \t{3.14 * (length ** 2)}")
+
+# instantiate multiple threads with functions as targets and thread name, length as arguments
+
+t1 = Thread(target=cube_area, args=("t1", 2))
+t2 = Thread(target=circle_area, args=("t2", 3))
+
+t3 = Thread(target=cube_area, args=("t3", 4))
+t4 = Thread(target=circle_area, args=("t4", 6))
+
+t5 = Thread(target=cube_area, args=("t5", 9))
+t6 = Thread(target=circle_area, args=("t6", 8))
+
+t1.start()
+t2.start()
+t3.start()
+t4.start()
+t5.start()
+t6.start()</code></pre>
+<p>As you may have noticed, since the <code class="language-python">delay</code> variable is set by default to <code class="language-python">0</code>, all will be printed in the initial order: </p>
+<pre><code class="language-no-highlight">t1 ---&gt; Area of a cube with an edge length of 2 is: 	24
+t2 ---&gt; Area of a circle with a radius length of 3 is: 	28.26
+t3 ---&gt; Area of a cube with an edge length of 4 is: 	96
+t4 ---&gt; Area of a circle with a radius length of 6 is: 	113.04
+t5 ---&gt; Area of a cube with an edge length of 9 is: 	486
+t6 ---&gt; Area of a circle with a radius length of 8 is: 	200.96</code></pre>
+<p>Let us play around with our <code class="language-python">delay</code> variable and see what happens: </p>
+<pre><code class="language-python">t1 = Thread(target=cube_area, args=("t1", 2, 3))
+t2 = Thread(target=circle_area, args=("t2", 2, 2))
+
+t3 = Thread(target=cube_area, args=("t3", 4, 1))
+t4 = Thread(target=circle_area, args=("t4", 6, 2))
+
+t5 = Thread(target=cube_area, args=("t5", 9, 4))
+t6 = Thread(target=circle_area, args=("t6", 8, 3))
+
+t1.start()
+t2.start()
+t3.start()
+t4.start()
+t5.start()
+t6.start()</code></pre>
+<p>Now, the output will be as follows:</p>
+<pre><code class="language-no-highlight">t3 ---&gt; Area of a cube with an edge length of 4 is: 	96
+t2 ---&gt; Area of a circle with a radius length of 2 is: 	12.56
+t4 ---&gt; Area of a circle with a radius length of 6 is: 	113.04
+t1 ---&gt; Area of a cube with an edge length of 2 is: 	24
+t6 ---&gt; Area of a circle with a radius length of 8 is: 	200.96
+t5 ---&gt; Area of a cube with an edge length of 9 is: 	486</code></pre>
+<p>The lines with the shortest delay are printed first, while those with a longer delay are printed at the end of our program. This is possible by implementing multithreading; otherwise, our code would have been executed line by line. This is just a simple example, but imagine processing an image or writing a huge file to a disk, and refreshing a resource on the internet. With multithreading,<strong> </strong>we can allocate the part of our code that takes longer to a separate thread and continue with the rest of our program at the same time.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this introductory topic, we have briefly explained what a thread is and how it influences a process execution. We have also introduced you to Python's built-in modules — <code class="language-python">_thread</code> and <code class="language-python">threading</code>. There are also locked and unlocked statuses of a thread; you can use them to prevent data corruption. Finally, we've made a basic example of how to use multiple threads in Python.</p>
+<p>Of course, this is only a beginning. We will continue to discuss multithreading in Python at length in other topics. But for now, let's turn to practice!</p></body></html>
