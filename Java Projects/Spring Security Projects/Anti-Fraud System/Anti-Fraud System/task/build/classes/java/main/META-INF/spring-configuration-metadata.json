@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "name": "transaction.values",
+      "type": "antifraud.configuration.TransactionProperty",
+      "sourceType": "antifraud.configuration.TransactionProperty"
+    }
+  ],
+  "properties": [
+    {
+      "name": "transaction.values.current-limit-modifier",
+      "type": "java.lang.Double",
+      "sourceType": "antifraud.configuration.TransactionProperty",
+      "defaultValue": 0
+    },
+    {
+      "name": "transaction.values.initial-max-allowed",
+      "type": "java.lang.Integer",
+      "sourceType": "antifraud.configuration.TransactionProperty",
+      "defaultValue": 0
+    },
+    {
+      "name": "transaction.values.initial-max-manual",
+      "type": "java.lang.Integer",
+      "sourceType": "antifraud.configuration.TransactionProperty",
+      "defaultValue": 0
+    },
+    {
+      "name": "transaction.values.region-and-ip-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "antifraud.configuration.TransactionProperty",
+      "defaultValue": 0
+    },
+    {
+      "name": "transaction.values.value-from-transaction-modifier",
+      "type": "java.lang.Double",
+      "sourceType": "antifraud.configuration.TransactionProperty",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}

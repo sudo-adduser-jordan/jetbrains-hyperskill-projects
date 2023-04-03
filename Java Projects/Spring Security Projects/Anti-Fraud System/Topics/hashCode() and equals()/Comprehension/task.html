@@ -1,0 +1,48 @@
+<h2>Comprehension</h2>
+<p></p>
+<p>Here's a class named <code class="language-java"><span style="color: #000000;">BlackBox</span></code>. The class overrides <code class="language-java">equals</code> and <code class="language-java">hashCode</code> methods.<br/>
+<br/>
+What does this code output?</p>
+<pre><code class="language-java">public class BlackBox {
+
+    private final int additive;
+    private int input1;
+    private int input2;
+    
+    public BlackBox(int add){
+        additive = add;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return  true;
+
+   
+        if (!(obj instanceof BlackBox)) return false;
+
+        BlackBox that = (BlackBox) obj;
+
+        return additive == that.additive
+                &amp;&amp;
+                input1 == that.input1
+                &amp;&amp;
+                input2 == that.input2;
+    }
+
+
+
+    public static void main(String[] args) {
+
+        BlackBox bb1 = new BlackBox(10);
+        Object bb2 = new BlackBox(10);
+
+        System.out.print(bb1.equals(bb2) + " ");
+        System.out.print(bb2.equals(bb1));
+    }
+}
+</code></pre>
