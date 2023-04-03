@@ -1,8 +1,10 @@
 # Hyperskill Projects
 
-
-<img src=https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/BG_1.svg?sanitize=true" width="48"> <img src="https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/pluginIcon.png" width="48">
+<p>
+<img src=https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/BG_1.svg?sanitize=true" width="48"> 
+<img src="https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/pluginIcon.png" width="48">
 <!-- ![banner](https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/pluginIcon.png) -->
+</p>
 
 <!-- ![badge]() -->
 <!-- ![badge]() -->
