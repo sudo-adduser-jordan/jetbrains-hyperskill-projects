@@ -9,7 +9,7 @@
 
 ## Background
 
-A repository containing Hyperskill projects of small to large complexity.
+A repository containing Hyperskill projects of large to small complexity.
 
 Each project will contain a README with the provided course description.
 
