@@ -3,7 +3,7 @@
 
 ![banner](https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/pluginIcon.png)
 <!-- https://raw.githubusercontent.com/sudo-adduser-jordan/personal-assets/main/Project/BG_1.svg?token=GHSAT0AAAAAACA52RJQISK7ANQCWIRVVUV6ZBKW7KA -->
-
+<img src="https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/pluginIcon.png" width="48">
 <!-- ![badge]() -->
 <!-- ![badge]() -->
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
