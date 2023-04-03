@@ -17,10 +17,10 @@ Projects are completed but not maintained.
 
 ## Languages Included
 
+- [Go](https://github.com/sudo-adduser-jordan/Hyperskill-Projects/tree/main/Go%20Projects)
 - [Java](https://github.com/sudo-adduser-jordan/Hyperskill-Projects/tree/main/Java%20Projects)
 - [Python](https://github.com/sudo-adduser-jordan/Hyperskill-Projects/tree/main/Python%20Projects)
 - [Javascript](https://github.com/sudo-adduser-jordan/Hyperskill-Projects/tree/main/Javascript%20Projects)
-- [Go](#go)
 
 ## Install
 
