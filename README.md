@@ -15,7 +15,7 @@ Each project will contain a README with the provided course description.
 
 Projects are completed but not maintained.
 
-### Languages Included
+## Languages Included
 
 - [Java](https://github.com/sudo-adduser-jordan/Hyperskill-Projects/tree/main/Java%20Projects)
 - [Python](https://github.com/sudo-adduser-jordan/Hyperskill-Projects/tree/main/Python%20Projects)
