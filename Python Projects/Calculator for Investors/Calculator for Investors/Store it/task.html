@@ -1,0 +1,39 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>A <strong>database</strong> is an organized collection of data, typically stored electronically in a computer system.</p>
+<p>Let's create a database. In this stage, your program will read the files and create a database with them. Follow the objectives and examples to improve your program.</p>
+<p><a href="https://stepik.org/media/attachments/lesson/709123/companies.csv" rel="noopener noreferrer nofollow" target="_blank">companies.csv</a></p>
+<p><a href="https://stepik.org/media/attachments/lesson/709123/financial.csv" rel="noopener noreferrer nofollow" target="_blank">financial.csv</a></p>
+<h5 id="objectives">Objectives</h5>
+<p>Let's break the task into several steps:</p>
+<ul>
+<li>Read the data from <em>test/companies.csv</em> and <em>test/financial.csv</em>;</li>
+<li>Replace the empty values with <code class="language-ini">None</code>;</li>
+<li>Create an SQLite database — <em>investor.db</em>;</li>
+<li>Create the <code class="language-ini">companies</code> table;</li>
+<li>Create the <code class="language-ini">financial</code> table;</li>
+<li>Insert datasets to the tables;</li>
+<li>End the program with a message: <code class="language-ini">Database created successfully!</code>;</li>
+</ul>
+<p>The snippet below shows the detail of the <code class="language-ini">companies</code> model. Please don't change the terms and types.</p>
+<pre><code class="language-ini">ticker: String, primary_key
+name: String
+sector: String
+</code></pre>
+<p>The snippet below shows the details of the <code class="language-ini">financial</code> model. Please don't change the terms and types.</p>
+<pre><code class="language-python">ticker: String, primary_key
+ebitda: Float
+sales: Float
+net_profit: Float
+market_price: Float
+net_debt: Float
+assets: Float
+equity: Float
+cash_equivalents: Float
+liabilities: Float
+</code></pre>
+<h5 id="example">Example</h5>
+<p>The greater-than symbol followed by a space (<code class="language-ini">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
+<p><strong>Example 1</strong>:</p>
+<pre><code class="language-python">Database created successfully!</code></pre>
+</div>

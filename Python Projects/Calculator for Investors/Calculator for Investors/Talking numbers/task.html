@@ -1,0 +1,464 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>Keep the functionality from the former steps and implement <code class="language-ini">CRUD MENU</code>. Your program will create an item, read it, update it, and delete an item in the database.</p>
+<p><a href="https://stepik.org/media/attachments/lesson/709123/companies.csv" rel="noopener noreferrer nofollow" target="_blank">companies.csv</a></p>
+<p><a href="https://stepik.org/media/attachments/lesson/709123/financial.csv" rel="noopener noreferrer nofollow" target="_blank">financial.csv</a></p>
+<h5 id="objectives">Objectives</h5>
+<p>Let's break the task into several steps:</p>
+<ul>
+<li>Start with the welcoming message: <code class="language-ini">Welcome to the Investor Program!</code></li>
+<li>Display <code class="language-ini">MAIN MENU</code>;</li>
+<li>Ask for an option;</li>
+<li>When <code class="language-ini">CRUD MENU</code> is selected, display the menu and ask for an option;
+	<ul>
+<li>When <code class="language-ini">Create a company</code> is selected;
+		<ul>
+<li>Ask for related values;</li>
+<li>Create a company in the <code class="language-ini">companies</code> table;</li>
+<li>Create the financial data in the <code class="language-ini">financial</code> table;</li>
+<li>Print <code class="language-ini">Company created successfully!</code>;</li>
+<li>Return to the main menu;</li>
+</ul>
+</li>
+<li>When <code class="language-ini">Read a company</code> is selected;
+		<ul>
+<li>Ask for a name <code class="language-ini">Enter company name:</code>;</li>
+<li>When no match is found, print <code class="language-ini">Company not found!</code> and return to the main menu;</li>
+<li>When a match is found, list the matching companies with indexes;</li>
+<li>Ask for a number <code class="language-ini">Enter company number:</code></li>
+<li>Calculate the financial indicators with the given formulas below;</li>
+<li>Print them with the company name and ticker;</li>
+<li>Return to the main menu;</li>
+</ul>
+</li>
+<li>When <code class="language-ini">Update a company</code> is selected;
+		<ul>
+<li>Ask for a name <code class="language-ini">Enter company name:</code>;</li>
+<li>When no match is found, print <code class="language-ini">Company not found!</code> and return to the main menu;</li>
+<li>When a match is found, list the matching companies with indexes;</li>
+<li>Ask for a number <code class="language-ini">Enter company number:</code>;</li>
+<li>Ask for the related values;</li>
+<li>Updates the values and print <code class="language-ini">Company updated successfully!</code>;</li>
+<li>Return to the main menu;</li>
+</ul>
+</li>
+<li>When <code class="language-ini">Delete a company</code> is selected;
+		<ul>
+<li>Ask for a name: <code class="language-ini">Enter company name:</code>;</li>
+<li>When no match is found, print <code class="language-ini">Company not found!</code> and return to the main menu;</li>
+<li>When a match is found, list the matching companies with indexes;</li>
+<li>Ask for a number <code class="language-ini">Enter company number:</code>;</li>
+<li>Delete the company, print <code class="language-ini">Company deleted successfully!</code>;</li>
+<li>Return to the main menu;</li>
+</ul>
+</li>
+<li>When <code class="language-ini">List all companies</code> is selected;
+		<ul>
+<li>Print <code class="language-ini">COMPANY LIST</code> as heading;</li>
+<li>Print the ticker, name, and industry ordered by ticker from the <code class="language-ini">companies</code> table;</li>
+<li>Return to the main menu;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>While <code class="language-ini">TOP TEN MENU</code> is selected, display the menu;
+	<ul>
+<li>Ask for an option;</li>
+<li>When a valid option is selected, print <code class="language-ini">Not implemented!</code>;</li>
+<li>When an invalid option is selected, print <code class="language-ini">Invalid option!</code>;</li>
+</ul>
+</li>
+<li>Quit with a farewell message: <code class="language-ini">Have a nice day!</code>;</li>
+</ul>
+<p>The code snippet below shows formulas:</p>
+<pre><code class="language-ini">P/E = Market price / Net profit
+P/S = Market price / Sales
+P/B = Market price / Assets
+ND/EBITDA = Net debt / EBITDA
+ROE = Net profit / Equity
+ROA = Net profit / Assets
+L/A = Liabilities / Assets</code></pre>
+<h5 id="examples">Examples</h5>
+<p>The greater-than symbol followed by a space (<code class="language-ini">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
+<p><strong>Example 1</strong>:</p>
+<pre><code class="language-python">Welcome to the Investor Program!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 1
+Enter ticker (in the format 'MOON'):
+&gt; CODD
+Enter company (in the format 'Moon Corp'):
+&gt; Codd Corp
+Enter industries (in the format 'Technology'):
+&gt; Research
+Enter ebitda (in the format '987654321'):
+&gt; 1000
+Enter sales (in the format '987654321'):
+&gt; 1000
+Enter net profit (in the format '987654321'):
+&gt; 250
+Enter market price (in the format '987654321'):
+&gt; 2000
+Enter net debt (in the format '987654321'):
+&gt; 100
+Enter assets (in the format '987654321'):
+&gt; 2000
+Enter equity (in the format '987654321'):
+&gt; 2500
+Enter cash equivalents (in the format '987654321'):
+&gt; 2500
+Enter liabilities (in the format '987654321'):
+&gt; 100
+Company created successfully!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+<p><strong>Example 2</strong>:</p>
+<pre><code class="language-python">Welcome to the Investor Program!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 2
+Enter company name:
+&gt; notacompany
+Company not found!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 2
+Enter company name:
+&gt; go
+0 Alphabet Inc (Google) Class C
+1 Wells Fargo &amp; Company
+2 Goldman Sachs Group, Inc. (The)
+Enter company number:
+&gt; 1
+WFC Wells Fargo &amp; Company
+P/E = 7.41
+P/S = 1.87
+P/B = 0.08
+ND/EBITDA = None
+ROE = 0.12
+ROA = 0.01
+L/A = 0.91
+
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+<p><strong>Example 3</strong>:</p>
+<pre><code class="language-python">Welcome to the Investor Program!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 3
+Enter company name:
+&gt; go
+0 Alphabet Inc (Google) Class C
+1 Wells Fargo &amp; Company
+2 Goldman Sachs Group, Inc. (The)
+Enter company number:
+&gt; 0
+Enter ebitda (in the format '987654321'):
+&gt; 1000
+Enter sales (in the format '987654321'):
+&gt; 1000
+Enter net profit (in the format '987654321'):
+&gt; 250
+Enter market price (in the format '987654321'):
+&gt; 2000
+Enter net debt (in the format '987654321'):
+&gt; 100
+Enter assets (in the format '987654321'):
+&gt; 2000
+Enter equity (in the format '987654321'):
+&gt; 2500
+Enter cash equivalents (in the format '987654321'):
+&gt; 2500
+Enter liabilities (in the format '987654321'):
+&gt; 10
+Company updated successfully!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+<p><strong>Example 4</strong>:</p>
+<pre><code class="language-python">Welcome to the Investor Program!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 4
+Enter company name:
+&gt; go
+0 Alphabet Inc (Google) Class C
+1 Wells Fargo &amp; Company
+2 Goldman Sachs Group, Inc. (The)
+Enter company number:
+&gt; 0
+Company deleted successfully!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+<p><strong>Example 5</strong>:</p>
+<pre><code class="language-python">Welcome to the Investor Program!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 5
+COMPANY LIST
+AAPL Apple Inc Electronic Technology
+ABBV AbbVie Inc. Health Technology
+ABT Abbott Laboratories Health Technology
+ACN Accenture plc Technology Services
+ADBE Adobe Inc. Technology Services
+ADI Analog Devices, Inc. Electronic Technology
+ADP Automatic Data Processing, Inc. Technology Services
+AMAT Applied Materials, Inc. Producer Manufacturing
+AMD Advanced Micro Devices Inc Electronic Technology
+AMGN Amgen Inc. Health Technology
+AMZN Amazon.com, Inc. Retail Trade
+ANTM Anthem, Inc. Health Services
+AVGO Broadcom Inc. Electronic Technology
+AXP American Express Company Finance
+BA Boeing Company (The) Electronic Technology
+BAC Bank of America Corporation Finance
+BKNG Booking Holdings Inc. Common Stock Consumer Services
+BLK BlackRock, Inc. Finance
+BMY Bristol-Myers Squibb Company Health Technology
+BX Blackstone Inc. Finance
+C Citigroup, Inc. Finance
+CAT Caterpillar, Inc. Producer Manufacturing
+CB Chubb Limited Finance
+CHTR Charter Communications, Inc. Consumer Services
+CI Cigna Corporation Health Services
+CMCSA Comcast Corporation Consumer Services
+COP ConocoPhillips Energy Minerals
+COST Costco Wholesale Corporation Retail Trade
+CRM Salesforce, Inc. Technology Services
+CSCO Cisco Systems, Inc. Technology Services
+CVS CVS Health Corporation Retail Trade
+CVX Chevron Corporation Energy Minerals
+DE Deere &amp; Company Producer Manufacturing
+DHR Danaher Corporation Health Technology
+DIS Walt Disney Company (The) Consumer Services
+DUK Duke Energy Corporation (Holding Company) Utilities
+EL Estee Lauder Companies, Inc. (The) Consumer Non-Durables
+FB Meta Platforms, Inc. Technology Services
+GE General Electric Company Producer Manufacturing
+GILD Gilead Sciences, Inc. Health Technology
+GOOG Alphabet Inc (Google) Class C Technology Services
+GS Goldman Sachs Group, Inc. (The) Finance
+HD Home Depot, Inc. (The) Retail Trade
+HON Honeywell International Inc. Producer Manufacturing
+IBM International Business Machines Corporation Technology Services
+INTC Intel Corporation Electronic Technology
+INTU Intuit Inc. Technology Services
+ISRG Intuitive Surgical, Inc. Health Technology
+JNJ Johnson &amp; Johnson Health Technology
+JPM JP Morgan Chase &amp; Co. Finance
+KO Coca-Cola Company (The) Consumer Non-Durables
+LIN Linde plc Process Industries
+LLY Eli Lilly and Company Health Technology
+LMT Lockheed Martin Corporation Electronic Technology
+LOW Lowes Companies, Inc. Retail Trade
+MA Mastercard Incorporated Commercial Services
+MCD McDonalds Corporation Consumer Services
+MDLZ Mondelez International, Inc. Consumer Non-Durables
+MDT Medtronic plc. Health Technology
+MMC Marsh &amp; McLennan Companies, Inc. Finance
+MMM 3M Company Producer Manufacturing
+MO Altria Group, Inc. Consumer Non-Durables
+MRK Merck &amp; Company, Inc. Health Technology
+MS Morgan Stanley Finance
+MSFT Microsoft Corp. Technology Services
+MU Micron Technology, Inc. Electronic Technology
+NEE NextEra Energy, Inc. Utilities
+NFLX Netflix, Inc. Technology Services
+NKE Nike, Inc. Consumer Non-Durables
+NOW ServiceNow, Inc. Technology Services
+NVDA NVIDIA Corporation Electronic Technology
+ORCL Oracle Corporation Technology Services
+PEP PepsiCo, Inc. Consumer Non-Durables
+PFE Pfizer, Inc. Health Technology
+PG Procter &amp; Gamble Company (The) Consumer Non-Durables
+PM Philip Morris International Inc Consumer Non-Durables
+PYPL PayPal Holdings, Inc. Commercial Services
+QCOM QUALCOMM Incorporated Electronic Technology
+RTX Raytheon Technologies Corporation Electronic Technology
+SBUX Starbucks Corporation Consumer Services
+SCHW Charles Schwab Corporation (The) Finance
+SO Southern Company (The) Utilities
+SPGI S&amp;P Global Inc. Commercial Services
+SYK Stryker Corporation Health Technology
+T AT&amp;T Inc. Communications
+TGT Target Corporation Retail Trade
+TMO Thermo Fisher Scientific Inc Health Technology
+TMUS T-Mobile US, Inc. Communications
+TXN Texas Instruments Incorporated Electronic Technology
+UNH UnitedHealth Group Incorporated Health Services
+UNP Union Pacific Corporation Transportation
+UPS United Parcel Service, Inc. Transportation
+V Visa Inc. Finance
+VZ Verizon Communications Inc. Communications
+WFC Wells Fargo &amp; Company Finance
+WMT Walmart Inc. Retail Trade
+XOM Exxon Mobil Corporation Energy Minerals
+ZTS Zoetis Inc. Health Technology
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+<p><strong>Example 6</strong>:</p>
+<pre><code class="language-python">Welcome to the Investor Program!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 2
+
+TOP TEN MENU
+0 Back
+1 List by ND/EBITDA
+2 List by ROE
+3 List by ROA
+
+Enter an option:
+&gt; 2
+Not implemented!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+</div>

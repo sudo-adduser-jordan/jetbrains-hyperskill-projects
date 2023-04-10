@@ -1,0 +1,128 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>Keep the functionality from the former steps and implement the <code class="language-ini">TOP TEN MENU</code>.</p>
+<p><a href="https://stepik.org/media/attachments/lesson/709123/companies.csv" rel="noopener noreferrer nofollow" target="_blank">companies.csv</a></p>
+<p><a href="https://stepik.org/media/attachments/lesson/709123/financial.csv" rel="noopener noreferrer nofollow" target="_blank">financial.csv</a></p>
+<h5 id="objectives">Objectives</h5>
+<p>Let's break the task into several steps:</p>
+<ul>
+<li>Start with a welcoming message: <code class="language-ini">Welcome to the Investor Program!</code>;</li>
+<li>Display <code class="language-ini">MAIN MENU</code>;</li>
+<li>Ask for an option;</li>
+<li>When <code class="language-ini">TOP TEN MENU</code> is selected, display the menu;
+	<ul>
+<li>Ask for an option;</li>
+<li>When a valid option is selected, calculate the indicator;</li>
+<li>Find the top ten values;</li>
+<li>Print a ticker and indicator in the heading;</li>
+<li>Print the top ten values;</li>
+</ul>
+</li>
+<li>Quit with a farewell message: <code class="language-ini">Have a nice day!</code>;</li>
+</ul>
+<p>The code snippet below shows the formulas:</p>
+<pre><code class="language-ini">P/E = Market price / Net profit
+P/S = Market price / Sales
+P/B = Market price / Assets
+ND/EBITDA = Net debt / EBITDA
+ROE = Net profit / Equity
+ROA = Net profit / Assets
+L/A = Liabilities / Assets</code></pre>
+<h5 id="examples">Examples</h5>
+<p>The greater-than symbol followed by a space (<code class="language-ini">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
+<p><strong>Example 1</strong>:</p>
+<pre><code class="language-python">Welcome to the Investor Program!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 2
+
+TOP TEN MENU
+0 Back
+1 List by ND/EBITDA
+2 List by ROE
+3 List by ROA
+
+Enter an option:
+&gt; 1
+TICKER ND/EBITDA
+DUK 6.4
+SO 6.02
+CHTR 4.55
+NEE 4.39
+TMUS 4.19
+DE 4.16
+T 3.94
+MCD 3.77
+VZ 3.57
+CAT 3.34
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 2
+
+TOP TEN MENU
+0 Back
+1 List by ND/EBITDA
+2 List by ROE
+3 List by ROA
+
+Enter an option:
+&gt; 2
+TICKER ROE
+AMGN 6.43
+AAPL 1.4
+MA 1.22
+UPS 0.84
+ABBV 0.7
+QCOM 0.68
+LMT 0.63
+ADP 0.62
+LLY 0.59
+TXN 0.55
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 2
+
+TOP TEN MENU
+0 Back
+1 List by ND/EBITDA
+2 List by ROE
+3 List by ROA
+
+Enter an option:
+&gt; 3
+TICKER ROA
+TXN 0.31
+AAPL 0.27
+FB 0.24
+MA 0.23
+HD 0.23
+AMAT 0.23
+NVDA 0.22
+PM 0.22
+GOOG 0.21
+QCOM 0.2
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!</code></pre>
+</div>

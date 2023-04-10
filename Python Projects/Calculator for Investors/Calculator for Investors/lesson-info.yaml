@@ -1,0 +1,7 @@
+type: framework
+content:
+- What's on the menu
+- Store it
+- Talking numbers
+- Who is the best
+current_task: 3

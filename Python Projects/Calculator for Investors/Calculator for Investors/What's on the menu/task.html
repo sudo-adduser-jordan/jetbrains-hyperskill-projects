@@ -1,0 +1,141 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>Create a menu for your program and ask users what to do. If users select to end the program, quit with a farewell message.</p>
+<h5 id="objectives">Objectives</h5>
+<p>Let's break the task into several steps:</p>
+<ul>
+<li>Create the <code class="language-ini">MAIN MENU</code>, <code class="language-ini">CRUD MENU</code>, and the <code class="language-ini">TOP TEN MENU</code>;</li>
+<li>Display the <code class="language-ini">MAIN MENU</code>;</li>
+<li>Ask for an option: <code class="language-ini">Enter an option:</code>;</li>
+<li>Display the selected menu;</li>
+<li>Ask for an option: <code class="language-ini">Enter an option:</code>;</li>
+<li>When a valid option is selected, print <code class="language-ini">Not implemented!</code>;</li>
+<li>When an invalid option is selected, print <code class="language-ini">Invalid option!</code>;</li>
+<li>Quit with a farewell message: <code class="language-ini">Have a nice day!</code>;</li>
+</ul>
+<p>The code snippets below show the menus:</p>
+<pre><code class="language-ini">MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria</code></pre>
+<pre><code class="language-ini">CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies</code></pre>
+<pre><code class="language-ini">TOP TEN MENU
+0 Back
+1 List by ND/EBITDA
+2 List by ROE
+3 List by ROA</code></pre>
+<h5 id="examples">Examples</h5>
+<p>The greater-than symbol followed by a space (<code class="language-ini">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
+<p><strong>Example 1</strong>:</p>
+<pre><code class="language-python">MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; one
+Invalid option!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 99
+Invalid option!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+<p><strong>Example 2</strong>:</p>
+<pre><code class="language-python">MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 1
+Not implemented!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 1
+
+CRUD MENU
+0 Back
+1 Create a company
+2 Read a company
+3 Update a company
+4 Delete a company
+5 List all companies
+
+Enter an option:
+&gt; 4
+Not implemented!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+<p><strong>Example 3</strong>:</p>
+<pre><code class="language-python">MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 2
+
+TOP TEN MENU
+0 Back
+1 List by ND/EBITDA
+2 List by ROE
+3 List by ROA
+
+Enter an option:
+&gt; 1
+Not implemented!
+
+MAIN MENU
+0 Exit
+1 CRUD operations
+2 Show top ten companies by criteria
+
+Enter an option:
+&gt; 0
+Have a nice day!
+</code></pre>
+</div>
