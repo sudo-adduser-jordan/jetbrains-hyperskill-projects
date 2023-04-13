@@ -1,11 +1,13 @@
- Learning outcomes
+
+## Learning outcomes
 
 With functions, loops, arrays and other variables, this is a great project for JavaScript basics. As a cherry on top, it even includes a random module. Don’t be intimidated by the number of stages; they ensure that your dive into JavaScript is safe and smooth.
 
- About
+## About
 
 Hangman is a popular yet grim puzzle game. A cruel computer hides a word from you, which you try to guess letter by letter. If you fail, you'll be “hanged”. If you win, you'll survive. You’ve probably played the game at least once or twice. Now you can actually create this game 
 
+## Stages
 
 Stage 1/8: Hello, Hangman
 Welcome the user and print “The game will be available soon”.
@@ -31,11 +33,3 @@ Improve the game by handling different error cases. Repetition of a letter, ente
 
 Stage 8/8: Menu, please
 Dinner at a restaurant starts with the menu; our project ends with one. Create a menu for your game so that players can replay it or exit. 
-
-
-
-
-
-
-
-
