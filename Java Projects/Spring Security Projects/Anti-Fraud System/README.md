@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 ## Learning outcomes
 
 Create a RESTfull web service using SpringBoot, learn the basics of user authentication and authorization. Get to know the fundamentals of fraud detection and rule-based systems.
@@ -27,8 +24,4 @@ Upgrade the fraud detection rules by taking advantage of stolen card data and su
 Stage 5/6: Rule-based system
 Create a rule-based system, a simple and effective artificial intelligence method, and practice complex conditional logic.
 
-<<<<<<< Updated upstream
-=======
 Stage 6/6: Feedback
->>>>>>> Stashed changes
-Add feedback to the validation process. 
