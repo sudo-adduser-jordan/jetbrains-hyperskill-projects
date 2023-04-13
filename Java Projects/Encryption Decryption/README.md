@@ -1,16 +1,13 @@
- Learning outcomes
+
+## Learning outcomes
 
 Gradually get familiar with Java, paying special attention to working with files and the command line.
 
-
-
- About
+## About
 
 Privacy is an important matter is the realm of the Internet. When sending a message, you want to be sure that no-one but the addressee with the key can read it. The entirety of the modern Web is encrypted - take https for example! Don’t stay behind: hop on the encryption/decryption train and learn the essential basics while implementing this simple project.
 
-
-
-
+## Stages
 
 Stage 1/6: Encrypted!
 Learn to input the data and encrypt it, replacing the letters.
@@ -29,7 +26,3 @@ Work with files: learn to store your data in a file.
 
 Stage 6/6: Choices, chocies
 Add the possibility to choose a specific encryption algorithm: Ceasar or Unicode. 
-
-
-
-
