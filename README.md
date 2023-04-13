@@ -6,7 +6,6 @@
 <!-- ![banner](https://github.com/sudo-adduser-jordan/personal-assets/blob/facf196447009d909b9d2c831c49c468760318d7/Project/pluginIcon.png) -->
 </p>
 
-
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 
 ## Background
