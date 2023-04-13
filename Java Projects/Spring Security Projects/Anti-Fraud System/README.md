@@ -1,12 +1,12 @@
- Learning outcomes
+## Learning outcomes
 
 Create a RESTfull web service using SpringBoot, learn the basics of user authentication and authorization. Get to know the fundamentals of fraud detection and rule-based systems.
 
-
- About
+## About
 
 This project demonstrates (in a simplified form) the principles of anti-fraud systems in the financial sector. For this project, we will work on a system with an expanded role model, a set of REST endpoints responsible for interacting with users, and an internal transaction validation logic based on a set of heuristic rules.
 
+## Stages
 
 Stage 1/6: Simple transaction alidation
 Stage 2/6: Authentication
