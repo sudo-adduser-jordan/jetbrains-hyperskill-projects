@@ -33,7 +33,7 @@ All projects were developed in a windows enviroment and should run with no to li
 
 ## Usage
 
-Proof of work and portfolio padding.
+Proof of work.
 
 ## License
 
