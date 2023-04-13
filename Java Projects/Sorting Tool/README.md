@@ -1,13 +1,14 @@
- Learning outcomes
+
+## Learning outcomes
 
 Become familiar with Collections and learn to work with files, arguments, and the command line.
 
 
- About
+## About
 
 In the modern world, data has become so abundant that processing it is no easy business. How can anyone make sense of all these words and numbers? In this project, you will write a program that processes textual and numeric data and sorts it. Your program will be able to determine the biggest or most frequent pieces of data and perform the necessary calculations on them. Data is waiting to be sorted!
 
-
+## Stages
 
 Stage 1/6: Numbers only
 Start by teaching your program to process numeric data. Feed it some numbers and ask it to determine the largest value and its frequency in the data set. 
@@ -26,12 +27,3 @@ Oh no! Someone is misusing the arguments! Make the program notify users about su
 
 Stage 6/6: X-files
 Make it possible for your program to use files for input and output. 
-
-
-
-
-
-
-
-
-
