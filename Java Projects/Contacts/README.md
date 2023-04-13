@@ -1,12 +1,13 @@
- Learning outcomes
+
+## Learning outcomes
 
 You will learn the essential basics of object-oriented programming: encapsulation, inheritance and polymorphism. Inheritance will allow you to write code that can perform the same process but for different objects. Polymorphism helps to initiate different processes for different objects by using the same method. You’ll also learn to prevent other users of your code to modify the variables using encapsulation.
 
- About
+## About
 
 Here is something you probably use regularly: contacts. In this project, you will write a program to create contacts (like on the mobile phone) and search for people or organizations by name.
 
-
+## Stages
 
 Stage 1/4: First contact
 Using classes, create your first contact with a name, last name and phone number.
@@ -19,7 +20,3 @@ With the help of inheritance mechanism, add the ability to specify details in yo
 
 Stage 4/4: Searching
 Get familiar with polymorphism and built-in functions: fix your code and make it possible to search for contacts. 
-
-
-
-
