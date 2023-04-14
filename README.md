@@ -10,7 +10,7 @@
 
 ## Background
 
-A repository containing Hyperskill projects.
+A repository containing my Hyperskill projects.
 
 Each project will contain a README with the provided course description.
 
