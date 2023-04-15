@@ -3,7 +3,6 @@
 <p>
 <img src="https://github.com/sudo-adduser-jordan/Hyperskill-Projects/blob/main/pluginIcon.png" width="50" height="50">
 <img src=https://github.com/sudo-adduser-jordan/Hyperskill-Projects/blob/main/Hyperskill_Logo.svg?sanitize=true" width="150" height="50"> 
-
 </p>
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
@@ -25,7 +24,7 @@ Projects are completed but not maintained.
 
 ## Install
 
-All projects were developed in a windows enviroment and should run with no to little configuration.
+All projects were developed in a windows enviroment and should run with no to little configuration. Paths may need to be updated.
 
 ## Usage
 
