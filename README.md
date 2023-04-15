@@ -11,9 +11,11 @@
 
 A repository containing my Hyperskill projects.
 
-Each project will contain a README with the provided course description.
+Each project will contain a README with the provided project description.
 
-Projects are completed but not maintained.
+Each stage in a project must pass the provided test files.
+
+Projects are completed but not maintained. 
 
 ## Languages
 
