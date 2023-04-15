@@ -28,7 +28,9 @@ Projects are completed but not maintained.
 
 All projects were developed in a windows enviroment and should run with no to little configuration. Paths may need to be updated.
 
-To view code for each stage programs must be executed using Intelij IDEA with edu plugin as each project was commited after completion and not by stage.
+To view code for each stage, programs must be executed using Intelij IDEA with edu plugin.
+
+Completed project code can be viewed and executed without the use of intelij IDEA.
 
 ## Usage
 
