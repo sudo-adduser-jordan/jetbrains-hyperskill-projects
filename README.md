@@ -30,9 +30,9 @@ All projects were developed in a windows enviroment and should run with no to li
 
 For python and java projects:
 
-To view code for each stage, programs must be executed using Intelij IDEA with edu plugin.
+To view code for each stage, programs must be executed using Intelij IDEA/PyCharm with edu plugin.
 
-Completed project code can be viewed and executed without the use of intelij IDEA.
+Completed project code can be viewed and executed without the use of Intelij IDEAPyCharm.
 
 For other projects: 
 
