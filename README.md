@@ -28,7 +28,7 @@ Projects are completed but not maintained.
 
 All projects were developed in a windows enviroment and should run with no to little configuration. Paths may need to be updated.
 
-For python and java projects:
+For java and python projects:
 
 To view code for each stage, programs must be executed using Intelij IDEA/PyCharm with edu plugin.
 
