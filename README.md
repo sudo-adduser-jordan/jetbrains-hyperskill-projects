@@ -11,7 +11,7 @@
 
 A repository containing my Hyperskill projects.
 
-Each project will contain a README with the provided project description.
+Each project contains a README with the provided project description.
 
 Each stage in a project must pass the provided test files.
 
