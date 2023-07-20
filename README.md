@@ -9,7 +9,7 @@
 
 ## Background
 
-A repository containing my Hyperskill projects.
+A repository containing my Jetbrains Hyperskill projects.
 
 Each project contains a README with the provided project description.
 
