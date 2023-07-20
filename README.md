@@ -1,4 +1,4 @@
-# Jetbrains/Hyperskill Projects
+# Jetbrains Hyperskill Projects
 
 <p>
 <img src="https://github.com/sudo-adduser-jordan/Hyperskill-Projects/blob/main/pluginIcon.png" width="50" height="50">
