@@ -34,10 +34,6 @@ To view code for each stage, programs must be executed using Intelij IDEA / PyCh
 
 Completed project code can be viewed and executed without the use of Intelij IDEA / PyCharm.
 
-For other projects: 
-
-Completed projects was commited upon completion. If requested for some reason, stages can be provided.
-
 ## Usage
 
 Proof of work.
